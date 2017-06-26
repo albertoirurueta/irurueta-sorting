@@ -1,0 +1,2553 @@
+/**
+ * @file
+ * This file contains Unit Tests for
+ * com.irurueta.sorting.Sorter
+ * 
+ * @author Alberto Irurueta (alberto@irurueta.com)
+ * @date April 9, 2012
+ */
+package com.irurueta.sorting;
+
+import com.irurueta.statistics.UniformRandomizer;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Random;
+import static org.junit.Assert.*;
+import org.junit.*;
+
+public class SorterTest {
+    
+    public static final int MIN_LENGTH = 10;
+    public static final int MAX_LENGTH = 100;
+    
+    public static final int MIN_VALUE = 0;
+    public static final int MAX_VALUE = 100;   
+    
+    public static final int TIMES = 50;
+    
+    public SorterTest() { }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception { }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception { }
+    
+    @Before
+    public void setUp() { }
+    
+    @After
+    public void tearDown() { }
+    
+    @Test
+    public void testCreate() {
+        
+        Sorter sorter;
+        
+        //create without parameters
+        sorter = Sorter.create();
+        assertNotNull(sorter);        
+        assertEquals(sorter.getMethod(), Sorter.DEFAULT_SORTING_METHOD);
+        
+        //create with sorting method
+        sorter = Sorter.create(SortingMethod.HEAPSORT_SORTING_METHOD);
+        assertNotNull(sorter);
+        assertEquals(sorter.getMethod(), 
+                SortingMethod.HEAPSORT_SORTING_METHOD);
+        assertTrue(sorter instanceof HeapsortSorter);
+        
+        sorter = Sorter.create(SortingMethod.QUICKSORT_SORTING_METHOD);
+        assertNotNull(sorter);
+        assertEquals(sorter.getMethod(),
+                SortingMethod.QUICKSORT_SORTING_METHOD);
+        assertTrue(sorter instanceof QuicksortSorter);
+        
+        sorter = Sorter.create(SortingMethod.SHELL_SORTING_METHOD);
+        assertNotNull(sorter);
+        assertEquals(sorter.getMethod(),
+                SortingMethod.SHELL_SORTING_METHOD);
+        
+        sorter = Sorter.create(SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD);
+        assertNotNull(sorter);
+        assertEquals(sorter.getMethod(),
+                SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD);
+        
+        sorter = Sorter.create(SortingMethod.SYSTEM_SORTING_METHOD);
+        assertNotNull(sorter);
+        assertEquals(sorter.getMethod(),
+                SortingMethod.SYSTEM_SORTING_METHOD);
+    }
+    
+    @Test
+    public void testSortWithComparator() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            Double [] array = new Double[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter<Double> sorter = Sorter.create();
+            sorter.sort(array, fromIndex, toIndex, new Comparator<Double>(){
+
+                @Override
+                public int compare(Double value1, Double value2) {
+                    return value1.compareTo(value2);
+                }
+            });
+        
+            //check that array is now sorted in ascending order
+            Double prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue.compareTo(array[i]) <= 0);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sort(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sort(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sort(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+        }   
+    }
+
+    @Test
+    public void testSortWithIndicesAndComparator() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            Double [] array = new Double[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double [] array2 = Arrays.copyOf(array, length);
+        
+            Sorter<Double> sorter = Sorter.create();
+            int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex, 
+                    new Comparator<Double>(){
+
+                @Override
+                public int compare(Double value1, Double value2) {
+                    return value1.compareTo(value2);
+                }
+            });
+        
+            //check that array is now sorted in ascending order and that indices
+            //correspond to sorted vector
+            Double prevValue = array[fromIndex];
+            for(int i = fromIndex + 1; i < toIndex; i++){
+                assertTrue(prevValue.compareTo(array[i]) <= 0);
+                assertEquals(array2[indices[i]], array[i]);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sortWithIndices(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sortWithIndices(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sortWithIndices(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }   
+    }   
+    
+    @Test
+    public void testSortDoubles() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            double [] array = new double[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order
+            double prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue <= array[i]);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sort(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sort(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sort(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+        }   
+    }
+
+    @Test
+    public void testSortWithIndicesDoubles() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            double [] array = new double[length];
+        
+            //set random values into array
+            for(int i = 0; i < length; i++){
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            double [] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+            int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order and that indices
+            //correspond to sorted vector
+            double prevValue = array[fromIndex];
+            for(int i = fromIndex + 1; i < toIndex; i++){
+                assertTrue(prevValue <= array[i]);
+                assertEquals(array2[indices[i]], array[i], 0.0);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sortWithIndices(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sortWithIndices(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sortWithIndices(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }    
+    
+    @Test
+    public void testSortFloats() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            float [] array = new float[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat((float)MIN_VALUE, 
+                        (float)MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order
+            double prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue <= array[i]);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sort(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sort(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sort(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }     
+    }
+
+    @Test
+    public void testSortWithIndicesFloats() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            float [] array = new float[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat((float)MIN_VALUE, 
+                        (float)MAX_VALUE);
+            }
+        
+            float [] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+            int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order and that indices
+            //correspond to sorted vector
+            float prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue <= array[i]);
+                assertEquals(array2[indices[i]], array[i], 0.0);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sortWithIndices(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sortWithIndices(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sortWithIndices(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }  
+        }   
+    }        
+    
+    @Test
+    public void testSortInts() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            int [] array = new int[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order
+            double prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue <= array[i]);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sort(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sort(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sort(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }
+
+    @Test
+    public void testSortWithIndicesInts() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            int [] array = new int[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+        
+            int [] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+            int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order and that indices
+            //correspond to sorted vector
+            float prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue <= array[i]);
+                assertEquals(array2[indices[i]], array[i]);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sortWithIndices(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sortWithIndices(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sortWithIndices(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }  
+    }        
+    
+    @Test
+    public void testSortLongs() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            long [] array = new long[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order
+            double prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue <= array[i]);
+                prevValue = array[i];
+            } 
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sort(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sort(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sort(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e){ } 
+        }     
+    }
+
+    @Test
+    public void testSortWithIndicesLongs() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            long [] array = new long[length];
+        
+            //set random values into array
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+        
+            long [] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+            int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order and that indices
+            //correspond to sorted vector
+            float prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue <= array[i]);
+                assertEquals(array2[indices[i]], array[i]);
+                prevValue = array[i];
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sortWithIndices(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sortWithIndices(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sortWithIndices(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }  
+    }    
+    
+    @Test
+    public void testSortComparablesWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for(int i = 0; i < length; i++){
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+        
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order
+            Double prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue.compareTo(array[i]) <= 0);
+                prevValue = array[i];
+            }        
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sort(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sort(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sort(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }   
+    }
+    
+    @Test
+    public void testSortComparables() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+        
+            sorter.sort(array);
+        
+            //check that array is now sorted in ascending order
+            Double prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue.compareTo(array[i]) <= 0);
+                prevValue = array[i];
+            }
+        }        
+    }
+    
+    @Test
+    public void testSortWholeArray() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE); 
+            }
+        
+            Sorter sorter = Sorter.create();
+        
+            sorter.sort(array, new Comparator<Double>() {
+
+                @Override
+                public int compare(Double obj1, Double obj2) {
+                    return obj1.compareTo(obj2);
+                }            
+            });
+        
+            //check that array is now sorted in ascending order
+            Double prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue.compareTo(array[i]) <= 0);
+                prevValue = array[i];
+            }        
+        }
+    }
+    
+    @Test
+    public void testSortWholeArrayOfDoubles() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            double[] array = new double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+        
+            sorter.sort(array);
+        
+            //check that array is now sorted in ascending order
+            double  prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue <= array[i]);
+                prevValue = array[i];
+            }
+        }
+    }
+    
+    @Test
+    public void testSortWholeArrayOfFloats() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            float[] array = new float[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+        
+            sorter.sort(array);
+        
+            //check that array is now sorted in ascending order
+            float prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue <= array[i]);
+                prevValue = array[i];
+            }      
+        }
+    }    
+    
+    @Test
+    public void testSortWholeArrayOfInts() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            int[] array = new int[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+        
+            sorter.sort(array);
+        
+            //check that array is now sorted in ascending order
+            int prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue <= array[i]);
+                prevValue = array[i];
+            }        
+        }
+    }    
+    
+    @Test
+    public void testSortWholeArrayOfLongs() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            long[] array = new long[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Sorter sorter = Sorter.create();
+        
+            sorter.sort(array);
+        
+            //check that array is now sorted in ascending order
+            long prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue <= array[i]);
+                prevValue = array[i];
+            }  
+        }
+    }      
+    
+    @Test
+    public void testSortWithIndicesComparablesWithinRange() 
+            throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+        
+            //check that array is now sorted in ascending order
+            Double prevValue = array[fromIndex];
+            for (int i = fromIndex + 1; i < toIndex; i++) {
+                assertTrue(prevValue.compareTo(array[i]) <= 0);
+                assertEquals(array2[indices[i]], array[i]);
+                prevValue = array[i];
+            }       
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.sortWithIndices(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.sortWithIndices(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.sortWithIndices(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }     
+    }
+    
+    @Test
+    public void testSortWithIndicesComparables() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            int[] indices = sorter.sortWithIndices(array);
+        
+            //check that array is now sorted in ascending order
+            Double prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue.compareTo(array[i]) <= 0);
+                assertEquals(array2[indices[i]], array[i]);
+                prevValue = array[i];
+            }
+        }
+    }
+    
+    @Test
+    public void testSortWithIndicesWholeArray() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE); 
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            int[] indices = sorter.sortWithIndices(array, 
+                    new Comparator<Double>(){
+
+                @Override
+                public int compare(Double obj1, Double obj2) {
+                    return obj1.compareTo(obj2);
+                }            
+            });
+        
+            //check that array is now sorted in ascending order
+            Double prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue.compareTo(array[i]) <= 0);
+                assertEquals(array2[indices[i]], array[i]);
+                prevValue = array[i];
+            }        
+        }
+    }
+    
+    @Test
+    public void testSortWithIndicesWholeArrayOfDoubles() 
+            throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            double[] array = new double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            int[] indices = sorter.sortWithIndices(array);
+        
+            //check that array is now sorted in ascending order
+            double  prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue <= array[i]);
+                assertEquals(array2[indices[i]], array[i], 0.0);
+                prevValue = array[i];
+            }
+        }
+    }
+    
+    @Test
+    public void testSortWithIndicesWholeArrayOfFloats() 
+            throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            float[] array = new float[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
+            }
+        
+            float[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            int[] indices = sorter.sortWithIndices(array);
+        
+            //check that array is now sorted in ascending order
+            float prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue <= array[i]);
+                assertEquals(array2[indices[i]], array[i], 0.0);
+                prevValue = array[i];
+            }        
+        }
+    }    
+    
+    @Test
+    public void testSortWithIndicesWholeArrayOfInts() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            int[] array = new int[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+        
+            int[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            int[] indices = sorter.sortWithIndices(array);
+        
+            //check that array is now sorted in ascending order
+            int prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue <= array[i]);
+                assertEquals(array2[indices[i]], array[i]);
+                prevValue = array[i];
+            }        
+        }
+    }    
+    
+    @Test
+    public void testSortWithIndicesWholeArrayOfLongs() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            long[] array = new long[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+        
+            long[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            int[] indices = sorter.sortWithIndices(array);
+        
+            //check that array is now sorted in ascending order
+            long prevValue = array[0];
+            for (int i = 1; i < length; i++) {
+                assertTrue(prevValue <= array[i]);
+                assertEquals(array2[indices[i]], array[i]);
+                prevValue = array[i];
+            }        
+        }
+    }         
+    
+    @Test
+    public void testSelectComparables() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int pos = randomizer.nextInt(0, length);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //select value at pos
+            Object selected = sorter.select(pos, array2);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals((Double)selected, array[pos]);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < pos; i++) {
+                assertTrue(array2[i].compareTo((Double)selected) <= 0);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo((Double)selected) >= 0);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(length, array);
+                fail("IllegalArgumentException expected but not thrown");
+            }catch(IllegalArgumentException e){}        
+        }
+    }
+    
+    @Test
+    public void testSelectComparablesWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+            int pos = randomizer.nextInt(0, toIndex - fromIndex);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //select value at pos
+            Object selected = sorter.select(pos, array2, fromIndex, toIndex);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals((Double)selected, array[pos + fromIndex]);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < pos + fromIndex; i++) {
+                assertTrue(array2[i].compareTo((Double)selected) <= 0);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i].compareTo((Double)selected) >= 0);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+            try {
+                sorter.select(pos, array, fromIndex + 1, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.select(pos, array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.select(pos, array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }
+
+    @Test
+    public void testSelectWithComparator() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int pos = randomizer.nextInt(0, length);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //select value at pos
+            Object selected = sorter.select(pos, array2, 
+                    new Comparator<Double>(){
+
+                @Override
+                public int compare(Double obj1, Double obj2) {
+                    return obj1.compareTo(obj2);
+                }
+            
+            });
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals((Double)selected, array[pos]);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < pos; i++) {
+                assertTrue(array2[i].compareTo((Double)selected) <= 0);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo((Double)selected) >= 0);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(length, array, new Comparator<Double>() {
+
+                    @Override
+                    public int compare(Double obj1, Double obj2) {
+                        return obj1.compareTo(obj2);
+                    }
+                
+                });
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { } 
+        }
+    }
+
+    @Test
+    public void testSelectDoubles() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int pos = randomizer.nextInt(0, length);
+        
+            double[] array = new double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //select value at pos
+            double selected = sorter.select(pos, array2);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals(selected, array[pos], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < pos; i++) {
+                assertTrue(array2[i] <= selected);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1; i < length; i++) {
+                assertTrue(array2[i] >= selected);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(length, array);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        }
+    }
+
+    @Test
+    public void testSelectFloats() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int pos = randomizer.nextInt(0, length);
+        
+            float[] array = new float[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
+            }
+        
+            float[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //select value at pos
+            float selected = sorter.select(pos, array2);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals(selected, array[pos], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < pos; i++) {
+                assertTrue(array2[i] <= selected);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1; i < length; i++) {
+                assertTrue(array2[i] >= selected);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(length, array);
+                fail("IllegalArgumentException expected but not thrown");
+            }catch(IllegalArgumentException e) { }
+        }
+    }
+    
+    @Test
+    public void testSelectInts() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int pos = randomizer.nextInt(0, length);
+        
+            int[] array = new int[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+        
+            int[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //select value at pos
+            int selected = sorter.select(pos, array2);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals(selected, array[pos]);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < pos; i++) {
+                assertTrue(array2[i] <= selected);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1; i < length; i++) {
+                assertTrue(array2[i] >= selected);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(length, array);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        }
+    }
+    
+    @Test
+    public void testSelectLongs() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int pos = randomizer.nextInt(0, length);
+        
+            long[] array = new long[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+        
+            long[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //select value at pos
+            long selected = sorter.select(pos, array2);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals(selected, array[pos]);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < pos; i++) {
+                assertTrue(array2[i] <= selected);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1; i < length; i++) {
+                assertTrue(array2[i] >= selected);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(length, array);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        }
+    }    
+    
+    @Test
+    public void testSelectWithComparatorWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+            int pos = randomizer.nextInt(0, toIndex - fromIndex);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //select value at pos
+            Object selected = sorter.select(pos, array2, fromIndex, toIndex,
+                    new Comparator<Double>(){
+
+                @Override
+                public int compare(Double obj1, Double obj2) {
+                    return obj1.compareTo(obj2);
+                }                    
+            });
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals((Double)selected, array[pos + fromIndex]);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < pos + fromIndex; i++) {
+                assertTrue(array2[i].compareTo((Double)selected) <= 0);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i].compareTo((Double)selected) >= 0);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex,
+                        new Comparator<Double>(){
+
+                    @Override
+                    public int compare(Double obj1, Double obj2) {
+                        return obj1.compareTo(obj2);
+                    }
+                        
+                });
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+            try {
+                sorter.select(pos, array, fromIndex + 1, fromIndex,
+                        new Comparator<Double>(){
+
+                    @Override
+                    public int compare(Double obj1, Double obj2) {
+                        return obj1.compareTo(obj2);
+                    }
+                        
+                });                    
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.select(pos, array, -1, toIndex,
+                        new Comparator<Double>(){
+
+                    @Override
+                    public int compare(Double obj1, Double obj2) {
+                        return obj1.compareTo(obj2);
+                    }
+                        
+                });                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.select(pos, array, fromIndex, length + 1,
+                        new Comparator<Double>(){
+
+                    @Override
+                    public int compare(Double obj1, Double obj2) {
+                        return obj1.compareTo(obj2);
+                    }
+                        
+                });                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }
+
+    @Test
+    public void testSelectDoublesWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+            int pos = randomizer.nextInt(0, toIndex - fromIndex);
+        
+            double[] array = new double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //select value at pos
+            double selected = sorter.select(pos, array2, fromIndex, toIndex);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals(selected, array[pos + fromIndex], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < pos + fromIndex; i++) {
+                assertTrue(array2[i] <= selected);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i] >= selected);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+            try {
+                sorter.select(pos, array, fromIndex + 1, fromIndex);                    
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.select(pos, array, -1, toIndex);                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.select(pos, array, fromIndex, length + 1);                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }    
+    
+    @Test
+    public void testSelectFloatsWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+            int pos = randomizer.nextInt(0, toIndex - fromIndex);
+        
+            float[] array = new float[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
+            }
+        
+            float[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //select value at pos
+            float selected = sorter.select(pos, array2, fromIndex, toIndex);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals(selected, array[pos + fromIndex], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < pos + fromIndex; i++) {
+                assertTrue(array2[i] <= selected);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i] >= selected);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+            try {
+                sorter.select(pos, array, fromIndex + 1, fromIndex);                    
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.select(pos, array, -1, toIndex);                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.select(pos, array, fromIndex, length + 1);                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e){ }
+        }
+    }        
+    
+    @Test
+    public void testSelectIntsWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+            int pos = randomizer.nextInt(0, toIndex - fromIndex);
+        
+            int[] array = new int[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+        
+            int[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //select value at pos
+            int selected = sorter.select(pos, array2, fromIndex, toIndex);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals(selected, array[pos + fromIndex], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < pos + fromIndex; i++) {
+                assertTrue(array2[i] <= selected);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i] >= selected);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+            try {
+                sorter.select(pos, array, fromIndex + 1, fromIndex);                    
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.select(pos, array, -1, toIndex);                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.select(pos, array, fromIndex, length + 1);                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }        
+    
+    @Test
+    public void testSelectLongWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);        
+            int pos = randomizer.nextInt(0, toIndex - fromIndex);
+        
+            long[] array = new long[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+        
+            long[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+        
+            //select value at pos
+            long selected = sorter.select(pos, array2, fromIndex, toIndex);
+        
+            //check that selected value corresponds to sorted value at pos
+            assertEquals(selected, array[pos + fromIndex], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < pos + fromIndex; i++) {
+                assertTrue(array2[i] <= selected);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = pos + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i] >= selected);
+            }
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+            try {
+                sorter.select(pos, array, fromIndex + 1, fromIndex);                    
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.select(pos, array, -1, toIndex);                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.select(pos, array, fromIndex, length + 1);                    
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }        
+    
+    @Test
+    public void testMedianComparables() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+            
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 and elements greater than element at 
+            //length / 2 because selection is done at length / 2
+            Object median = sorter.median(array2);
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+        
+            //Check that median value
+            Double otherMedian;
+            if ((length %2) == 0) {
+                //even length
+                otherMedian = 0.5 * (array[(length / 2) - 1] + 
+                        array[length / 2]);
+            } else {
+                otherMedian = array[length / 2];
+            }
+            
+            assertEquals(otherMedian, (Double)median);
+        }        
+    }    
+    
+    @Test
+    public void testMedianComparablesWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);  
+            int n = toIndex - fromIndex;
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 + fromIndex and elements greater than 
+            //element at length / 2 + fromIndex because selection is done at 
+            //length / 2 + fromIndex
+            sorter.median(array2, fromIndex, toIndex);
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[n / 2 + fromIndex], array2[n / 2 + fromIndex]);
+        
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < n / 2 + fromIndex; i++) {
+                assertTrue(array2[i].compareTo(array[n / 2 + fromIndex]) <= 0);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = n / 2 + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i].compareTo(array[n / 2 + fromIndex]) >= 0);
+            } 
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.median(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.median(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.median(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }
+
+    @Test
+    public void testMedianWithComparator() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 and elements greater than element at 
+            //length / 2 because selection is done at length / 2
+            Object median = sorter.median(array2, 
+                    new ComparatorAndAverager<Double>(){
+
+                @Override
+                public int compare(Double obj1, Double obj2) {
+                    return obj1.compareTo(obj2);
+                }
+
+                @Override
+                public Double average(Double obj1, Double obj2) {
+                    return 0.5 * (obj1 + obj2);
+                }
+            
+            });
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+        
+            //Check median value
+            Double otherMedian;
+            if ((length %2) == 0) {
+                //even length
+                otherMedian = 0.5 * (array[(length / 2) - 1] + 
+                        array[length / 2]);
+            } else {
+                otherMedian = array[length / 2];
+            }
+            
+            assertEquals(otherMedian, (Double)median);
+        }
+    }    
+    
+    @Test
+    public void testMedianWithComparatorWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);  
+            int n = toIndex - fromIndex;
+        
+            Double[] array = new Double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            Double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 + fromIndex and elements greater than 
+            //element at length / 2 + fromIndex because selection is done at 
+            //length / 2 + fromIndex
+            Object median = sorter.median(array2, fromIndex, toIndex, 
+                    new ComparatorAndAverager<Double>(){
+
+                @Override
+                public int compare(Double obj1, Double obj2) {
+                    return obj1.compareTo(obj2);
+                }
+
+                @Override
+                public Double average(Double obj1, Double obj2) {
+                    return 0.5 * (obj1 + obj2);
+                }
+            
+            });
+        
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[n / 2 + fromIndex], array2[n / 2 + fromIndex]);
+        
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < n / 2 + fromIndex; i++) {
+                assertTrue(array2[i].compareTo(array[n / 2 + fromIndex]) <= 0);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = n / 2 + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i].compareTo(array[n / 2 + fromIndex]) >= 0);
+            }
+        
+            //Check median value
+            Double otherMedian;
+            if ((n %2) == 0) {
+                //even length
+                otherMedian = 0.5 * (array[(n / 2 + fromIndex) - 1] +
+                        array[n / 2 + fromIndex]);
+            } else {
+                otherMedian = array[n / 2 + fromIndex];
+            }
+            
+            assertEquals(otherMedian, (Double)median);
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.median(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.median(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.median(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+        }
+    }
+
+    @Test
+    public void testMedianDoubles() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            double[] array = new double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 and elements greater than element at 
+            //length / 2 because selection is done at length / 2
+            double median = sorter.median(array2);
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[length / 2], array2[length / 2], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i] <= array[length / 2]);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i] >= array[length / 2]);
+            }
+        
+            //Check median value
+            double otherMedian;
+            if ((length %2) == 0) {
+                //even length
+                otherMedian = 0.5 * (array[(length / 2) - 1] + 
+                        array[length / 2]);
+            } else {
+                otherMedian = array[length / 2];
+            }
+            
+            assertEquals(otherMedian, median, 0.0);
+        }
+    }    
+    
+    @Test
+    public void testMedianDoublesWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);  
+            int n = toIndex - fromIndex;
+        
+            double[] array = new double[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+        
+            double[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 + fromIndex and elements greater than 
+            //element at length / 2 + fromIndex because selection is done at 
+            //length / 2 + fromIndex
+            double median = sorter.median(array2, fromIndex, toIndex);
+        
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[n / 2 + fromIndex], 
+                    array2[n / 2 + fromIndex], 0.0);
+        
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < n / 2 + fromIndex; i++) {
+                assertTrue(array2[i] <= array[n / 2 + fromIndex]);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = n / 2 + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i] >= array[n / 2 + fromIndex]);
+            }
+
+            //Check median value
+            double otherMedian;
+            if ((n %2) == 0) {
+                //even length
+                otherMedian = 0.5 * (array[(n / 2 + fromIndex) - 1] +
+                        array[n / 2 + fromIndex]);
+            } else {
+                otherMedian = array[n / 2 + fromIndex];
+            }
+            
+            assertEquals(otherMedian, median, 0.0);
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.median(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.median(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.median(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }    
+    
+    @Test
+    public void testMedianFloats() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            float[] array = new float[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
+            }
+        
+            float[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 and elements greater than element at 
+            //length / 2 because selection is done at length / 2
+            float median = sorter.median(array2);
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[length / 2], array2[length / 2], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i] <= array[length / 2]);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i] >= array[length / 2]);
+            }
+        
+            //Check that median value
+            float otherMedian;
+            if ((length %2) == 0) {
+                //even length
+                otherMedian = 0.5f * (array[(length / 2) - 1] + 
+                        array[length / 2]);
+            } else {
+                otherMedian = array[length / 2];
+            }
+            
+            assertEquals(otherMedian, median, 0.0);
+        }
+    }    
+    
+    @Test
+    public void testMedianFloatsWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);  
+            int n = toIndex - fromIndex;
+        
+            float[] array = new float[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
+            }
+        
+            float[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 + fromIndex and elements greater than 
+            //element at length / 2 + fromIndex because selection is done at 
+            //length / 2 + fromIndex
+            float median = sorter.median(array2, fromIndex, toIndex);
+        
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[n / 2 + fromIndex], 
+                    array2[n / 2 + fromIndex], 0.0);
+        
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < n / 2 + fromIndex; i++) {
+                assertTrue(array2[i] <= array[n / 2 + fromIndex]);
+            }   
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = n / 2 + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i] >= array[n / 2 + fromIndex]);
+            }
+        
+            //Check median value
+            float otherMedian;
+            if ((n %2) == 0) {
+                //even length
+                otherMedian = 0.5f * (array[(n / 2 + fromIndex) - 1] +
+                        array[n / 2 + fromIndex]);
+            } else {
+                otherMedian = array[n / 2 + fromIndex];
+            }
+            
+            assertEquals(otherMedian, median, 0.0);
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.median(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.median(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.median(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }    
+ 
+    @Test
+    public void testMedianInts() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            int[] array = new int[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+        
+            int[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 and elements greater than element at 
+            //length / 2 because selection is done at length / 2
+            int median = sorter.median(array2);
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[length / 2], array2[length / 2], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i] <= array[length / 2]);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i] >= array[length / 2]);
+            }
+        
+            //Check that median value
+            int otherMedian;
+            if ((length %2) == 0) {
+                //even length
+                otherMedian = (int)(0.5 * (array[(length / 2) - 1] + 
+                        array[length / 2]));
+            } else {
+                otherMedian = array[length / 2];
+            }
+            
+            assertEquals(otherMedian, median);
+        }
+    }    
+    
+    @Test
+    public void testMedianIntsWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);  
+            int n = toIndex - fromIndex;
+        
+            int[] array = new int[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+        
+            int[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 + fromIndex and elements greater than 
+            //element at length / 2 + fromIndex because selection is done at 
+            //length / 2 + fromIndex
+            int median = sorter.median(array2, fromIndex, toIndex);
+        
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[n / 2 + fromIndex], 
+                    array2[n / 2 + fromIndex], 0.0);
+        
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < n / 2 + fromIndex; i++) {
+                assertTrue(array2[i] <= array[n / 2 + fromIndex]);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = n / 2 + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i] >= array[n / 2 + fromIndex]);
+            }
+        
+            //Check median value
+            int otherMedian;
+            if ((n %2) == 0) {
+                //even length
+                otherMedian = (int)(0.5 * (array[(n / 2 + fromIndex) - 1] +
+                        array[n / 2 + fromIndex]));
+            } else {
+                otherMedian = array[n / 2 + fromIndex];
+            }
+            
+            assertEquals(otherMedian, median);
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.median(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.median(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.median(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }        
+    
+    @Test
+    public void testMedianLongs() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        
+            long[] array = new long[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+        
+            long[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array);
+        
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 and elements greater than element at 
+            //length / 2 because selection is done at length / 2
+            long median = sorter.median(array2);
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[length / 2], array2[length / 2], 0.0);
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i] <= array[length / 2]);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i] >= array[length / 2]);
+            }
+        
+            //Check that median value
+            long otherMedian;
+            if ((length %2) == 0) {
+                //even length
+                otherMedian = (long)(0.5 * (array[(length / 2) - 1] + 
+                        array[length / 2]));
+            } else {
+                otherMedian = array[length / 2];
+            }
+            
+            assertEquals(otherMedian, median);
+        }
+    }    
+    
+    @Test
+    public void testMedianLongsWithinRange() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            UniformRandomizer randomizer = new UniformRandomizer(new Random());
+        
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int fromIndex = randomizer.nextInt(0, length - 2);
+            int toIndex = randomizer.nextInt(fromIndex + 1, length);  
+            int n = toIndex - fromIndex;
+        
+            long[] array = new long[length];
+        
+            //set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+        
+            long[] array2 = Arrays.copyOf(array, length);
+        
+            Sorter sorter = Sorter.create();
+        
+            //sort original array
+            sorter.sort(array, fromIndex, toIndex);
+
+            //after median computation array2 will contain elements smaller than 
+            //element at length / 2 + fromIndex and elements greater than 
+            //element at length / 2 + fromIndex because selection is done at 
+            //length / 2 + fromIndex
+            long median = sorter.median(array2, fromIndex, toIndex);
+        
+        
+            //for that reason elementat length / 2 is the same on sorted and 
+            //selected arrays
+            assertEquals(array[n / 2 + fromIndex], 
+                    array2[n / 2 + fromIndex], 0.0);
+        
+        
+            //check that elements in array2[0] ... array2[pos - 1] are lower 
+            //than selected value
+            for (int i = fromIndex; i < n / 2 + fromIndex; i++) {
+                assertTrue(array2[i] <= array[n / 2 + fromIndex]);
+            }
+        
+            //check that elements int array2[pos + 1] ... array2[length - 1] are
+            //greater than selected value
+            for (int i = n / 2 + 1 + fromIndex; i < toIndex; i++) {
+                assertTrue(array2[i] >= array[n / 2 + fromIndex]);
+            }
+        
+            //Check median value
+            long otherMedian;
+            if ((n %2) == 0) {
+                //even length
+                otherMedian = (long)(0.5 * (array[(n / 2 + fromIndex) - 1] +
+                        array[n / 2 + fromIndex]));
+            } else {
+                otherMedian = array[n / 2 + fromIndex];
+            }
+            
+            assertEquals(otherMedian, median);
+        
+            //Force IllegalArgumentException
+            try {
+                sorter.median(array, toIndex, fromIndex);
+                fail("IllegalArgumentException expected but not thrown");
+            } catch (IllegalArgumentException e) { }
+        
+            //Force ArrayIndexOutOfBoundsException
+            try {
+                sorter.median(array, -1, toIndex);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { }
+            try {
+                sorter.median(array, fromIndex, length + 1);
+                fail("ArrayIndexOutOfBoundsException expected but not thrown");
+            } catch (ArrayIndexOutOfBoundsException e) { } 
+        }
+    }            
+}

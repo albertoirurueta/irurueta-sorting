@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Utility classes to sort numbers</description>
-    <url>https://bitbucket.org/alberto_irurueta/irurueta-statistics</url>
+    <url>https://bitbucket.org/alberto_irurueta/irurueta-sorting</url>
     <inceptionYear>2017</inceptionYear>    
     <developers>
         <developer>

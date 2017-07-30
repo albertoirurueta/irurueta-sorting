@@ -24,7 +24,7 @@ import java.util.Comparator;
  * Sedgewick, R. 1978. "Implementing Quicksort Programs", Communications 
  * of the ACM, vol. 21, pp. 847-857.
  */
-public class SystemSorter<T> extends QuicksortSorter<T>{
+public class SystemSorter<T> extends QuicksortSorter<T> {
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -34,14 +34,14 @@ public class SystemSorter<T> extends QuicksortSorter<T>{
      * @param array Array to be sorted. After execution of this method 
      * elements in array between fromIndex (inclusive) and toIndex 
      * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive)
-     * @param toIndex Index were sorting stops (exclusive)
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
      * @param comparator Determines whether an element is greater or lower 
-     * than another one
-     * @throws SortingException If for some reason sorting fails
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}
+     * than another one.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}
+     * {@code toIndex > array.length}.
      */        
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
@@ -59,12 +59,12 @@ public class SystemSorter<T> extends QuicksortSorter<T>{
      * @param array Array to be sorted. After execution of this method 
      * elements in array between fromIndex (inclusive) and toIndex 
      * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive)
-     * @param toIndex Index were sorting stops (exclusive)
-     * @throws SortingException If for some reason sorting fails
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}
+     * {@code toIndex > array.length}.
      */        
     @Override
     public void sort(double[] array, int fromIndex, int toIndex) 
@@ -82,12 +82,12 @@ public class SystemSorter<T> extends QuicksortSorter<T>{
      * @param array Array to be sorted. After execution of this method 
      * elements in array between fromIndex (inclusive) and toIndex 
      * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive)
-     * @param toIndex Index were sorting stops (exclusive)
-     * @throws SortingException If for some reason sorting fails
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}
+     * {@code toIndex > array.length}.
      */        
     @Override
     public void sort(float[] array, int fromIndex, int toIndex) 
@@ -105,12 +105,12 @@ public class SystemSorter<T> extends QuicksortSorter<T>{
      * @param array Array to be sorted. After execution of this method 
      * elements in array between fromIndex (inclusive) and toIndex 
      * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive)
-     * @param toIndex Index were sorting stops (exclusive)
-     * @throws SortingException If for some reason sorting fails
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}
+     * {@code toIndex > array.length}.
      */        
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
@@ -128,12 +128,12 @@ public class SystemSorter<T> extends QuicksortSorter<T>{
      * @param array Array to be sorted. After execution of this method 
      * elements in array between fromIndex (inclusive) and toIndex 
      * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive)
-     * @param toIndex Index were sorting stops (exclusive)
-     * @throws SortingException If for some reason sorting fails
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}
+     * {@code toIndex > array.length}.
      */        
     @Override
     public void sort(long[] array, int fromIndex, int toIndex) 

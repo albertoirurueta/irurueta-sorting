@@ -9,13 +9,13 @@
 package com.irurueta.sorting;
 
 /**
- * Enumerator containing different algorithms for sorting arrays of data
+ * Enumerator containing different algorithms for sorting arrays of data.
  */
 public enum SortingMethod {
     /**
      * Sorts data by using a straing insertion algorithm. This is a simple
      * yet slow algorithm for sorting, although for small arrays might be
-     * fast enough
+     * fast enough.
      */
     STRAIGHT_INSERTION_SORTING_METHOD,
     

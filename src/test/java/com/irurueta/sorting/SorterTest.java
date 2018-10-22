@@ -1,10 +1,17 @@
-/**
- * @file
- * This file contains Unit Tests for
- * com.irurueta.sorting.Sorter
- * 
- * @author Alberto Irurueta (alberto@irurueta.com)
- * @date April 9, 2012
+/*
+ * Copyright (C) 2012 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.irurueta.sorting;
 
@@ -17,21 +24,21 @@ import org.junit.*;
 
 public class SorterTest {
     
-    public static final int MIN_LENGTH = 10;
-    public static final int MAX_LENGTH = 100;
+    private static final int MIN_LENGTH = 10;
+    private static final int MAX_LENGTH = 100;
     
-    public static final int MIN_VALUE = 0;
-    public static final int MAX_VALUE = 100;   
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 100;
     
-    public static final int TIMES = 50;
+    private static final int TIMES = 50;
     
     public SorterTest() { }
 
     @BeforeClass
-    public static void setUpClass() throws Exception { }
+    public static void setUpClass() { }
 
     @AfterClass
-    public static void tearDownClass() throws Exception { }
+    public static void tearDownClass() { }
     
     @Before
     public void setUp() { }
@@ -79,6 +86,7 @@ public class SorterTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSortWithComparator() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -114,21 +122,22 @@ public class SorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }   
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testSortWithIndicesAndComparator() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -169,17 +178,17 @@ public class SorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }   
     }   
     
@@ -213,17 +222,17 @@ public class SorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }   
     }
 
@@ -261,17 +270,17 @@ public class SorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }    
     
@@ -306,17 +315,17 @@ public class SorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }     
     }
 
@@ -355,17 +364,17 @@ public class SorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }  
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }   
     }        
     
@@ -399,17 +408,17 @@ public class SorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }
 
@@ -447,17 +456,17 @@ public class SorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }  
     }        
     
@@ -491,17 +500,17 @@ public class SorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e){ } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }     
     }
 
@@ -539,21 +548,22 @@ public class SorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }  
     }    
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSortComparablesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -584,21 +594,22 @@ public class SorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }   
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSortComparables() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -626,6 +637,7 @@ public class SorterTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSortWholeArray() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -767,6 +779,7 @@ public class SorterTest {
     }      
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSortWithIndicesComparablesWithinRange() 
             throws SortingException {
         for (int t = 0; t < TIMES; t++) {
@@ -801,21 +814,22 @@ public class SorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }     
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSortWithIndicesComparables() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -846,6 +860,7 @@ public class SorterTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSortWithIndicesWholeArray() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1005,6 +1020,7 @@ public class SorterTest {
     }         
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSelectComparables() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1030,7 +1046,7 @@ public class SorterTest {
             Object selected = sorter.select(pos, array2);
         
             //check that selected value corresponds to sorted value at pos
-            assertEquals((Double)selected, array[pos]);
+            assertEquals(selected, array[pos]);
         
             //check that elements in array2[0] ... array2[pos - 1] are lower 
             //than selected value
@@ -1048,11 +1064,12 @@ public class SorterTest {
             try {
                 sorter.select(length, array);
                 fail("IllegalArgumentException expected but not thrown");
-            }catch(IllegalArgumentException e){}        
+            } catch (IllegalArgumentException ignore) { }
         }
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSelectComparablesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1080,7 +1097,7 @@ public class SorterTest {
             Object selected = sorter.select(pos, array2, fromIndex, toIndex);
         
             //check that selected value corresponds to sorted value at pos
-            assertEquals((Double)selected, array[pos + fromIndex]);
+            assertEquals(selected, array[pos + fromIndex]);
         
             //check that elements in array2[0] ... array2[pos - 1] are lower 
             //than selected value
@@ -1098,25 +1115,26 @@ public class SorterTest {
             try {
                 sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex + 1, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.select(pos, array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testSelectWithComparator() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1150,7 +1168,7 @@ public class SorterTest {
             });
         
             //check that selected value corresponds to sorted value at pos
-            assertEquals((Double)selected, array[pos]);
+            assertEquals(selected, array[pos]);
         
             //check that elements in array2[0] ... array2[pos - 1] are lower 
             //than selected value
@@ -1175,7 +1193,7 @@ public class SorterTest {
                 
                 });
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { } 
+            } catch (IllegalArgumentException ignore) { }
         }
     }
 
@@ -1223,7 +1241,7 @@ public class SorterTest {
             try {
                 sorter.select(length, array);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         }
     }
 
@@ -1271,7 +1289,7 @@ public class SorterTest {
             try {
                 sorter.select(length, array);
                 fail("IllegalArgumentException expected but not thrown");
-            }catch(IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         }
     }
     
@@ -1319,7 +1337,7 @@ public class SorterTest {
             try {
                 sorter.select(length, array);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         }
     }
     
@@ -1367,11 +1385,12 @@ public class SorterTest {
             try {
                 sorter.select(length, array);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         }
     }    
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testSelectWithComparatorWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1406,7 +1425,7 @@ public class SorterTest {
             });
         
             //check that selected value corresponds to sorted value at pos
-            assertEquals((Double)selected, array[pos + fromIndex]);
+            assertEquals(selected, array[pos + fromIndex]);
         
             //check that elements in array2[0] ... array2[pos - 1] are lower 
             //than selected value
@@ -1432,7 +1451,7 @@ public class SorterTest {
                         
                 });
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex + 1, fromIndex,
                         new Comparator<Double>(){
@@ -1444,7 +1463,7 @@ public class SorterTest {
                         
                 });                    
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
@@ -1458,7 +1477,7 @@ public class SorterTest {
                         
                 });                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex, length + 1,
                         new Comparator<Double>(){
@@ -1470,7 +1489,7 @@ public class SorterTest {
                         
                 });                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }
 
@@ -1520,21 +1539,21 @@ public class SorterTest {
             try {
                 sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex + 1, fromIndex);                    
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.select(pos, array, -1, toIndex);                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex, length + 1);                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }    
     
@@ -1584,21 +1603,21 @@ public class SorterTest {
             try {
                 sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex + 1, fromIndex);                    
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.select(pos, array, -1, toIndex);                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex, length + 1);                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e){ }
+            } catch (ArrayIndexOutOfBoundsException ignore){ }
         }
     }        
     
@@ -1648,21 +1667,21 @@ public class SorterTest {
             try {
                 sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex + 1, fromIndex);                    
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.select(pos, array, -1, toIndex);                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex, length + 1);                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }        
     
@@ -1712,25 +1731,26 @@ public class SorterTest {
             try {
                 sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex + 1, fromIndex);                    
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.select(pos, array, -1, toIndex);                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.select(pos, array, fromIndex, length + 1);                    
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }        
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testMedianComparables() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1782,11 +1802,12 @@ public class SorterTest {
                 otherMedian = array[length / 2];
             }
             
-            assertEquals(otherMedian, (Double)median);
+            assertEquals(otherMedian, median);
         }        
     }    
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testMedianComparablesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1837,21 +1858,22 @@ public class SorterTest {
             try {
                 sorter.median(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.median(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.median(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testMedianWithComparator() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1916,11 +1938,12 @@ public class SorterTest {
                 otherMedian = array[length / 2];
             }
             
-            assertEquals(otherMedian, (Double)median);
+            assertEquals(otherMedian, median);
         }
     }    
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testMedianWithComparatorWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             UniformRandomizer randomizer = new UniformRandomizer(new Random());
@@ -1991,23 +2014,23 @@ public class SorterTest {
                 otherMedian = array[n / 2 + fromIndex];
             }
             
-            assertEquals(otherMedian, (Double)median);
+            assertEquals(otherMedian, median);
         
             //Force IllegalArgumentException
             try {
                 sorter.median(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.median(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.median(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }
 
@@ -2132,17 +2155,17 @@ public class SorterTest {
             try {
                 sorter.median(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.median(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.median(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }    
     
@@ -2267,17 +2290,17 @@ public class SorterTest {
             try {
                 sorter.median(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.median(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.median(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }    
  
@@ -2402,17 +2425,17 @@ public class SorterTest {
             try {
                 sorter.median(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.median(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.median(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }        
     
@@ -2537,17 +2560,17 @@ public class SorterTest {
             try {
                 sorter.median(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.median(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.median(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }            
 }

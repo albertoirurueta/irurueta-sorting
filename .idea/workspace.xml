@@ -2,26 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4660b740-affe-458c-a25b-74f88d32a2db" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_irurueta_irurueta_statistics_1_0_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_irurueta_irurueta_statistics_1_0_SNAPSHOT.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_11.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/irurueta-sorting.iml" beforeDir="false" afterPath="$PROJECT_DIR$/irurueta-sorting.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/BuildInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/BuildInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/ComparableAndAveragable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/ComparableAndAveragable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/ComparatorAndAverager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/ComparatorAndAverager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/HeapsortSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/HeapsortSorter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/QuicksortSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/QuicksortSorter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/ShellSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/ShellSorter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/Sorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/Sorter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SortingException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SortingException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SortingMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SortingMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/StraightInsertionSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/StraightInsertionSorter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SystemSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SystemSorter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/package-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/irurueta/sorting/build-info.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/irurueta/sorting/build-info.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/BuildInfoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/BuildInfoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/HeapsortSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/HeapsortSorterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/QuicksortSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/QuicksortSorterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/ShellSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/ShellSorterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SorterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SortingExceptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SortingExceptionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/StraightInsertionSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/StraightInsertionSorterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SystemSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SystemSorterTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,70 +27,147 @@
     <session id="-1456934273">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="188" />
+          <entry key="java" value="2154" />
           <entry key="xml" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="188" />
+          <entry key="JAVA" value="2154" />
           <entry key="XML" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="13" />
+          <entry key="java" value="21" />
           <entry key="xml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="13" />
+          <entry key="JAVA" value="21" />
           <entry key="XML" value="1" />
         </counts>
       </usages-collector>
+      <usages-collector id="statistics.spring.boot.mvc.usages" />
+      <usages-collector id="statistics.spring.boot.run.usages" />
+      <usages-collector id="statistics.vcs.git.usages" />
+      <usages-collector id="statistics.js.language.service.starts" />
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="5" column="57" lean-forward="true" selection-start-line="5" selection-end-line="5" selection-end-column="57" />
+              <caret line="5" column="57" selection-start-line="5" selection-end-line="5" selection-end-column="57" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/irurueta/sorting/BuildInfo.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/BuildInfoTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
               <caret line="15" selection-end-line="15" />
               <folding>
-                <element signature="e#0#6082#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="e#986#1019#0" expanded="true" />
-                <element signature="e#4645#4646#0" expanded="true" />
-                <element signature="e#4697#4698#0" expanded="true" />
+                <element signature="e#0#2669#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SystemSorter.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/QuicksortSorterTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1553">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="225">
+              <caret line="15" selection-end-line="15" />
               <folding>
-                <element signature="e#0#7161#0" expanded="true" />
+                <element signature="e#0#21651#0" expanded="true" />
+                <element signature="e#1744#1948#0" expanded="true" />
+                <element signature="e#1947#1948#0" expanded="true" />
+                <element signature="e#3931#4135#0" expanded="true" />
+                <element signature="e#4134#4135#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SorterTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="2013" column="55" lean-forward="true" selection-start-line="2013" selection-start-column="55" selection-end-line="2013" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#101272#0" expanded="true" />
+                <element signature="e#2853#2883#0" expanded="true" />
+                <element signature="e#3171#3375#0" expanded="true" />
+                <element signature="e#3374#3375#0" expanded="true" />
+                <element signature="e#4939#4969#0" expanded="true" />
+                <element signature="e#5335#5539#0" expanded="true" />
+                <element signature="e#5538#5539#0" expanded="true" />
+                <element signature="e#22951#22981#0" expanded="true" />
+                <element signature="e#24865#24895#0" expanded="true" />
+                <element signature="e#25833#25863#0" expanded="true" />
+                <element signature="e#30693#30723#0" expanded="true" />
+                <element signature="e#32823#32853#0" expanded="true" />
+                <element signature="e#33950#33980#0" expanded="true" />
+                <element signature="e#39706#39736#0" expanded="true" />
+                <element signature="e#41557#41587#0" expanded="true" />
+                <element signature="e#44414#44444#0" expanded="true" />
+                <element signature="e#44327#44536#0" expanded="true" />
+                <element signature="e#44535#44536#0" expanded="true" />
+                <element signature="e#45318#45552#0" expanded="true" />
+                <element signature="e#45551#45552#0" expanded="true" />
+                <element signature="e#53745#53775#0" expanded="true" />
+                <element signature="e#53824#54040#0" expanded="true" />
+                <element signature="e#54039#54040#0" expanded="true" />
+                <element signature="e#54924#55165#0" expanded="true" />
+                <element signature="e#55164#55165#0" expanded="true" />
+                <element signature="e#69309#69339#0" expanded="true" />
+                <element signature="e#71519#71549#0" expanded="true" />
+                <element signature="e#74376#74406#0" expanded="true" />
+                <element signature="e#76966#76996#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/StraightInsertionSorterTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="7860">
+              <caret line="524" column="58" selection-start-line="524" selection-start-column="58" selection-end-line="524" selection-end-column="58" />
+              <folding>
+                <element signature="e#0#21985#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1796#2000#0" expanded="true" />
+                <element signature="e#1999#2000#0" expanded="true" />
+                <element signature="e#4025#4229#0" expanded="true" />
+                <element signature="e#4228#4229#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SystemSorterTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="28" lean-forward="true" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#21375#0" expanded="true" />
+                <element signature="e#3912#4117#0" expanded="true" />
+                <element signature="e#4116#4117#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -136,6 +203,14 @@
         <option value="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SortingMethod.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/StraightInsertionSorter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SystemSorter.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/BuildInfoTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/HeapsortSorterTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/QuicksortSorterTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/ShellSorterTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SorterTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SortingExceptionTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/StraightInsertionSorterTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SystemSorterTest.java" />
       </list>
     </option>
   </component>
@@ -169,8 +244,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2002" />
-    <option name="y" value="190" />
+    <option name="x" value="1595" />
+    <option name="y" value="39" />
     <option name="width" value="1324" />
     <option name="height" value="821" />
   </component>
@@ -179,7 +254,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -210,22 +284,35 @@
               <item name="irurueta-sorting" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="irurueta-sorting" type="b2602c69:ProjectViewProjectNode" />
+              <item name="irurueta-sorting" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="sorting" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="irurueta-sorting" type="b2602c69:ProjectViewProjectNode" />
               <item name="irurueta-sorting" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="irurueta-sorting" type="b2602c69:ProjectViewProjectNode" />
               <item name="irurueta-sorting" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="irurueta-sorting" type="b2602c69:ProjectViewProjectNode" />
+              <item name="irurueta-sorting" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="sorting" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -233,6 +320,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -244,7 +332,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540196015282" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540200505535" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -267,7 +355,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.com.irurueta.sorting in irurueta-sorting">
+  <component name="RunManager" selected="JUnit.SortingExceptionTest">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
       <option name="TESTING_TYPE" value="0" />
@@ -322,21 +410,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="QuicksortSorterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="irurueta-sorting" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.irurueta.sorting.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.irurueta.sorting" />
-      <option name="MAIN_CLASS_NAME" value="com.irurueta.sorting.QuicksortSorterTest" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ShellSorterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="irurueta-sorting" />
       <extension name="coverage">
@@ -347,6 +420,36 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.irurueta.sorting" />
       <option name="MAIN_CLASS_NAME" value="com.irurueta.sorting.ShellSorterTest" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SorterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="irurueta-sorting" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.irurueta.sorting.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.irurueta.sorting" />
+      <option name="MAIN_CLASS_NAME" value="com.irurueta.sorting.SorterTest" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SortingExceptionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="irurueta-sorting" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.irurueta.sorting.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.irurueta.sorting" />
+      <option name="MAIN_CLASS_NAME" value="com.irurueta.sorting.SortingExceptionTest" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -426,16 +529,18 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.HeapsortSorterTest" />
-      <item itemvalue="JUnit.QuicksortSorterTest" />
       <item itemvalue="JUnit.ShellSorterTest" />
       <item itemvalue="JUnit.com.irurueta.sorting in irurueta-sorting" />
+      <item itemvalue="JUnit.SorterTest" />
+      <item itemvalue="JUnit.SortingExceptionTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SortingExceptionTest" />
+        <item itemvalue="JUnit.SorterTest" />
         <item itemvalue="JUnit.com.irurueta.sorting in irurueta-sorting" />
         <item itemvalue="JUnit.ShellSorterTest" />
         <item itemvalue="JUnit.HeapsortSorterTest" />
-        <item itemvalue="JUnit.QuicksortSorterTest" />
       </list>
     </recent_temporary>
   </component>
@@ -453,7 +558,8 @@
       <workItem from="1511864611600" duration="4000" />
       <workItem from="1534022397176" duration="368000" />
       <workItem from="1535284821821" duration="91000" />
-      <workItem from="1540195205925" duration="895000" />
+      <workItem from="1540195205925" duration="945000" />
+      <workItem from="1540197173936" duration="2710000" />
     </task>
     <servers />
   </component>
@@ -476,15 +582,20 @@
     <history-entry file="com_irurueta_sorting_in_irurueta-sorting - 2017.07.30 at 16h 09m 12s.xml">
       <configuration name="com.irurueta.sorting in irurueta-sorting" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="SorterTest - 2018.10.22 at 11h 15m 40s.xml">
+      <configuration name="SorterTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SortingExceptionTest - 2018.10.22 at 11h 18m 38s.xml">
+      <configuration name="SortingExceptionTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1395000" />
+    <option name="totallyTimeSpent" value="4155000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2002" y="190" width="1324" height="821" extended-state="0" />
-    <editor active="true" />
+    <frame x="1595" y="39" width="1324" height="821" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21372855" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21684867" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -494,7 +605,7 @@
       <window_info id="Nl-Palette" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32458565" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32098764" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -510,7 +621,7 @@
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Properties" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.3299532" />
+      <window_info active="true" anchor="right" id="Maven Projects" order="6" visible="true" weight="0.3299532" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info anchor="right" id="Database" order="9" />
@@ -546,9 +657,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret lean-forward="true" />
-          <folding>
-            <element signature="e#0#1199#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -646,23 +754,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="57" selection-start-line="5" selection-end-line="5" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/irurueta/sorting/BuildInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
+        <state relative-caret-position="15">
           <caret line="15" selection-end-line="15" />
           <folding>
-            <element signature="e#0#6082#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#986#1019#0" expanded="true" />
-            <element signature="e#4645#4646#0" expanded="true" />
-            <element signature="e#4697#4698#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/irurueta/sorting/SystemSorter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1553">
+        <state relative-caret-position="225">
           <caret line="15" selection-start-line="15" selection-end-line="15" />
           <folding>
             <element signature="e#0#7161#0" expanded="true" />
@@ -670,10 +781,129 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/HeapsortSorterTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="57" lean-forward="true" selection-start-line="5" selection-end-line="5" selection-end-column="57" />
+        <state relative-caret-position="225">
+          <caret line="15" selection-end-line="15" />
+          <folding>
+            <element signature="e#0#21844#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1754#1958#0" expanded="true" />
+            <element signature="e#1957#1958#0" expanded="true" />
+            <element signature="e#3958#4162#0" expanded="true" />
+            <element signature="e#4161#4162#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/ShellSorterTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="519" column="58" selection-start-line="519" selection-start-column="58" selection-end-line="519" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#21543#0" expanded="true" />
+            <element signature="e#3892#4096#0" expanded="true" />
+            <element signature="e#4095#4096#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/QuicksortSorterTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" selection-end-line="15" />
+          <folding>
+            <element signature="e#0#21651#0" expanded="true" />
+            <element signature="e#1744#1948#0" expanded="true" />
+            <element signature="e#1947#1948#0" expanded="true" />
+            <element signature="e#3931#4135#0" expanded="true" />
+            <element signature="e#4134#4135#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SortingExceptionTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="36" column="9" lean-forward="true" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#1476#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SorterTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="2013" column="55" lean-forward="true" selection-start-line="2013" selection-start-column="55" selection-end-line="2013" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#101272#0" expanded="true" />
+            <element signature="e#2853#2883#0" expanded="true" />
+            <element signature="e#3171#3375#0" expanded="true" />
+            <element signature="e#3374#3375#0" expanded="true" />
+            <element signature="e#4939#4969#0" expanded="true" />
+            <element signature="e#5335#5539#0" expanded="true" />
+            <element signature="e#5538#5539#0" expanded="true" />
+            <element signature="e#22951#22981#0" expanded="true" />
+            <element signature="e#24865#24895#0" expanded="true" />
+            <element signature="e#25833#25863#0" expanded="true" />
+            <element signature="e#30693#30723#0" expanded="true" />
+            <element signature="e#32823#32853#0" expanded="true" />
+            <element signature="e#33950#33980#0" expanded="true" />
+            <element signature="e#39706#39736#0" expanded="true" />
+            <element signature="e#41557#41587#0" expanded="true" />
+            <element signature="e#44414#44444#0" expanded="true" />
+            <element signature="e#44327#44536#0" expanded="true" />
+            <element signature="e#44535#44536#0" expanded="true" />
+            <element signature="e#45318#45552#0" expanded="true" />
+            <element signature="e#45551#45552#0" expanded="true" />
+            <element signature="e#53745#53775#0" expanded="true" />
+            <element signature="e#53824#54040#0" expanded="true" />
+            <element signature="e#54039#54040#0" expanded="true" />
+            <element signature="e#54924#55165#0" expanded="true" />
+            <element signature="e#55164#55165#0" expanded="true" />
+            <element signature="e#69309#69339#0" expanded="true" />
+            <element signature="e#71519#71549#0" expanded="true" />
+            <element signature="e#74376#74406#0" expanded="true" />
+            <element signature="e#76966#76996#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/StraightInsertionSorterTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7860">
+          <caret line="524" column="58" selection-start-line="524" selection-start-column="58" selection-end-line="524" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#21985#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1796#2000#0" expanded="true" />
+            <element signature="e#1999#2000#0" expanded="true" />
+            <element signature="e#4025#4229#0" expanded="true" />
+            <element signature="e#4228#4229#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/BuildInfoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" selection-end-line="15" />
+          <folding>
+            <element signature="e#0#2669#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SystemSorterTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="28" lean-forward="true" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#21375#0" expanded="true" />
+            <element signature="e#3912#4117#0" expanded="true" />
+            <element signature="e#4116#4117#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1,9 +1,17 @@
-/**
- * This file contains Unit Tests for
- * com.irurueta.sorting.StraightInsertionSorter
- * 
- * @author Alberto Irurueta (alberto@irurueta.com)
- * @date April 8, 2012
+/*
+ * Copyright (C) 2012 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.irurueta.sorting;
 
@@ -16,21 +24,21 @@ import org.junit.*;
 
 public class StraightInsertionSorterTest {
     
-    public static final int MIN_LENGTH = 10;
-    public static final int MAX_LENGTH = 100;
+    private static final int MIN_LENGTH = 10;
+    private static final int MAX_LENGTH = 100;
     
-    public static final int MIN_VALUE = 0;
-    public static final int MAX_VALUE = 100;
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 100;
     
-    public static final int TIMES = 50;
+    private static final int TIMES = 50;
     
     public StraightInsertionSorterTest() { }
 
     @BeforeClass
-    public static void setUpClass() throws Exception { }
+    public static void setUpClass() { }
 
     @AfterClass
-    public static void tearDownClass() throws Exception { }
+    public static void tearDownClass() { }
     
     @Before
     public void setUp() { }
@@ -55,7 +63,7 @@ public class StraightInsertionSorterTest {
             }
         
             StraightInsertionSorter<Double> sorter = 
-                    new StraightInsertionSorter<Double>();
+                    new StraightInsertionSorter<>();
             sorter.sort(array, fromIndex, toIndex, new Comparator<Double>(){
 
                 @Override
@@ -75,17 +83,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }    
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }    
     }
 
@@ -108,7 +116,7 @@ public class StraightInsertionSorterTest {
             Double [] array2 = Arrays.copyOf(array, length);
         
             StraightInsertionSorter<Double> sorter = 
-                    new StraightInsertionSorter<Double>();
+                    new StraightInsertionSorter<>();
             int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex, 
                     new Comparator<Double>(){
 
@@ -131,17 +139,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }
     
@@ -175,17 +183,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }    
     }
 
@@ -224,17 +232,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         } 
     }    
     
@@ -268,17 +276,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }  
     }
 
@@ -318,17 +326,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }   
     }        
     
@@ -362,17 +370,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         } 
     }
 
@@ -411,17 +419,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }        
     
@@ -455,17 +463,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sort(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { } 
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         } 
     }
 
@@ -504,17 +512,17 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sortWithIndices(array, toIndex, fromIndex);
                 fail("IllegalArgumentException expected but not thrown");
-            } catch (IllegalArgumentException e) { }
+            } catch (IllegalArgumentException ignore) { }
         
             //Force ArrayIndexOutOfBoundsException
             try {
                 sorter.sortWithIndices(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
             try {
                 sorter.sortWithIndices(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (ArrayIndexOutOfBoundsException e) { }                
+            } catch (ArrayIndexOutOfBoundsException ignore) { }
         }
     }      
     

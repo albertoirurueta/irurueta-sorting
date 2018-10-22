@@ -1,10 +1,17 @@
-/**
- * @file
- * This file contains implementation of
- * com.irurueta.sorting.Sorter
- * 
- * @author Alberto Irurueta (alberto@irurueta.com)
- * @date April 6, 2012
+/*
+ * Copyright (C) 2012 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.irurueta.sorting;
 
@@ -15,6 +22,7 @@ import java.util.Comparator;
  * available methods.
  * @param <T> Type of instances being sorted.
  */
+@SuppressWarnings({"WeakerAccess", "Duplicates"})
 public abstract class Sorter<T> {
     
     /**
@@ -266,7 +274,8 @@ public abstract class Sorter<T> {
      * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
      * {@code toIndex > array.length}.
-     */            
+     */
+    @SuppressWarnings("unchecked")
     public void sort(Comparable<T>[] array, int fromIndex, int toIndex) 
             throws SortingException, IllegalArgumentException, 
             ArrayIndexOutOfBoundsException {                
@@ -408,7 +417,8 @@ public abstract class Sorter<T> {
      * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
      * {@code toIndex > array.length}.
-     */        
+     */
+    @SuppressWarnings("unchecked")
     public int[] sortWithIndices(Comparable<T>[] array, int fromIndex, 
             int toIndex) throws SortingException, IllegalArgumentException,
             ArrayIndexOutOfBoundsException {
@@ -595,7 +605,8 @@ public abstract class Sorter<T> {
      * fromIndex &lt; toIndex.
      * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are 
      * outside array boundaries.
-     */    
+     */
+    @SuppressWarnings("unchecked")
     public T select(int k, Comparable<T>[] array, int fromIndex, int toIndex) 
             throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         return select(k, (T[])array, fromIndex, toIndex, new Comparator<T>() {
@@ -1247,7 +1258,8 @@ public abstract class Sorter<T> {
      * fromIndex &lt; toIndex.
      * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are
      * outside array boundaries.
-     */    
+     */
+    @SuppressWarnings("unchecked")
     public T median(Comparable<T>[] array, int fromIndex, int toIndex)
         throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         
@@ -1266,37 +1278,37 @@ public abstract class Sorter<T> {
                             t2 instanceof ComparableAndAveragable) {
                         return ((ComparableAndAveragable<T>)t1).averageWith(t2);
                     }
-                    if (t1 instanceof Byte && t1 instanceof Byte) {
+                    if (t1 instanceof Byte && t2 instanceof Byte) {
                         byte b1 = ((Byte)t1);
                         byte b2 = ((Byte)t2);
                         return (T)Byte.valueOf((byte)((b1 + b2) / 2));
                     }
-                    if (t1 instanceof Character && t1 instanceof Character) {
+                    if (t1 instanceof Character && t2 instanceof Character) {
                         char c1 = ((Character)t1);
                         char c2 = ((Character)t2);
                         return (T)Character.valueOf((char)((c1 + c2) / 2));
                     }
-                    if (t1 instanceof Short && t1 instanceof Short) {
+                    if (t1 instanceof Short && t2 instanceof Short) {
                         short c1 = ((Short)t1);
                         short c2 = ((Short)t2);
                         return (T)Short.valueOf((short)((c1 + c2) / 2));
                     }
-                    if (t1 instanceof Integer && t1 instanceof Integer) {
+                    if (t1 instanceof Integer && t2 instanceof Integer) {
                         int i1 = ((Integer)t1);
                         int i2 = ((Integer)t2);
                         return (T)Integer.valueOf((i1 + i2) / 2);
                     }
-                    if (t1 instanceof Long && t1 instanceof Long) {
+                    if (t1 instanceof Long && t2 instanceof Long) {
                         long l1 = ((Long)t1);
                         long l2 = ((Long)t2);
                         return (T)Long.valueOf((l1 + l2) / 2);
                     }
-                    if (t1 instanceof Float && t1 instanceof Float) {
+                    if (t1 instanceof Float && t2 instanceof Float) {
                         float f1 = ((Float)t1);
                         float f2 = ((Float)t2);
                         return (T)Float.valueOf((f1 + f2) / 2.0f);
                     }
-                    if (t1 instanceof Double && t1 instanceof Double) {
+                    if (t1 instanceof Double && t2 instanceof Double) {
                         double d1 = ((Double)t1);
                         double d2 = ((Double)t2);
                         return (T)Double.valueOf((d1 + d2) / 2.0);

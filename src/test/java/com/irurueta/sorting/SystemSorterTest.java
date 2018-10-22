@@ -16,11 +16,13 @@
 package com.irurueta.sorting;
 
 import com.irurueta.statistics.UniformRandomizer;
+import org.junit.*;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
+
 import static org.junit.Assert.*;
-import org.junit.*;
 
 public class SystemSorterTest {
     
@@ -62,7 +64,7 @@ public class SystemSorterTest {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
         
-            SystemSorter<Double> sorter = new SystemSorter<Double>();
+            SystemSorter<Double> sorter = new SystemSorter<>();
             sorter.sort(array, fromIndex, toIndex, new Comparator<Double>() {
 
                 @Override

@@ -16,7 +16,8 @@
 package com.irurueta.sorting;
 
 import org.junit.*;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertNotNull;
 
 public class SortingExceptionTest {
     

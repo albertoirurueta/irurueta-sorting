@@ -16,11 +16,13 @@
 package com.irurueta.sorting;
 
 import com.irurueta.statistics.UniformRandomizer;
+import org.junit.*;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
+
 import static org.junit.Assert.*;
-import org.junit.*;
 
 public class StraightInsertionSorterTest {
     

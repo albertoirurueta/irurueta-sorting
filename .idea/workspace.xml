@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4660b740-affe-458c-a25b-74f88d32a2db" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_irurueta_irurueta_statistics_1_0_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_irurueta_irurueta_statistics_1_0_SNAPSHOT.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/irurueta/sorting/build-info.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/irurueta/sorting/build-info.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/BuildInfoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/BuildInfoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/HeapsortSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/HeapsortSorterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/QuicksortSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/QuicksortSorterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/ShellSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/ShellSorterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SorterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SortingExceptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SortingExceptionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/StraightInsertionSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/StraightInsertionSorterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SystemSorterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SystemSorterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,22 +20,22 @@
     <session id="-1456934273">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.0" value="2" />
-          <entry key="project.open.time.1" value="2" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.open.time.1" value="3" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="java" value="2154" />
-          <entry key="xml" value="28" />
+          <entry key="xml" value="59" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JAVA" value="2154" />
-          <entry key="XML" value="28" />
+          <entry key="XML" value="59" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -64,12 +57,15 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="57" selection-start-line="5" selection-end-line="5" selection-end-column="57" />
+            <state relative-caret-position="378">
+              <caret line="267" column="40" selection-start-line="267" selection-start-column="40" selection-end-line="267" selection-end-column="40" />
+              <folding>
+                <element signature="e#37#58#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,7 +87,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/site/apt/index.apt" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/BuildInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/ComparableAndAveragable.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/irurueta/sorting/ComparatorAndAverager.java" />
@@ -112,6 +107,7 @@
         <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SortingExceptionTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/StraightInsertionSorterTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/irurueta/sorting/SystemSorterTest.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -155,6 +151,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -228,8 +226,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -471,6 +467,7 @@
       <workItem from="1540197173936" duration="2836000" />
       <workItem from="1540245107498" duration="129000" />
       <workItem from="1540245272159" duration="34000" />
+      <workItem from="1540478239333" duration="68000" />
     </task>
     <servers />
   </component>
@@ -501,13 +498,13 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4444000" />
+    <option name="totallyTimeSpent" value="4512000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="23" width="1324" height="821" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22308892" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22620904" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -533,7 +530,7 @@
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Properties" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.3299532" />
+      <window_info anchor="right" id="Maven Projects" order="6" weight="0.3299532" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info anchor="right" id="Database" order="9" />
@@ -736,8 +733,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="57" selection-start-line="5" selection-end-line="5" selection-end-column="57" />
+        <state relative-caret-position="378">
+          <caret line="267" column="40" selection-start-line="267" selection-start-column="40" selection-end-line="267" selection-end-column="40" />
+          <folding>
+            <element signature="e#37#58#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1,0 +1,1403 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuicksortSorter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.irurueta:irurueta-sorting</a> &gt; <a href="index.source.html" class="el_package">com.irurueta.sorting</a> &gt; <span class="el_source">QuicksortSorter.java</span></div><h1>QuicksortSorter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2012 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.irurueta.sorting;
+
+import java.util.Comparator;
+
+/**
+ * Sorts instances of type T in provided arrays using Quicksort method.
+ * @param &lt;T&gt; Type of instances being sorted.
+ * 
+ * This class is based on algorithm found at
+ * Numerical Recipes. 3rd Edition. Cambridge Press. Chapter 8. p. 424
+ * Sedgewick, R. 1978. &quot;Implementing Quicksort Programs&quot;, Communications 
+ * of the ACM, vol. 21, pp. 847-857.
+ */
+@SuppressWarnings(&quot;Duplicates&quot;)
+<span class="fc" id="L30">public class QuicksortSorter&lt;T&gt; extends Sorter&lt;T&gt; {</span>
+    
+    /**
+     * Constant defining size of smallest subarrays to be ordered using
+     * straight insertion.
+     */
+    private static final int M = 7;
+    
+    /**
+     * Constant defining size of stack.
+     */
+    private static final int NSTACK = 64;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower 
+     * than another one.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public void sort(T[] array, int fromIndex, int toIndex, 
+        Comparator&lt;T&gt; comparator) throws SortingException, 
+        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L66">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L68" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L69">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L72">            return;</span>
+        }
+        
+<span class="fc" id="L75">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L77">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        T a;
+<span class="fc" id="L79">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L80">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L84" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L86">                    a = array[j + fromIndex];</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                        if (comparator.compare(array[i + fromIndex], a) &lt;= 0) {</span>
+<span class="fc" id="L89">                            break;</span>
+                        }
+<span class="fc" id="L91">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+                    }
+<span class="fc" id="L93">                    array[i + 1 + fromIndex] = a;</span>
+                }
+<span class="fc bfc" id="L95" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L96">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L99">                ir = istack[jstack--];</span>
+<span class="fc" id="L100">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L105">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L106">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L108" title="All 2 branches covered.">                if (comparator.compare(array[l + fromIndex], array[ir + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L109">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L112" title="All 2 branches covered.">                if (comparator.compare(array[l + 1 + fromIndex], array[ir + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L113">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L116" title="All 2 branches covered.">                if (comparator.compare(array[l + fromIndex], array[l + 1 + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L117">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L121">                i = l + 1;</span>
+<span class="fc" id="L122">                j = ir;</span>
+                //Paritioning element
+<span class="fc" id="L124">                a = array[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L129">                        i++;</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">                    } while (comparator.compare(array[i + fromIndex], a) &lt; 0);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L133">                        j--;</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">                    } while (comparator.compare(array[j + fromIndex], a) &gt; 0);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L136" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L137">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L140">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L145">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L146">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L147">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L150">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L154" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L155">                    istack[jstack] = ir;</span>
+<span class="fc" id="L156">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L157">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L159">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L160">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L161">                    l = i;</span>
+                }
+            }
+        }
+<span class="fc" id="L165">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower 
+     * than another one.
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public int[] sortWithIndices(T[] array, int fromIndex, int toIndex, 
+        Comparator&lt;T&gt; comparator) throws SortingException, 
+        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L197">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L199" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L200">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L203">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L205">            return indices;</span>
+        }
+        
+<span class="fc" id="L208">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L210">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        T a;
+        int b;
+<span class="fc" id="L213">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L214">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L220">                    a = array[j + fromIndex];</span>
+<span class="fc" id="L221">                    b = indices[j + fromIndex];</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">                        if (comparator.compare(array[i + fromIndex], a) &lt;= 0) {</span>
+<span class="fc" id="L224">                            break;</span>
+                        }
+<span class="fc" id="L226">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+<span class="fc" id="L227">                        indices[i + 1 + fromIndex] = indices[i + fromIndex];</span>
+                    }
+<span class="fc" id="L229">                    array[i + 1 + fromIndex] = a;</span>
+<span class="fc" id="L230">                    indices[i + 1 + fromIndex] = b;</span>
+                }
+<span class="fc bfc" id="L232" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L233">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L236">                ir = istack[jstack--];</span>
+<span class="fc" id="L237">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L242">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L243">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L244">                swapIndices(indices, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L246" title="All 2 branches covered.">                if (comparator.compare(array[l + fromIndex], array[ir + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L247">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L248">                    swapIndices(indices, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L251" title="All 2 branches covered.">                if (comparator.compare(array[l + 1 + fromIndex], array[ir + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L252">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L253">                    swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L256" title="All 2 branches covered.">                if (comparator.compare(array[l + fromIndex], array[l + 1 + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L257">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L258">                    swapIndices(indices, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L262">                i = l + 1;</span>
+<span class="fc" id="L263">                j = ir;</span>
+                //Paritioning element
+<span class="fc" id="L265">                a = array[l + 1 + fromIndex];</span>
+<span class="fc" id="L266">                b = indices[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L271">                        i++;</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">                    } while (comparator.compare(array[i + fromIndex], a) &lt; 0);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L275">                        j--;</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">                    } while (comparator.compare(array[j + fromIndex], a) &gt; 0);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L278" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L279">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L282">                    swap(array, i + fromIndex, j + fromIndex);</span>
+<span class="fc" id="L283">                    swapIndices(indices, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L288">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L289">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L290">                indices[l + 1 + fromIndex] = indices[j + fromIndex];</span>
+<span class="fc" id="L291">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L292">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L295">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L299" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L300">                    istack[jstack] = ir;</span>
+<span class="fc" id="L301">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L302">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L304">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L305">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L306">                    l = i;</span>
+                }
+            }
+        }
+        
+<span class="fc" id="L311">        return indices;</span>
+    }
+
+    /**
+     * Returns sorting method of this class.
+     * @return Sorting method.
+     */    
+    @Override
+    public SortingMethod getMethod() {
+<span class="fc" id="L320">        return SortingMethod.QUICKSORT_SORTING_METHOD;</span>
+    }
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public void sort(double[] array, int fromIndex, int toIndex)
+           throws SortingException, IllegalArgumentException,
+           ArrayIndexOutOfBoundsException {
+
+<span class="fc bfc" id="L343" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L344">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L346" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L347">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L349" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L350">            return;</span>
+        }
+        
+<span class="fc" id="L353">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L355">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        double a;
+<span class="fc" id="L357">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L358">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L362" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L363" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L364">                    a = array[j + fromIndex];</span>
+<span class="fc bfc" id="L365" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L366" title="All 2 branches covered.">                        if (array[i + fromIndex] &lt;= a) {</span>
+<span class="fc" id="L367">                            break;</span>
+                        }
+<span class="fc" id="L369">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+                    }
+<span class="fc" id="L371">                    array[i + 1 + fromIndex] = a;</span>
+                }
+<span class="fc bfc" id="L373" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L374">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L377">                ir = istack[jstack--];</span>
+<span class="fc" id="L378">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L383">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L384">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L386" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L387">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L390" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L391">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L394" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L395">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L399">                i = l + 1;</span>
+<span class="fc" id="L400">                j = ir;</span>
+                //Paritioning element
+<span class="fc" id="L402">                a = array[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L407">                        i++;</span>
+<span class="fc bfc" id="L408" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L411">                        j--;</span>
+<span class="fc bfc" id="L412" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L414" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L415">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L418">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L423">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L424">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L425">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L427" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L428">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L432" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L433">                    istack[jstack] = ir;</span>
+<span class="fc" id="L434">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L435">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L437">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L438">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L439">                    l = i;</span>
+                }
+            }
+        }
+<span class="fc" id="L443">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L472" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L473">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L475" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L476">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L479">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L480" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L481">            return indices;</span>
+        }
+        
+<span class="fc" id="L484">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L486">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        double a;
+        int b;
+<span class="fc" id="L489">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L490">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L494" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L495" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L496">                    a = array[j + fromIndex];</span>
+<span class="fc" id="L497">                    b = indices[j + fromIndex];</span>
+<span class="fc bfc" id="L498" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L499" title="All 2 branches covered.">                        if (array[i + fromIndex] &lt;= a) {</span>
+<span class="fc" id="L500">                            break;</span>
+                        }
+<span class="fc" id="L502">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+<span class="fc" id="L503">                        indices[i + 1 + fromIndex] = indices[i + fromIndex];</span>
+                    }
+<span class="fc" id="L505">                    array[i + 1 + fromIndex] = a;</span>
+<span class="fc" id="L506">                    indices[i + 1 + fromIndex] = b;</span>
+                }
+<span class="fc bfc" id="L508" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L509">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L512">                ir = istack[jstack--];</span>
+<span class="fc" id="L513">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L518">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L519">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L520">                swapIndices(indices, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L522" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L523">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L524">                    swapIndices(indices, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L527" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L528">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L529">                    swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L532" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L533">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L534">                    swapIndices(indices, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L538">                i = l + 1;</span>
+<span class="fc" id="L539">                j = ir;</span>
+                //Paritioning element
+<span class="fc" id="L541">                a = array[l + 1 + fromIndex];</span>
+<span class="fc" id="L542">                b = indices[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L547">                        i++;</span>
+<span class="fc bfc" id="L548" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L551">                        j--;</span>
+<span class="fc bfc" id="L552" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L554" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L555">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L558">                    swap(array, i + fromIndex, j + fromIndex);</span>
+<span class="fc" id="L559">                    swapIndices(indices, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L564">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L565">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L566">                indices[l + 1 + fromIndex] = indices[j + fromIndex];</span>
+<span class="fc" id="L567">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L568">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L570" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L571">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L575" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L576">                    istack[jstack] = ir;</span>
+<span class="fc" id="L577">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L578">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L580">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L581">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L582">                    l = i;</span>
+                }
+            }
+        }
+        
+<span class="fc" id="L587">        return indices;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public void sort(float[] array, int fromIndex, int toIndex)
+           throws SortingException, IllegalArgumentException,
+           ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L610" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L611">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L613" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L614">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L616" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L617">            return;</span>
+        }
+        
+<span class="fc" id="L620">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L622">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        float a;
+<span class="fc" id="L624">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L625">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L629" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L630" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L631">                    a = array[j + fromIndex];</span>
+<span class="fc bfc" id="L632" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L633" title="All 2 branches covered.">                        if (array[i + fromIndex] &lt;= a) {</span>
+<span class="fc" id="L634">                            break;</span>
+                        }
+<span class="fc" id="L636">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+                    }
+<span class="fc" id="L638">                    array[i + 1 + fromIndex] = a;</span>
+                }
+<span class="fc bfc" id="L640" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L641">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L644">                ir = istack[jstack--];</span>
+<span class="fc" id="L645">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L650">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L651">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L653" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L654">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L657" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L658">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L661" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L662">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L666">                i = l + 1;</span>
+<span class="fc" id="L667">                j = ir;</span>
+                //Paritioning element
+<span class="fc" id="L669">                a = array[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L674">                        i++;</span>
+<span class="fc bfc" id="L675" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L678">                        j--;</span>
+<span class="fc bfc" id="L679" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L681" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L682">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L685">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L690">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L691">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L692">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L694" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L695">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L699" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L700">                    istack[jstack] = ir;</span>
+<span class="fc" id="L701">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L702">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L704">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L705">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L706">                    l = i;</span>
+                }
+            }
+        }
+<span class="fc" id="L710">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L739" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L740">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L742" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L743">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L746">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L747" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L748">            return indices;</span>
+        }
+        
+<span class="fc" id="L751">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L753">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        float a;
+        int b;
+<span class="fc" id="L756">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L757">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L761" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L762" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L763">                    a = array[j + fromIndex];</span>
+<span class="fc" id="L764">                    b = indices[j + fromIndex];</span>
+<span class="fc bfc" id="L765" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L766" title="All 2 branches covered.">                        if (array[i + fromIndex] &lt;= a) {</span>
+<span class="fc" id="L767">                            break;</span>
+                        }
+<span class="fc" id="L769">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+<span class="fc" id="L770">                        indices[i + 1 + fromIndex] = indices[i + fromIndex];</span>
+                    }
+<span class="fc" id="L772">                    array[i + 1 + fromIndex] = a;</span>
+<span class="fc" id="L773">                    indices[i + 1 + fromIndex] = b;</span>
+                }
+<span class="fc bfc" id="L775" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L776">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L779">                ir = istack[jstack--];</span>
+<span class="fc" id="L780">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L785">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L786">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L787">                swapIndices(indices, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L789" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L790">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L791">                    swapIndices(indices, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L794" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L795">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L796">                    swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L799" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L800">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L801">                    swapIndices(indices, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L805">                i = l + 1;</span>
+<span class="fc" id="L806">                j = ir;</span>
+                //Paritioning element
+<span class="fc" id="L808">                a = array[l + 1 + fromIndex];</span>
+<span class="fc" id="L809">                b = indices[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L814">                        i++;</span>
+<span class="fc bfc" id="L815" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L818">                        j--;</span>
+<span class="fc bfc" id="L819" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L821" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L822">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L825">                    swap(array, i + fromIndex, j + fromIndex);</span>
+<span class="fc" id="L826">                    swapIndices(indices, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L831">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L832">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L833">                indices[l + 1 + fromIndex] = indices[j + fromIndex];</span>
+<span class="fc" id="L834">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L835">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L837" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L838">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L842" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L843">                    istack[jstack] = ir;</span>
+<span class="fc" id="L844">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L845">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L847">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L848">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L849">                    l = i;</span>
+                }
+            }
+        }
+        
+<span class="fc" id="L854">        return indices;</span>
+    }
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public void sort(int[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L877" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L878">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L880" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L881">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L883" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L884">            return;</span>
+        }
+        
+<span class="fc" id="L887">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L889">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        int a;
+<span class="fc" id="L891">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L892">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L896" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L897" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L898">                    a = array[j + fromIndex];</span>
+<span class="fc bfc" id="L899" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L900" title="All 2 branches covered.">                        if (array[i + fromIndex] &lt;= a) {</span>
+<span class="fc" id="L901">                            break;</span>
+                        }
+<span class="fc" id="L903">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+                    }
+<span class="fc" id="L905">                    array[i + 1 + fromIndex] = a;</span>
+                }
+<span class="fc bfc" id="L907" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L908">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L911">                ir = istack[jstack--];</span>
+<span class="fc" id="L912">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L917">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L918">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L920" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L921">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L924" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L925">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L928" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L929">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L933">                i = l + 1;</span>
+<span class="fc" id="L934">                j = ir;</span>
+                //Paritioning element
+<span class="fc" id="L936">                a = array[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L941">                        i++;</span>
+<span class="fc bfc" id="L942" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L945">                        j--;</span>
+<span class="fc bfc" id="L946" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L948" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L949">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L952">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L957">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L958">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L959">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L961" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L962">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L966" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L967">                    istack[jstack] = ir;</span>
+<span class="fc" id="L968">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L969">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L971">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L972">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L973">                    l = i;</span>
+                }
+            }
+        }
+<span class="fc" id="L977">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(int[] array, int fromIndex, int toIndex)
+           throws SortingException, IllegalArgumentException,
+           ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L1006" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1007">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1009" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1010">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L1013">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L1014" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L1015">            return indices;</span>
+        }
+        
+<span class="fc" id="L1018">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L1020">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        int a;
+        int b;
+<span class="fc" id="L1023">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L1024">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L1028" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L1029" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L1030">                    a = array[j + fromIndex];</span>
+<span class="fc" id="L1031">                    b = indices[j + fromIndex];</span>
+<span class="fc bfc" id="L1032" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L1033" title="All 2 branches covered.">                        if (array[i + fromIndex] &lt;= a) {</span>
+<span class="fc" id="L1034">                            break;</span>
+                        }
+<span class="fc" id="L1036">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+<span class="fc" id="L1037">                        indices[i + 1 + fromIndex] = indices[i + fromIndex];</span>
+                    }
+<span class="fc" id="L1039">                    array[i + 1 + fromIndex] = a;</span>
+<span class="fc" id="L1040">                    indices[i + 1 + fromIndex] = b;</span>
+                }
+<span class="fc bfc" id="L1042" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L1043">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L1046">                ir = istack[jstack--];</span>
+<span class="fc" id="L1047">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L1052">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L1053">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L1054">                swapIndices(indices, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L1056" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1057">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L1058">                    swapIndices(indices, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L1061" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1062">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L1063">                    swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L1066" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L1067">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L1068">                    swapIndices(indices, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L1072">                i = l + 1;</span>
+<span class="fc" id="L1073">                j = ir;</span>
+                //Partitioning element
+<span class="fc" id="L1075">                a = array[l + 1 + fromIndex];</span>
+<span class="fc" id="L1076">                b = indices[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L1081">                        i++;</span>
+<span class="fc bfc" id="L1082" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L1085">                        j--;</span>
+<span class="fc bfc" id="L1086" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L1088" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L1089">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L1092">                    swap(array, i + fromIndex, j + fromIndex);</span>
+<span class="fc" id="L1093">                    swapIndices(indices, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L1098">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L1099">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L1100">                indices[l + 1 + fromIndex] = indices[j + fromIndex];</span>
+<span class="fc" id="L1101">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L1102">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L1104" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L1105">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L1109" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L1110">                    istack[jstack] = ir;</span>
+<span class="fc" id="L1111">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L1112">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L1114">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L1115">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L1116">                    l = i;</span>
+                }
+            }
+        }
+        
+<span class="fc" id="L1121">        return indices;</span>
+    }
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public void sort(long[] array, int fromIndex, int toIndex)
+            throws SortingException, IllegalArgumentException,
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L1144" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1145">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1147" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1148">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L1150" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L1151">            return;</span>
+        }
+        
+<span class="fc" id="L1154">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L1156">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        long a;
+<span class="fc" id="L1158">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L1159">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L1163" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L1164" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L1165">                    a = array[j + fromIndex];</span>
+<span class="fc bfc" id="L1166" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L1167" title="All 2 branches covered.">                        if (array[i + fromIndex] &lt;= a) {</span>
+<span class="fc" id="L1168">                            break;</span>
+                        }
+<span class="fc" id="L1170">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+                    }
+<span class="fc" id="L1172">                    array[i + 1 + fromIndex] = a;</span>
+                }
+<span class="fc bfc" id="L1174" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L1175">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L1178">                ir = istack[jstack--];</span>
+<span class="fc" id="L1179">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L1184">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L1185">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L1187" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1188">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L1191" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1192">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L1195" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L1196">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L1200">                i = l + 1;</span>
+<span class="fc" id="L1201">                j = ir;</span>
+                //Partitioning element
+<span class="fc" id="L1203">                a = array[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L1208">                        i++;</span>
+<span class="fc bfc" id="L1209" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L1212">                        j--;</span>
+<span class="fc bfc" id="L1213" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L1215" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L1216">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L1219">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L1224">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L1225">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L1226">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L1228" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L1229">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L1233" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L1234">                    istack[jstack] = ir;</span>
+<span class="fc" id="L1235">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L1236">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L1238">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L1239">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L1240">                    l = i;</span>
+                }
+            }
+        }
+<span class="fc" id="L1244">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */    
+    @Override
+    public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L1273" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1274">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1276" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1277">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L1280">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L1281" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L1282">            return indices;</span>
+        }
+        
+<span class="fc" id="L1285">        int n = toIndex - fromIndex;</span>
+        
+<span class="fc" id="L1287">        int i, j, ir, k, jstack = -1, l = 0;</span>
+        long a;
+        int b;
+<span class="fc" id="L1290">        int[] istack = new int[NSTACK];</span>
+<span class="fc" id="L1291">        ir = n - 1;</span>
+
+        for (;;) {
+            //Insertion sort when subarray is small enough
+<span class="fc bfc" id="L1295" title="All 2 branches covered.">            if (ir - l &lt; M) {</span>
+<span class="fc bfc" id="L1296" title="All 2 branches covered.">                for (j = l + 1; j &lt;= ir; j++) {</span>
+<span class="fc" id="L1297">                    a = array[j + fromIndex];</span>
+<span class="fc" id="L1298">                    b = indices[j + fromIndex];</span>
+<span class="fc bfc" id="L1299" title="All 2 branches covered.">                    for (i = j - 1; i &gt;= l; i--) {</span>
+<span class="fc bfc" id="L1300" title="All 2 branches covered.">                        if (array[i + fromIndex] &lt;= a) {</span>
+<span class="fc" id="L1301">                            break;</span>
+                        }
+<span class="fc" id="L1303">                        array[i + 1 + fromIndex] = array[i + fromIndex];</span>
+<span class="fc" id="L1304">                        indices[i + 1 + fromIndex] = indices[i + fromIndex];</span>
+                    }
+<span class="fc" id="L1306">                    array[i + 1 + fromIndex] = a;</span>
+<span class="fc" id="L1307">                    indices[i + 1 + fromIndex] = b;</span>
+                }
+<span class="fc bfc" id="L1309" title="All 2 branches covered.">                if (jstack &lt; 0) {</span>
+<span class="fc" id="L1310">                    break;</span>
+                }
+                //Pop stack and begin a new round of partitioning
+<span class="fc" id="L1313">                ir = istack[jstack--];</span>
+<span class="fc" id="L1314">                l = istack[jstack--];</span>
+            } else {
+                //Choose median of left, center, and right elements as
+                //partitioning element a. Also rearrance so that a(l) &lt;= a(l+1)
+                //&lt;= a(ir)
+<span class="fc" id="L1319">                k = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L1320">                swap(array, k + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L1321">                swapIndices(indices, k + fromIndex, l + 1 + fromIndex);</span>
+                //swap(array[k], array[l + 1]);
+<span class="fc bfc" id="L1323" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1324">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L1325">                    swapIndices(indices, l + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l], array[ir]);
+                }
+<span class="fc bfc" id="L1328" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1329">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+<span class="fc" id="L1330">                    swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);</span>
+                    //swap(array[l + 1], arr[ir]);
+                }
+<span class="fc bfc" id="L1333" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L1334">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc" id="L1335">                    swapIndices(indices, l + fromIndex, l + 1 + fromIndex);</span>
+                    //swap(arr(l), arr(l + 1));
+                }
+                //Initialize pointers for partitioning
+<span class="fc" id="L1339">                i = l + 1;</span>
+<span class="fc" id="L1340">                j = ir;</span>
+                //Partitioning element
+<span class="fc" id="L1342">                a = array[l + 1 + fromIndex];</span>
+<span class="fc" id="L1343">                b = indices[l + 1 + fromIndex];</span>
+                //Beginning of innermost loop
+                for (;;) {
+                    //Scan up to find element &gt; a
+                    do {
+<span class="fc" id="L1348">                        i++;</span>
+<span class="fc bfc" id="L1349" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+                    //Scan down to find element &lt; a
+                    do {
+<span class="fc" id="L1352">                        j--;</span>
+<span class="fc bfc" id="L1353" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+                    //Pointers crossed. Partitioning complete
+<span class="fc bfc" id="L1355" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L1356">                        break;</span>
+                    }
+                    //Exchange elements
+<span class="fc" id="L1359">                    swap(array, i + fromIndex, j + fromIndex);</span>
+<span class="fc" id="L1360">                    swapIndices(indices, i + fromIndex, j + fromIndex);</span>
+                    //swap(arr(i), arr(j));
+                    //End of innermost loop
+                }
+                //Insert partitioning element
+<span class="fc" id="L1365">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L1366">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L1367">                indices[l + 1 + fromIndex] = indices[j + fromIndex];</span>
+<span class="fc" id="L1368">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L1369">                jstack += 2;</span>
+                //NSTACK too small in sort
+<span class="pc bpc" id="L1371" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L1372">                    throw new SortingException();</span>
+                }
+                //Push pointers to larger subarray on stack; process smaller
+                //subarray immediately
+<span class="fc bfc" id="L1376" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L1377">                    istack[jstack] = ir;</span>
+<span class="fc" id="L1378">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L1379">                    ir = j - 1;</span>
+                } else {
+<span class="fc" id="L1381">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L1382">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L1383">                    l = i;</span>
+                }
+            }
+        }
+        
+<span class="fc" id="L1388">        return indices;</span>
+    }
+    
+    /**
+     * Swaps values in array of indices at locations posA and posB.
+     * @param indices array containing indices to be swapped.
+     * @param posA Location to be swapped.
+     * @param posB Location to be swapped.
+     */    
+    private void swapIndices(int[] indices, int posA, int posB) {
+<span class="fc" id="L1398">        int value = indices[posA];</span>
+<span class="fc" id="L1399">        indices[posA] = indices[posB];</span>
+<span class="fc" id="L1400">        indices[posB] = value;</span>
+<span class="fc" id="L1401">    }    </span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

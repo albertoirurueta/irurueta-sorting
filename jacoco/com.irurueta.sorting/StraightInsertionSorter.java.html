@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StraightInsertionSorter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.irurueta:irurueta-sorting</a> &gt; <a href="index.source.html" class="el_package">com.irurueta.sorting</a> &gt; <span class="el_source">StraightInsertionSorter.java</span></div><h1>StraightInsertionSorter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2012 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.irurueta.sorting;
+
+import java.util.Comparator;
+
+/**
+ * Sorts instances of type T in provided arrays using straight insertion method.
+ * @param &lt;T&gt; Type of instances being sorted.
+ * 
+ * This class is based on algorithm found at
+ * Numerical Recipes. 3rd Edition. Cambridge Press. Chapter 8. p. 424
+ * Knuth. D.E. 1997, Sorting and Searching, 3rd ed., vol. 3 of The Art of
+ * Computer Programming (Reading, MA: Addison-Wesley)
+ * Sedgewick, R. 1998. Algorithms in C, 3rd ed. (Reading, MA: Addison-
+ * Wesley), Chapter 11.
+ */
+@SuppressWarnings(&quot;Duplicates&quot;)
+<span class="fc" id="L32">public class StraightInsertionSorter&lt;T&gt; extends Sorter&lt;T&gt; {</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower 
+     * than another one.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public void sort(T[] array, int fromIndex, int toIndex, 
+            Comparator&lt;T&gt; comparator) throws SortingException, 
+            IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L57">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L59" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L60">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L63">            return;</span>
+        }
+        
+        T a;
+        int i;
+        
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L71">            a = array[j];</span>
+            
+<span class="fc" id="L73">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L76" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; comparator.compare(array[i - 1], a) &gt; 0) {</span>
+<span class="fc" id="L77">                array[i] = array[i - 1];</span>
+<span class="fc" id="L78">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L82">            array[i] = a;</span>
+        }
+<span class="fc" id="L84">    }</span>
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower 
+     * than another one.
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public int[] sortWithIndices(T[] array, int fromIndex, int toIndex,
+            Comparator&lt;T&gt; comparator) throws SortingException, 
+            IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L116">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L118" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L119">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L122">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L124">            return indices;</span>
+        }
+        
+        int i, b;
+        T a;
+        
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L132">            a = array[j];</span>
+<span class="fc" id="L133">            b = indices[j];</span>
+            
+<span class="fc" id="L135">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L138" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; comparator.compare(array[i - 1], a) &gt; 0) {</span>
+<span class="fc" id="L139">                array[i] = array[i - 1];</span>
+<span class="fc" id="L140">                indices[i] = indices[i - 1];</span>
+<span class="fc" id="L141">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L145">            array[i] = a;</span>
+<span class="fc" id="L146">            indices[i] = b;</span>
+        }
+        
+<span class="fc" id="L149">        return indices;</span>
+    }
+    
+    /**
+     * Returns sorting method of this class.
+     * @return Sorting method.
+     */        
+    @Override
+    public SortingMethod getMethod() {
+<span class="fc" id="L158">        return SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD;</span>
+    }
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public void sort(double[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L181" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L182">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L184" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L185">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L188">            return;</span>
+        }
+        
+        double a;
+        int i;
+        
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L196">            a = array[j];</span>
+            
+<span class="fc" id="L198">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L201" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; array[i - 1] &gt; a) {</span>
+<span class="fc" id="L202">                array[i] = array[i - 1];</span>
+<span class="fc" id="L203">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L207">            array[i] = a;</span>
+        }
+<span class="fc" id="L209">    }</span>
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L238" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L239">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L241" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L242">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L245">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L247">            return indices;</span>
+        }
+        
+        int i, b;
+        double a;
+        
+<span class="fc bfc" id="L253" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L255">            a = array[j];</span>
+<span class="fc" id="L256">            b = indices[j];</span>
+            
+<span class="fc" id="L258">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L261" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; array[i - 1] &gt; a) {</span>
+<span class="fc" id="L262">                array[i] = array[i - 1];</span>
+<span class="fc" id="L263">                indices[i] = indices[i - 1];</span>
+<span class="fc" id="L264">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L268">            array[i] = a;</span>
+<span class="fc" id="L269">            indices[i] = b;</span>
+        }
+        
+<span class="fc" id="L272">        return indices;</span>
+    }    
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public void sort(float[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L295" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L296">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L298" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L299">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L302">            return;</span>
+        }
+        
+        float a;
+        int i;
+        
+<span class="fc bfc" id="L308" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L310">            a = array[j];</span>
+            
+<span class="fc" id="L312">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L315" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; array[i - 1] &gt; a) {</span>
+<span class="fc" id="L316">                array[i] = array[i - 1];</span>
+<span class="fc" id="L317">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L321">            array[i] = a;</span>
+        }
+<span class="fc" id="L323">    }</span>
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L352" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L353">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L355" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L356">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L359">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L361">            return indices;</span>
+        }
+        
+        int i, b;
+        float a;
+        
+<span class="fc bfc" id="L367" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L369">            a = array[j];</span>
+<span class="fc" id="L370">            b = indices[j];</span>
+            
+<span class="fc" id="L372">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L375" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; array[i - 1] &gt; a) {</span>
+<span class="fc" id="L376">                array[i] = array[i - 1];</span>
+<span class="fc" id="L377">                indices[i] = indices[i - 1];</span>
+<span class="fc" id="L378">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L382">            array[i] = a;</span>
+<span class="fc" id="L383">            indices[i] = b;</span>
+        }
+        
+<span class="fc" id="L386">        return indices;</span>
+    }        
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public void sort(int[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L409" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L410">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L412" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L413">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L415" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L416">            return;</span>
+        }
+        
+        int a;
+        int i;
+        
+<span class="fc bfc" id="L422" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L424">            a = array[j];</span>
+            
+<span class="fc" id="L426">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L429" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; array[i - 1] &gt; a) {</span>
+<span class="fc" id="L430">                array[i] = array[i - 1];</span>
+<span class="fc" id="L431">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L435">            array[i] = a;</span>
+        }
+<span class="fc" id="L437">    }</span>
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public int[] sortWithIndices(int[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L466" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L467">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L469" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L470">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L473">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L474" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L475">            return indices;</span>
+        }
+        
+        int i, b;
+        int a;
+        
+<span class="fc bfc" id="L481" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L483">            a = array[j];</span>
+<span class="fc" id="L484">            b = indices[j];</span>
+            
+<span class="fc" id="L486">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L489" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; array[i - 1] &gt; a) {</span>
+<span class="fc" id="L490">                array[i] = array[i - 1];</span>
+<span class="fc" id="L491">                indices[i] = indices[i - 1];</span>
+<span class="fc" id="L492">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L496">            array[i] = a;</span>
+<span class="fc" id="L497">            indices[i] = b;</span>
+        }
+        
+<span class="fc" id="L500">        return indices;</span>
+    } 
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public void sort(long[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException, 
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L523" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L524">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L526" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L527">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L529" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L530">            return;</span>
+        }
+        
+        long a;
+        int i;
+        
+<span class="fc bfc" id="L536" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L538">            a = array[j];</span>
+            
+<span class="fc" id="L540">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L543" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; array[i - 1] &gt; a) {</span>
+<span class="fc" id="L544">                array[i] = array[i - 1];</span>
+<span class="fc" id="L545">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L549">            array[i] = a;</span>
+        }
+<span class="fc" id="L551">    }</span>
+    
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i. 
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     * @param array Array to be sorted. After execution of this method 
+     * elements in array between fromIndex (inclusive) and toIndex 
+     * (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException If for some reason sorting fails.
+     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
+     * {@code toIndex &gt; array.length}.
+     */        
+    @Override
+    public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
+            throws SortingException, IllegalArgumentException,
+            ArrayIndexOutOfBoundsException {
+        
+<span class="fc bfc" id="L580" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L581">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L583" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L584">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+        
+<span class="fc" id="L587">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L588" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L589">            return indices;</span>
+        }
+        
+        int i, b;
+        long a;
+        
+<span class="fc bfc" id="L595" title="All 2 branches covered.">        for (int j = fromIndex + 1; j &lt; toIndex; j++) {</span>
+            //Pick out each element in turn
+<span class="fc" id="L597">            a = array[j];</span>
+<span class="fc" id="L598">            b = indices[j];</span>
+            
+<span class="fc" id="L600">            i = j;</span>
+            
+            //look for the place to insert it
+<span class="fc bfc" id="L603" title="All 4 branches covered.">            while (i &gt; fromIndex &amp;&amp; array[i - 1] &gt; a) {</span>
+<span class="fc" id="L604">                array[i] = array[i - 1];</span>
+<span class="fc" id="L605">                indices[i] = indices[i - 1];</span>
+<span class="fc" id="L606">                i--;</span>
+            }
+            
+            //Insert it
+<span class="fc" id="L610">            array[i] = a;</span>
+<span class="fc" id="L611">            indices[i] = b;</span>
+        }
+        
+<span class="fc" id="L614">        return indices;</span>
+    }            
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

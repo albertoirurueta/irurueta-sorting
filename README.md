@@ -20,4 +20,4 @@ Utility classes to sort numbers
 [![Technical debt](https://sonarcloud.io/api/project_badges/measure?project=albertoirurueta_irurueta-sorting&metric=sqale_index)](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=albertoirurueta_irurueta-sorting&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)
 
-[Maven Site Report](http://albertoirurueta.github.io/irurueta-algebra)
+[Maven Site Report](http://albertoirurueta.github.io/irurueta-numerical)

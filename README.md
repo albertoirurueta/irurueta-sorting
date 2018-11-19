@@ -2,7 +2,6 @@
 Utility classes to sort numbers
 
 [![Build Status](https://travis-ci.org/albertoirurueta/irurueta-sorting.svg?branch=master)](https://travis-ci.org/albertoirurueta/irurueta-sorting)
-[![Coverage Status](https://coveralls.io/repos/github/albertoirurueta/irurueta-sorting/badge.svg?branch=master)](https://coveralls.io/github/albertoirurueta/irurueta-sorting?branch=master)
 
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=albertoirurueta_irurueta-sorting&metric=bugs)](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)
@@ -21,3 +20,8 @@ Utility classes to sort numbers
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=albertoirurueta_irurueta-sorting&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)
 
 [Maven Site Report](http://albertoirurueta.github.io/irurueta-numerical)
+
+Donations are welcome :)
+Contribute to the maintenance of this project by clicking on the following link:
+
+[![paypal](https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png)](https://paypal.me/albertoirurueta)

@@ -59,8 +59,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
-        Comparator<T> comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        Comparator<T> comparator) throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -74,7 +73,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         T a;
         int[] istack = new int[NSTACK];
         ir = n - 1;
@@ -100,22 +104,18 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (comparator.compare(array[l + fromIndex], array[ir + fromIndex]) > 0) {
                     swap(array, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (comparator.compare(array[l + 1 + fromIndex], array[ir + fromIndex]) > 0) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (comparator.compare(array[l + fromIndex], array[l + 1 + fromIndex]) > 0) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
@@ -138,7 +138,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     }
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -190,8 +189,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(T[] array, int fromIndex, int toIndex, 
-        Comparator<T> comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        Comparator<T> comparator) throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -207,7 +205,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         T a;
         int b;
         int[] istack = new int[NSTACK];
@@ -237,31 +240,27 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
                 swapIndices(indices, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (comparator.compare(array[l + fromIndex], array[ir + fromIndex]) > 0) {
                     swap(array, l + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (comparator.compare(array[l + 1 + fromIndex], array[ir + fromIndex]) > 0) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (comparator.compare(array[l + fromIndex], array[l + 1 + fromIndex]) > 0) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
                     swapIndices(indices, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
                 j = ir;
-                //Paritioning element
+                //Partitioning element
                 a = array[l + 1 + fromIndex];
                 b = indices[l + 1 + fromIndex];
                 //Beginning of innermost loop
@@ -281,7 +280,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
                     swapIndices(indices, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -337,8 +335,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(double[] array, int fromIndex, int toIndex)
-           throws SortingException, IllegalArgumentException,
-           ArrayIndexOutOfBoundsException {
+           throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -352,7 +349,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         double a;
         int[] istack = new int[NSTACK];
         ir = n - 1;
@@ -378,27 +380,23 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (array[l + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (array[l + 1 + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
                 j = ir;
-                //Paritioning element
+                //Partitioning element
                 a = array[l + 1 + fromIndex];
                 //Beginning of innermost loop
                 for (;;) {
@@ -416,7 +414,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     }
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -466,8 +463,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -483,7 +479,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         double a;
         int b;
         int[] istack = new int[NSTACK];
@@ -513,31 +514,27 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
                 swapIndices(indices, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (array[l + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (array[l + 1 + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
                     swapIndices(indices, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
                 j = ir;
-                //Paritioning element
+                //Partitioning element
                 a = array[l + 1 + fromIndex];
                 b = indices[l + 1 + fromIndex];
                 //Beginning of innermost loop
@@ -557,7 +554,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
                     swapIndices(indices, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -604,8 +600,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(float[] array, int fromIndex, int toIndex)
-           throws SortingException, IllegalArgumentException,
-           ArrayIndexOutOfBoundsException {
+           throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -619,7 +614,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         float a;
         int[] istack = new int[NSTACK];
         ir = n - 1;
@@ -645,27 +645,23 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (array[l + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (array[l + 1 + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
                 j = ir;
-                //Paritioning element
+                //Partitioning element
                 a = array[l + 1 + fromIndex];
                 //Beginning of innermost loop
                 for (;;) {
@@ -683,7 +679,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     }
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -733,8 +728,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -750,7 +744,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         float a;
         int b;
         int[] istack = new int[NSTACK];
@@ -780,31 +779,27 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
                 swapIndices(indices, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (array[l + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (array[l + 1 + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
                     swapIndices(indices, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
                 j = ir;
-                //Paritioning element
+                //Partitioning element
                 a = array[l + 1 + fromIndex];
                 b = indices[l + 1 + fromIndex];
                 //Beginning of innermost loop
@@ -824,7 +819,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
                     swapIndices(indices, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -871,8 +865,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -886,7 +879,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         int a;
         int[] istack = new int[NSTACK];
         ir = n - 1;
@@ -912,27 +910,23 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (array[l + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (array[l + 1 + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
                 j = ir;
-                //Paritioning element
+                //Partitioning element
                 a = array[l + 1 + fromIndex];
                 //Beginning of innermost loop
                 for (;;) {
@@ -950,7 +944,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     }
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -1000,8 +993,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */
     @Override
     public int[] sortWithIndices(int[] array, int fromIndex, int toIndex)
-           throws SortingException, IllegalArgumentException,
-           ArrayIndexOutOfBoundsException {
+           throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1017,7 +1009,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         int a;
         int b;
         int[] istack = new int[NSTACK];
@@ -1047,26 +1044,22 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
                 swapIndices(indices, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (array[l + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (array[l + 1 + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
                     swapIndices(indices, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
@@ -1091,7 +1084,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
                     swapIndices(indices, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -1138,8 +1130,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(long[] array, int fromIndex, int toIndex)
-            throws SortingException, IllegalArgumentException,
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1153,7 +1144,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         long a;
         int[] istack = new int[NSTACK];
         ir = n - 1;
@@ -1179,22 +1175,18 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (array[l + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (array[l + 1 + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;
@@ -1217,7 +1209,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     }
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element
@@ -1267,8 +1258,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1284,7 +1274,12 @@ public class QuicksortSorter<T> extends Sorter<T> {
         
         int n = toIndex - fromIndex;
         
-        int i, j, ir, k, jstack = -1, l = 0;
+        int i;
+        int j;
+        int ir;
+        int k;
+        int jstack = -1;
+        int l = 0;
         long a;
         int b;
         int[] istack = new int[NSTACK];
@@ -1314,21 +1309,18 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 //Choose median of left, center, and right elements as
-                //partitioning element a. Also rearrance so that a(l) <= a(l+1)
+                //partitioning element a. Also rearrange so that a(l) <= a(l+1)
                 //<= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
                 swapIndices(indices, k + fromIndex, l + 1 + fromIndex);
-                //swap(array[k], array[l + 1]);
                 if (array[l + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + fromIndex, ir + fromIndex);
-                    //swap(array[l], array[ir]);
                 }
                 if (array[l + 1 + fromIndex] > array[ir + fromIndex]) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
                     swapIndices(indices, l + 1 + fromIndex, ir + fromIndex);
-                    //swap(array[l + 1], arr[ir]);
                 }
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
@@ -1358,7 +1350,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                     //Exchange elements
                     swap(array, i + fromIndex, j + fromIndex);
                     swapIndices(indices, i + fromIndex, j + fromIndex);
-                    //swap(arr(i), arr(j));
                     //End of innermost loop
                 }
                 //Insert partitioning element

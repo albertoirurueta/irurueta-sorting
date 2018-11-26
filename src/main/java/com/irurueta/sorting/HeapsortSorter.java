@@ -50,8 +50,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
-        Comparator<T> comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+            Comparator<T> comparator) throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -101,8 +100,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public int[] sortWithIndices(T[] array, int fromIndex, int toIndex, 
-        Comparator<T> comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+            Comparator<T> comparator) throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -159,8 +157,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -208,8 +205,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -255,8 +251,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -304,8 +299,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -351,8 +345,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -400,8 +393,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public int[] sortWithIndices(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -447,8 +439,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public void sort(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -496,8 +487,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     @Override
     public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -536,7 +526,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     private void siftDown(T[] ra, int l, int r, Comparator<T> comparator,
             int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         T a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
@@ -567,7 +558,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     private void siftDownWithIndices(T[] ra, int[] rb, int l, int r, 
             Comparator<T> comparator, int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         T a = ra[l + fromIndex];
         int b = rb[l + fromIndex];
         jold = l;
@@ -609,7 +601,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param fromIndex initial position.
      */
     private void siftDown(double[] ra, int l, int r, int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         double a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
@@ -638,7 +631,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     private void siftDownWithIndices(double[] ra, int[] rb, int l, int r, 
             int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         double a = ra[l + fromIndex];
         int b = rb[l + fromIndex];
         jold = l;
@@ -667,7 +661,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param fromIndex initial position.
      */
     private void siftDown(float[] ra, int l, int r, int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         float a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
@@ -696,7 +691,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     private void siftDownWithIndices(float[] ra, int[] rb, int l, int r, 
             int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         float a = ra[l + fromIndex];
         int b = rb[l + fromIndex];
         jold = l;
@@ -725,7 +721,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param fromIndex initial position.
      */
     private void siftDown(int[] ra, int l, int r, int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         int a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
@@ -754,7 +751,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     private void siftDownWithIndices(int[] ra, int[] rb, int l, int r, 
             int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         int a = ra[l + fromIndex];
         int b = rb[l + fromIndex];
         jold = l;
@@ -783,7 +781,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param fromIndex initial value.
      */
     private void siftDown(long[] ra, int l, int r, int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         long a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
@@ -812,7 +811,8 @@ public class HeapsortSorter<T> extends Sorter<T> {
      */
     private void siftDownWithIndices(long[] ra, int[] rb, int l, int r, 
             int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
         long a = ra[l + fromIndex];
         int b = rb[l + fromIndex];
         jold = l;

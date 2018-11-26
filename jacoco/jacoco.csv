@@ -1,6 +1,6 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 com.irurueta:irurueta-sorting,com.irurueta.sorting,ShellSorter,15,1085,10,170,10,242,10,92,0,12
-com.irurueta:irurueta-sorting,com.irurueta.sorting,QuicksortSorter,55,3595,20,320,20,576,20,163,0,13
+com.irurueta:irurueta-sorting,com.irurueta.sorting,QuicksortSorter,55,3595,20,320,20,586,20,163,0,13
 com.irurueta:irurueta-sorting,com.irurueta.sorting,SystemSorter,0,31,0,0,0,12,0,7,0,7
 com.irurueta:irurueta-sorting,com.irurueta.sorting,Sorter.new Comparator() {...},0,16,0,0,0,4,0,2,0,2
 com.irurueta:irurueta-sorting,com.irurueta.sorting,BuildInfo,12,113,2,4,4,31,2,11,0,10

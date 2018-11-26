@@ -50,30 +50,29 @@ import java.util.Comparator;
      */
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
-        Comparator&lt;T&gt; comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+            Comparator&lt;T&gt; comparator) throws SortingException {
         
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L57">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L56">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L59" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L60">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L58" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L59">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L63">            return;</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L62">            return;</span>
         }
         
         int i;
-<span class="fc" id="L67">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L66">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L70">            siftDown(array, i, n - 1, comparator, fromIndex);</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L69">            siftDown(array, i, n - 1, comparator, fromIndex);</span>
         }
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L73">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L74">            siftDown(array, 0, i - 1, comparator, fromIndex);</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L72">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L73">            siftDown(array, 0, i - 1, comparator, fromIndex);</span>
         }
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L75">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -101,36 +100,35 @@ import java.util.Comparator;
      */
     @Override
     public int[] sortWithIndices(T[] array, int fromIndex, int toIndex, 
-        Comparator&lt;T&gt; comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+            Comparator&lt;T&gt; comparator) throws SortingException {
         
-<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L108">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L106">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L110" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L111">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L108" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L109">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-<span class="fc" id="L114">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L116">            return indices;</span>
+<span class="fc" id="L112">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L114">            return indices;</span>
         }
         
         int i;
-<span class="fc" id="L120">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L118">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L122" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L123">            siftDownWithIndices(array, indices, i, n - 1, comparator,</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L121">            siftDownWithIndices(array, indices, i, n - 1, comparator,</span>
                     fromIndex);
         }
-<span class="fc bfc" id="L126" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L127">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L128">            swapIndices(indices, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L129">            siftDownWithIndices(array, indices, 0, i - 1, comparator, </span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L125">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L126">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L127">            siftDownWithIndices(array, indices, 0, i - 1, comparator, </span>
                     fromIndex);
         }
         
-<span class="fc" id="L133">        return indices;</span>
+<span class="fc" id="L131">        return indices;</span>
     }
 
     /**
@@ -139,7 +137,7 @@ import java.util.Comparator;
      */
     @Override
     public SortingMethod getMethod() {
-<span class="fc" id="L142">        return SortingMethod.HEAPSORT_SORTING_METHOD;</span>
+<span class="fc" id="L140">        return SortingMethod.HEAPSORT_SORTING_METHOD;</span>
     }
     
     /**
@@ -159,30 +157,29 @@ import java.util.Comparator;
      */
     @Override
     public void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L165" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L166">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L163">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L168" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L169">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L165" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L166">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L172">            return;</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L169">            return;</span>
         }
         
         int i;
-<span class="fc" id="L176">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L173">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L178" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L179">            siftDown(array, i, n - 1, fromIndex);</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L176">            siftDown(array, i, n - 1, fromIndex);</span>
         }
-<span class="fc bfc" id="L181" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L182">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L183">            siftDown(array, 0, i - 1, fromIndex);</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L179">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L180">            siftDown(array, 0, i - 1, fromIndex);</span>
         }
-<span class="fc" id="L185">    }</span>
+<span class="fc" id="L182">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -208,34 +205,33 @@ import java.util.Comparator;
      */
     @Override
     public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L214" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L215">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L211">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L217" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L218">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L213" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L214">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-<span class="fc" id="L221">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L223">            return indices;</span>
+<span class="fc" id="L217">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L219">            return indices;</span>
         }
         
         int i;
-<span class="fc" id="L227">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L223">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L229" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L230">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L226">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
         }
-<span class="fc bfc" id="L232" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L233">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L234">            swapIndices(indices, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L235">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L229">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L230">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L231">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
         }
         
-<span class="fc" id="L238">        return indices;</span>
+<span class="fc" id="L234">        return indices;</span>
     }    
 
     /**
@@ -255,30 +251,29 @@ import java.util.Comparator;
      */
     @Override
     public void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L261" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L262">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L256" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L257">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L264" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L265">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L259" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L260">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L267" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L268">            return;</span>
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L263">            return;</span>
         }
         
         int i;
-<span class="fc" id="L272">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L267">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L274" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L275">            siftDown(array, i, n - 1, fromIndex);</span>
+<span class="fc bfc" id="L269" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L270">            siftDown(array, i, n - 1, fromIndex);</span>
         }
-<span class="fc bfc" id="L277" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L278">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L279">            siftDown(array, 0, i - 1, fromIndex);</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L273">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L274">            siftDown(array, 0, i - 1, fromIndex);</span>
         }
-<span class="fc" id="L281">    }</span>
+<span class="fc" id="L276">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -304,34 +299,33 @@ import java.util.Comparator;
      */
     @Override
     public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L310" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L311">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L305">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L313" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L314">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L307" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L308">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-<span class="fc" id="L317">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L318" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L319">            return indices;</span>
+<span class="fc" id="L311">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L313">            return indices;</span>
         }
         
         int i;
-<span class="fc" id="L323">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L317">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L325" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L326">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L320">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
         }
-<span class="fc bfc" id="L328" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L329">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L330">            swapIndices(indices, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L331">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
+<span class="fc bfc" id="L322" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L323">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L324">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L325">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
         }
         
-<span class="fc" id="L334">        return indices;</span>
+<span class="fc" id="L328">        return indices;</span>
     }    
     
     /**
@@ -351,30 +345,29 @@ import java.util.Comparator;
      */
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L357" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L358">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L351">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L360" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L361">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L353" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L354">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L363" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L364">            return;</span>
+<span class="pc bpc" id="L356" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L357">            return;</span>
         }
         
         int i;
-<span class="fc" id="L368">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L361">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L370" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L371">            siftDown(array, i, n - 1, fromIndex);</span>
+<span class="fc bfc" id="L363" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L364">            siftDown(array, i, n - 1, fromIndex);</span>
         }
-<span class="fc bfc" id="L373" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L374">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L375">            siftDown(array, 0, i - 1, fromIndex);</span>
+<span class="fc bfc" id="L366" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L367">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L368">            siftDown(array, 0, i - 1, fromIndex);</span>
         }
-<span class="fc" id="L377">    }</span>
+<span class="fc" id="L370">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -400,34 +393,33 @@ import java.util.Comparator;
      */
     @Override
     public int[] sortWithIndices(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L406" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L407">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L398" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L399">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L409" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L410">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L401" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L402">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-<span class="fc" id="L413">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L414" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L415">            return indices;</span>
+<span class="fc" id="L405">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L406" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L407">            return indices;</span>
         }
         
         int i;
-<span class="fc" id="L419">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L411">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L421" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L422">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
+<span class="fc bfc" id="L413" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L414">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
         }
-<span class="fc bfc" id="L424" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L425">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L426">            swapIndices(indices, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L427">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
+<span class="fc bfc" id="L416" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L417">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L418">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L419">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
         }
         
-<span class="fc" id="L430">        return indices;</span>
+<span class="fc" id="L422">        return indices;</span>
     }    
     
     /**
@@ -447,30 +439,29 @@ import java.util.Comparator;
      */
     @Override
     public void sort(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L453" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L454">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L444" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L445">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L456" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L457">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L447" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L448">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L459" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L460">            return;</span>
+<span class="pc bpc" id="L450" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L451">            return;</span>
         }
         
         int i;
-<span class="fc" id="L464">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L455">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L466" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L467">            siftDown(array, i, n - 1, fromIndex);</span>
+<span class="fc bfc" id="L457" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L458">            siftDown(array, i, n - 1, fromIndex);</span>
         }
-<span class="fc bfc" id="L469" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L470">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L471">            siftDown(array, 0, i - 1, fromIndex);</span>
+<span class="fc bfc" id="L460" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L461">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L462">            siftDown(array, 0, i - 1, fromIndex);</span>
         }
-<span class="fc" id="L473">    }</span>
+<span class="fc" id="L464">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -496,34 +487,33 @@ import java.util.Comparator;
      */
     @Override
     public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L502" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L503">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L492" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L493">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L505" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L506">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L495" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L496">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-<span class="fc" id="L509">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L510" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L511">            return indices;</span>
+<span class="fc" id="L499">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L500" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L501">            return indices;</span>
         }
         
         int i;
-<span class="fc" id="L515">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L505">        int n = toIndex - fromIndex;</span>
         
-<span class="fc bfc" id="L517" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L518">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
+<span class="fc bfc" id="L507" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L508">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
         }
-<span class="fc bfc" id="L520" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
-<span class="fc" id="L521">            swap(array, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L522">            swapIndices(indices, fromIndex, i + fromIndex);</span>
-<span class="fc" id="L523">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
+<span class="fc bfc" id="L510" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L511">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L512">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L513">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
         }
         
-<span class="fc" id="L526">        return indices;</span>
+<span class="fc" id="L516">        return indices;</span>
     }    
     
     /**
@@ -536,24 +526,25 @@ import java.util.Comparator;
      */
     private void siftDown(T[] ra, int l, int r, Comparator&lt;T&gt; comparator,
             int fromIndex) {
-        int j, jold;
-<span class="fc" id="L540">        T a = ra[l + fromIndex];</span>
-<span class="fc" id="L541">        jold = l;</span>
-<span class="fc" id="L542">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L543" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L544" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; comparator.compare(ra[j + fromIndex],</span>
+        int j;
+        int jold;
+<span class="fc" id="L531">        T a = ra[l + fromIndex];</span>
+<span class="fc" id="L532">        jold = l;</span>
+<span class="fc" id="L533">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L534" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L535" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; comparator.compare(ra[j + fromIndex],</span>
                     ra[j + 1 + fromIndex]) &lt; 0) {
-<span class="fc" id="L546">                j++;</span>
+<span class="fc" id="L537">                j++;</span>
             }
-<span class="fc bfc" id="L548" title="All 2 branches covered.">            if (comparator.compare(a, ra[j + fromIndex]) &gt;= 0) {</span>
-<span class="fc" id="L549">                break;</span>
+<span class="fc bfc" id="L539" title="All 2 branches covered.">            if (comparator.compare(a, ra[j + fromIndex]) &gt;= 0) {</span>
+<span class="fc" id="L540">                break;</span>
             }
-<span class="fc" id="L551">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L552">            jold = j;</span>
-<span class="fc" id="L553">            j = 2 * j + 1;</span>
+<span class="fc" id="L542">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L543">            jold = j;</span>
+<span class="fc" id="L544">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L555">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L556">    }</span>
+<span class="fc" id="L546">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L547">    }</span>
     
     /**
      * Internal method to reorder sub-array ra along with its corresponding
@@ -567,27 +558,28 @@ import java.util.Comparator;
      */
     private void siftDownWithIndices(T[] ra, int[] rb, int l, int r, 
             Comparator&lt;T&gt; comparator, int fromIndex) {
-        int j, jold;
-<span class="fc" id="L571">        T a = ra[l + fromIndex];</span>
-<span class="fc" id="L572">        int b = rb[l + fromIndex];</span>
-<span class="fc" id="L573">        jold = l;</span>
-<span class="fc" id="L574">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L575" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L576" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; comparator.compare(ra[j + fromIndex],</span>
+        int j;
+        int jold;
+<span class="fc" id="L563">        T a = ra[l + fromIndex];</span>
+<span class="fc" id="L564">        int b = rb[l + fromIndex];</span>
+<span class="fc" id="L565">        jold = l;</span>
+<span class="fc" id="L566">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L567" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L568" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; comparator.compare(ra[j + fromIndex],</span>
                     ra[j + 1 + fromIndex]) &lt; 0) {
-<span class="fc" id="L578">                j++;</span>
+<span class="fc" id="L570">                j++;</span>
             }
-<span class="fc bfc" id="L580" title="All 2 branches covered.">            if (comparator.compare(a, ra[j + fromIndex]) &gt;= 0) {</span>
-<span class="fc" id="L581">                break;</span>
+<span class="fc bfc" id="L572" title="All 2 branches covered.">            if (comparator.compare(a, ra[j + fromIndex]) &gt;= 0) {</span>
+<span class="fc" id="L573">                break;</span>
             }
-<span class="fc" id="L583">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L584">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
-<span class="fc" id="L585">            jold = j;</span>
-<span class="fc" id="L586">            j = 2 * j + 1;</span>
+<span class="fc" id="L575">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L576">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L577">            jold = j;</span>
+<span class="fc" id="L578">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L588">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L589">        rb[jold + fromIndex] = b;</span>
-<span class="fc" id="L590">    }</span>
+<span class="fc" id="L580">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L581">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L582">    }</span>
     
     /**
      * Swaps values in array of indices at locations posA and posB.
@@ -596,10 +588,10 @@ import java.util.Comparator;
      * @param posB Location to be swapped.
      */
     private void swapIndices(int[] indices, int posA, int posB) {
-<span class="fc" id="L599">        int value = indices[posA];</span>
-<span class="fc" id="L600">        indices[posA] = indices[posB];</span>
-<span class="fc" id="L601">        indices[posB] = value;</span>
-<span class="fc" id="L602">    }    </span>
+<span class="fc" id="L591">        int value = indices[posA];</span>
+<span class="fc" id="L592">        indices[posA] = indices[posB];</span>
+<span class="fc" id="L593">        indices[posB] = value;</span>
+<span class="fc" id="L594">    }    </span>
     
     /**
      * Internal method to reorder sub-array ra.
@@ -609,23 +601,24 @@ import java.util.Comparator;
      * @param fromIndex initial position.
      */
     private void siftDown(double[] ra, int l, int r, int fromIndex) {
-        int j, jold;
-<span class="fc" id="L613">        double a = ra[l + fromIndex];</span>
-<span class="fc" id="L614">        jold = l;</span>
-<span class="fc" id="L615">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L616" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L617" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
-<span class="fc" id="L618">                j++;</span>
+        int j;
+        int jold;
+<span class="fc" id="L606">        double a = ra[l + fromIndex];</span>
+<span class="fc" id="L607">        jold = l;</span>
+<span class="fc" id="L608">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L609" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L610" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L611">                j++;</span>
             }
-<span class="fc bfc" id="L620" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
-<span class="fc" id="L621">                break;</span>
+<span class="fc bfc" id="L613" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L614">                break;</span>
             }
-<span class="fc" id="L623">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L624">            jold = j;</span>
-<span class="fc" id="L625">            j = 2 * j + 1;</span>
+<span class="fc" id="L616">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L617">            jold = j;</span>
+<span class="fc" id="L618">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L627">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L628">    }</span>
+<span class="fc" id="L620">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L621">    }</span>
     
     /**
      * Internal method to reorder sub-array ra along with its corresponding
@@ -638,26 +631,27 @@ import java.util.Comparator;
      */
     private void siftDownWithIndices(double[] ra, int[] rb, int l, int r, 
             int fromIndex) {
-        int j, jold;
-<span class="fc" id="L642">        double a = ra[l + fromIndex];</span>
-<span class="fc" id="L643">        int b = rb[l + fromIndex];</span>
-<span class="fc" id="L644">        jold = l;</span>
-<span class="fc" id="L645">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L646" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L647" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
-<span class="fc" id="L648">                j++;</span>
+        int j;
+        int jold;
+<span class="fc" id="L636">        double a = ra[l + fromIndex];</span>
+<span class="fc" id="L637">        int b = rb[l + fromIndex];</span>
+<span class="fc" id="L638">        jold = l;</span>
+<span class="fc" id="L639">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L640" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L641" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L642">                j++;</span>
             }
-<span class="fc bfc" id="L650" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
-<span class="fc" id="L651">                break;</span>
+<span class="fc bfc" id="L644" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L645">                break;</span>
             }
-<span class="fc" id="L653">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L654">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
-<span class="fc" id="L655">            jold = j;</span>
-<span class="fc" id="L656">            j = 2 * j + 1;</span>
+<span class="fc" id="L647">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L648">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L649">            jold = j;</span>
+<span class="fc" id="L650">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L658">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L659">        rb[jold + fromIndex] = b;</span>
-<span class="fc" id="L660">    }        </span>
+<span class="fc" id="L652">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L653">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L654">    }        </span>
     
     /**
      * Internal method to reorder sub-array ra.
@@ -667,23 +661,24 @@ import java.util.Comparator;
      * @param fromIndex initial position.
      */
     private void siftDown(float[] ra, int l, int r, int fromIndex) {
-        int j, jold;
-<span class="fc" id="L671">        float a = ra[l + fromIndex];</span>
-<span class="fc" id="L672">        jold = l;</span>
-<span class="fc" id="L673">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L674" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L675" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
-<span class="fc" id="L676">                j++;</span>
+        int j;
+        int jold;
+<span class="fc" id="L666">        float a = ra[l + fromIndex];</span>
+<span class="fc" id="L667">        jold = l;</span>
+<span class="fc" id="L668">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L669" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L670" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L671">                j++;</span>
             }
-<span class="fc bfc" id="L678" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
-<span class="fc" id="L679">                break;</span>
+<span class="fc bfc" id="L673" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L674">                break;</span>
             }
-<span class="fc" id="L681">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L682">            jold = j;</span>
-<span class="fc" id="L683">            j = 2 * j + 1;</span>
+<span class="fc" id="L676">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L677">            jold = j;</span>
+<span class="fc" id="L678">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L685">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L686">    }</span>
+<span class="fc" id="L680">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L681">    }</span>
     
     /**
      * Internal method to reorder sub-array ra along with its corresponding
@@ -696,26 +691,27 @@ import java.util.Comparator;
      */
     private void siftDownWithIndices(float[] ra, int[] rb, int l, int r, 
             int fromIndex) {
-        int j, jold;
-<span class="fc" id="L700">        float a = ra[l + fromIndex];</span>
-<span class="fc" id="L701">        int b = rb[l + fromIndex];</span>
-<span class="fc" id="L702">        jold = l;</span>
-<span class="fc" id="L703">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L704" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L705" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
-<span class="fc" id="L706">                j++;</span>
+        int j;
+        int jold;
+<span class="fc" id="L696">        float a = ra[l + fromIndex];</span>
+<span class="fc" id="L697">        int b = rb[l + fromIndex];</span>
+<span class="fc" id="L698">        jold = l;</span>
+<span class="fc" id="L699">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L700" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L701" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L702">                j++;</span>
             }
-<span class="fc bfc" id="L708" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
-<span class="fc" id="L709">                break;</span>
+<span class="fc bfc" id="L704" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L705">                break;</span>
             }
-<span class="fc" id="L711">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L712">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
-<span class="fc" id="L713">            jold = j;</span>
-<span class="fc" id="L714">            j = 2 * j + 1;</span>
+<span class="fc" id="L707">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L708">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L709">            jold = j;</span>
+<span class="fc" id="L710">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L716">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L717">        rb[jold + fromIndex] = b;</span>
-<span class="fc" id="L718">    }        </span>
+<span class="fc" id="L712">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L713">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L714">    }        </span>
 
     /**
      * Internal method to reorder sub-array ra.
@@ -725,23 +721,24 @@ import java.util.Comparator;
      * @param fromIndex initial position.
      */
     private void siftDown(int[] ra, int l, int r, int fromIndex) {
-        int j, jold;
-<span class="fc" id="L729">        int a = ra[l + fromIndex];</span>
-<span class="fc" id="L730">        jold = l;</span>
-<span class="fc" id="L731">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L732" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L733" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
-<span class="fc" id="L734">                j++;</span>
+        int j;
+        int jold;
+<span class="fc" id="L726">        int a = ra[l + fromIndex];</span>
+<span class="fc" id="L727">        jold = l;</span>
+<span class="fc" id="L728">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L729" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L730" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L731">                j++;</span>
             }
-<span class="fc bfc" id="L736" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
-<span class="fc" id="L737">                break;</span>
+<span class="fc bfc" id="L733" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L734">                break;</span>
             }
-<span class="fc" id="L739">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L740">            jold = j;</span>
-<span class="fc" id="L741">            j = 2 * j + 1;</span>
+<span class="fc" id="L736">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L737">            jold = j;</span>
+<span class="fc" id="L738">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L743">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L744">    }</span>
+<span class="fc" id="L740">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L741">    }</span>
     
     /**
      * Internal method to reorder sub-array ra along with its corresponding
@@ -754,26 +751,27 @@ import java.util.Comparator;
      */
     private void siftDownWithIndices(int[] ra, int[] rb, int l, int r, 
             int fromIndex) {
-        int j, jold;
-<span class="fc" id="L758">        int a = ra[l + fromIndex];</span>
-<span class="fc" id="L759">        int b = rb[l + fromIndex];</span>
-<span class="fc" id="L760">        jold = l;</span>
-<span class="fc" id="L761">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L762" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L763" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
-<span class="fc" id="L764">                j++;</span>
+        int j;
+        int jold;
+<span class="fc" id="L756">        int a = ra[l + fromIndex];</span>
+<span class="fc" id="L757">        int b = rb[l + fromIndex];</span>
+<span class="fc" id="L758">        jold = l;</span>
+<span class="fc" id="L759">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L760" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L761" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L762">                j++;</span>
             }
-<span class="fc bfc" id="L766" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
-<span class="fc" id="L767">                break;</span>
+<span class="fc bfc" id="L764" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L765">                break;</span>
             }
-<span class="fc" id="L769">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L770">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
-<span class="fc" id="L771">            jold = j;</span>
-<span class="fc" id="L772">            j = 2 * j + 1;</span>
+<span class="fc" id="L767">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L768">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L769">            jold = j;</span>
+<span class="fc" id="L770">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L774">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L775">        rb[jold + fromIndex] = b;</span>
-<span class="fc" id="L776">    }   </span>
+<span class="fc" id="L772">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L773">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L774">    }   </span>
     
     /**
      * Internal method to reorder sub-array ra.
@@ -783,23 +781,24 @@ import java.util.Comparator;
      * @param fromIndex initial value.
      */
     private void siftDown(long[] ra, int l, int r, int fromIndex) {
-        int j, jold;
-<span class="fc" id="L787">        long a = ra[l + fromIndex];</span>
-<span class="fc" id="L788">        jold = l;</span>
-<span class="fc" id="L789">        j = 2 * l + 1;</span>
-<span class="fc bfc" id="L790" title="All 2 branches covered.">        while (j &lt;= r) {</span>
-<span class="fc bfc" id="L791" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
-<span class="fc" id="L792">                j++;</span>
+        int j;
+        int jold;
+<span class="fc" id="L786">        long a = ra[l + fromIndex];</span>
+<span class="fc" id="L787">        jold = l;</span>
+<span class="fc" id="L788">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L789" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L790" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L791">                j++;</span>
             }
-<span class="fc bfc" id="L794" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
-<span class="fc" id="L795">                break;</span>
+<span class="fc bfc" id="L793" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L794">                break;</span>
             }
-<span class="fc" id="L797">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
-<span class="fc" id="L798">            jold = j;</span>
-<span class="fc" id="L799">            j = 2 * j + 1;</span>
+<span class="fc" id="L796">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L797">            jold = j;</span>
+<span class="fc" id="L798">            j = 2 * j + 1;</span>
         }
-<span class="fc" id="L801">        ra[jold + fromIndex] = a;</span>
-<span class="fc" id="L802">    }</span>
+<span class="fc" id="L800">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L801">    }</span>
     
     /**
      * Internal method to reorder sub-array ra along with its corresponding
@@ -812,7 +811,8 @@ import java.util.Comparator;
      */
     private void siftDownWithIndices(long[] ra, int[] rb, int l, int r, 
             int fromIndex) {
-        int j, jold;
+        int j;
+        int jold;
 <span class="fc" id="L816">        long a = ra[l + fromIndex];</span>
 <span class="fc" id="L817">        int b = rb[l + fromIndex];</span>
 <span class="fc" id="L818">        jold = l;</span>

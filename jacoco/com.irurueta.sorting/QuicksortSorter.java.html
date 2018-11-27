@@ -1325,58 +1325,57 @@ import java.util.Comparator;
 <span class="fc bfc" id="L1325" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
 <span class="fc" id="L1326">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
 <span class="fc" id="L1327">                    swapIndices(indices, l + fromIndex, l + 1 + fromIndex);</span>
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
-<span class="fc" id="L1331">                i = l + 1;</span>
-<span class="fc" id="L1332">                j = ir;</span>
+<span class="fc" id="L1330">                i = l + 1;</span>
+<span class="fc" id="L1331">                j = ir;</span>
                 //Partitioning element
-<span class="fc" id="L1334">                a = array[l + 1 + fromIndex];</span>
-<span class="fc" id="L1335">                b = indices[l + 1 + fromIndex];</span>
+<span class="fc" id="L1333">                a = array[l + 1 + fromIndex];</span>
+<span class="fc" id="L1334">                b = indices[l + 1 + fromIndex];</span>
                 //Beginning of innermost loop
                 for (;;) {
                     //Scan up to find element &gt; a
                     do {
-<span class="fc" id="L1340">                        i++;</span>
-<span class="fc bfc" id="L1341" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+<span class="fc" id="L1339">                        i++;</span>
+<span class="fc bfc" id="L1340" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
                     //Scan down to find element &lt; a
                     do {
-<span class="fc" id="L1344">                        j--;</span>
-<span class="fc bfc" id="L1345" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+<span class="fc" id="L1343">                        j--;</span>
+<span class="fc bfc" id="L1344" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
                     //Pointers crossed. Partitioning complete
-<span class="fc bfc" id="L1347" title="All 2 branches covered.">                    if (j &lt; i) {</span>
-<span class="fc" id="L1348">                        break;</span>
+<span class="fc bfc" id="L1346" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L1347">                        break;</span>
                     }
                     //Exchange elements
-<span class="fc" id="L1351">                    swap(array, i + fromIndex, j + fromIndex);</span>
-<span class="fc" id="L1352">                    swapIndices(indices, i + fromIndex, j + fromIndex);</span>
+<span class="fc" id="L1350">                    swap(array, i + fromIndex, j + fromIndex);</span>
+<span class="fc" id="L1351">                    swapIndices(indices, i + fromIndex, j + fromIndex);</span>
                     //End of innermost loop
                 }
                 //Insert partitioning element
-<span class="fc" id="L1356">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
-<span class="fc" id="L1357">                array[j + fromIndex] = a;</span>
-<span class="fc" id="L1358">                indices[l + 1 + fromIndex] = indices[j + fromIndex];</span>
-<span class="fc" id="L1359">                indices[j + fromIndex] = b;</span>
-<span class="fc" id="L1360">                jstack += 2;</span>
+<span class="fc" id="L1355">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L1356">                array[j + fromIndex] = a;</span>
+<span class="fc" id="L1357">                indices[l + 1 + fromIndex] = indices[j + fromIndex];</span>
+<span class="fc" id="L1358">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L1359">                jstack += 2;</span>
                 //NSTACK too small in sort
-<span class="pc bpc" id="L1362" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
-<span class="nc" id="L1363">                    throw new SortingException();</span>
+<span class="pc bpc" id="L1361" title="1 of 2 branches missed.">                if (jstack &gt;= NSTACK) {</span>
+<span class="nc" id="L1362">                    throw new SortingException();</span>
                 }
                 //Push pointers to larger subarray on stack; process smaller
                 //subarray immediately
-<span class="fc bfc" id="L1367" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
-<span class="fc" id="L1368">                    istack[jstack] = ir;</span>
-<span class="fc" id="L1369">                    istack[jstack - 1] = i;</span>
-<span class="fc" id="L1370">                    ir = j - 1;</span>
+<span class="fc bfc" id="L1366" title="All 2 branches covered.">                if (ir - i + 1 &gt;= j - l) {</span>
+<span class="fc" id="L1367">                    istack[jstack] = ir;</span>
+<span class="fc" id="L1368">                    istack[jstack - 1] = i;</span>
+<span class="fc" id="L1369">                    ir = j - 1;</span>
                 } else {
-<span class="fc" id="L1372">                    istack[jstack] = j - 1;</span>
-<span class="fc" id="L1373">                    istack[jstack - 1] = l;</span>
-<span class="fc" id="L1374">                    l = i;</span>
+<span class="fc" id="L1371">                    istack[jstack] = j - 1;</span>
+<span class="fc" id="L1372">                    istack[jstack - 1] = l;</span>
+<span class="fc" id="L1373">                    l = i;</span>
                 }
             }
         }
         
-<span class="fc" id="L1379">        return indices;</span>
+<span class="fc" id="L1378">        return indices;</span>
     }
     
     /**
@@ -1386,9 +1385,9 @@ import java.util.Comparator;
      * @param posB Location to be swapped.
      */    
     private void swapIndices(int[] indices, int posA, int posB) {
-<span class="fc" id="L1389">        int value = indices[posA];</span>
-<span class="fc" id="L1390">        indices[posA] = indices[posB];</span>
-<span class="fc" id="L1391">        indices[posB] = value;</span>
-<span class="fc" id="L1392">    }    </span>
+<span class="fc" id="L1388">        int value = indices[posA];</span>
+<span class="fc" id="L1389">        indices[posA] = indices[posB];</span>
+<span class="fc" id="L1390">        indices[posB] = value;</span>
+<span class="fc" id="L1391">    }    </span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

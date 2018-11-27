@@ -61,50 +61,49 @@ import java.util.Comparator;
      */    
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
-        Comparator&lt;T&gt; comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        Comparator&lt;T&gt; comparator) throws SortingException {
         
-<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L68">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L67">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L70" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L71">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L69" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L70">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L74">            return;</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L73">            return;</span>
         }
         
         int j;
-<span class="fc" id="L78">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L79">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L77">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L78">        int n = toIndex - fromIndex;</span>
         
         T v;
         
         do {
-<span class="fc" id="L84">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L85">            inc++;</span>
-<span class="fc bfc" id="L86" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L83">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L84">            inc++;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L90">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L89">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L92" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L93">                v = array[i + fromIndex];</span>
-<span class="fc" id="L94">                j = i;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L92">                v = array[i + fromIndex];</span>
+<span class="fc" id="L93">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L97" title="All 2 branches covered.">                while (comparator.compare(array[j - inc + fromIndex], v) &gt; 0) {</span>
-<span class="fc" id="L98">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L99">                    j -= inc;</span>
-<span class="fc bfc" id="L100" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L101">                        break;</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">                while (comparator.compare(array[j - inc + fromIndex], v) &gt; 0) {</span>
+<span class="fc" id="L97">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L98">                    j -= inc;</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L100">                        break;</span>
                     }
                 }
-<span class="fc" id="L104">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L103">                array[j + fromIndex] = v;</span>
             }
-<span class="fc bfc" id="L106" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
-<span class="fc" id="L107">    }</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L106">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -132,56 +131,56 @@ import java.util.Comparator;
      */    
     @Override
     public int[] sortWithIndices(T[] array, int fromIndex, int toIndex, 
-        Comparator&lt;T&gt; comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        Comparator&lt;T&gt; comparator) throws SortingException {
         
-<span class="fc bfc" id="L138" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L139">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L137">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L141" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L142">            throw new ArrayIndexOutOfBoundsException();</span>
-        }
-        
-<span class="fc" id="L145">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L147">            return indices;</span>
+<span class="fc bfc" id="L139" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L140">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-        int j, b;
-<span class="fc" id="L151">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L152">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L143">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L145">            return indices;</span>
+        }
+        
+        int j;
+        int b;
+<span class="fc" id="L150">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L151">        int n = toIndex - fromIndex;</span>
         
         T v;
         
         do {
-<span class="fc" id="L157">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L158">            inc++;</span>
-<span class="fc bfc" id="L159" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L156">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L157">            inc++;</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L163">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L162">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L165" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L166">                v = array[i + fromIndex];</span>
-<span class="fc" id="L167">                b = indices[i + fromIndex];</span>
-<span class="fc" id="L168">                j = i;</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L165">                v = array[i + fromIndex];</span>
+<span class="fc" id="L166">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L167">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L171" title="All 2 branches covered.">                while (comparator.compare(array[j - inc + fromIndex], v) &gt; 0) {</span>
-<span class="fc" id="L172">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L173">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
-<span class="fc" id="L174">                    j -= inc;</span>
-<span class="fc bfc" id="L175" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L176">                        break;</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">                while (comparator.compare(array[j - inc + fromIndex], v) &gt; 0) {</span>
+<span class="fc" id="L171">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L172">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L173">                    j -= inc;</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L175">                        break;</span>
                     }
                 }
-<span class="fc" id="L179">                array[j + fromIndex] = v;</span>
-<span class="fc" id="L180">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L178">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L179">                indices[j + fromIndex] = b;</span>
             }
-<span class="fc bfc" id="L182" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
         
-<span class="fc" id="L184">        return indices;        </span>
+<span class="fc" id="L183">        return indices;        </span>
     }
 
     /**
@@ -190,7 +189,7 @@ import java.util.Comparator;
      */    
     @Override
     public SortingMethod getMethod() {
-<span class="fc" id="L193">        return SortingMethod.SHELL_SORTING_METHOD;</span>
+<span class="fc" id="L192">        return SortingMethod.SHELL_SORTING_METHOD;</span>
     }
     
     /**
@@ -210,50 +209,49 @@ import java.util.Comparator;
      */    
     @Override
     public void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L216" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L217">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L215">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L219" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L220">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L217" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L218">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L223">            return;</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L221">            return;</span>
         }
         
         int j;
-<span class="fc" id="L227">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L228">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L225">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L226">        int n = toIndex - fromIndex;</span>
         
         double v;
         
         do {
-<span class="fc" id="L233">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L234">            inc++;</span>
-<span class="fc bfc" id="L235" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L231">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L232">            inc++;</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L239">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L237">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L241" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L242">                v = array[i + fromIndex];</span>
-<span class="fc" id="L243">                j = i;</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L240">                v = array[i + fromIndex];</span>
+<span class="fc" id="L241">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L246" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
-<span class="fc" id="L247">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L248">                    j -= inc;</span>
-<span class="fc bfc" id="L249" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L250">                        break;</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L245">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L246">                    j -= inc;</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L248">                        break;</span>
                     }
                 }
-<span class="fc" id="L253">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L251">                array[j + fromIndex] = v;</span>
             }
-<span class="fc bfc" id="L255" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
-<span class="fc" id="L256">    }</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L254">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -279,56 +277,56 @@ import java.util.Comparator;
      */    
     @Override
     public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L285" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L286">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L283">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L288" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L289">            throw new ArrayIndexOutOfBoundsException();</span>
-        }
-        
-<span class="fc" id="L292">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L293" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L294">            return indices;</span>
+<span class="fc bfc" id="L285" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L286">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-        int j, b;
-<span class="fc" id="L298">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L299">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L289">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L290" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L291">            return indices;</span>
+        }
+        
+        int j;
+        int b;
+<span class="fc" id="L296">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L297">        int n = toIndex - fromIndex;</span>
         
         double v;
         
         do {
-<span class="fc" id="L304">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L305">            inc++;</span>
-<span class="fc bfc" id="L306" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L302">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L303">            inc++;</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L310">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L308">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L312" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L313">                v = array[i + fromIndex];</span>
-<span class="fc" id="L314">                b = indices[i + fromIndex];</span>
-<span class="fc" id="L315">                j = i;</span>
+<span class="fc bfc" id="L310" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L311">                v = array[i + fromIndex];</span>
+<span class="fc" id="L312">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L313">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L318" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
-<span class="fc" id="L319">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L320">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
-<span class="fc" id="L321">                    j -= inc;</span>
-<span class="fc bfc" id="L322" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L323">                        break;</span>
+<span class="fc bfc" id="L316" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L317">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L318">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L319">                    j -= inc;</span>
+<span class="fc bfc" id="L320" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L321">                        break;</span>
                     }
                 }
-<span class="fc" id="L326">                array[j + fromIndex] = v;</span>
-<span class="fc" id="L327">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L324">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L325">                indices[j + fromIndex] = b;</span>
             }
-<span class="fc bfc" id="L329" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc bfc" id="L327" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
         
-<span class="fc" id="L331">        return indices;        </span>
+<span class="fc" id="L329">        return indices;        </span>
     }
     
     /**
@@ -348,50 +346,49 @@ import java.util.Comparator;
      */    
     @Override
     public void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L354" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L355">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L351" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L352">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L357" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L358">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L354" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L355">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L360" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L361">            return;</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L358">            return;</span>
         }
         
         int j;
-<span class="fc" id="L365">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L366">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L362">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L363">        int n = toIndex - fromIndex;</span>
         
         float v;
         
         do {
-<span class="fc" id="L371">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L372">            inc++;</span>
-<span class="fc bfc" id="L373" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L368">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L369">            inc++;</span>
+<span class="fc bfc" id="L370" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L377">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L374">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L379" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L380">                v = array[i + fromIndex];</span>
-<span class="fc" id="L381">                j = i;</span>
+<span class="fc bfc" id="L376" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L377">                v = array[i + fromIndex];</span>
+<span class="fc" id="L378">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L384" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
-<span class="fc" id="L385">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L386">                    j -= inc;</span>
-<span class="fc bfc" id="L387" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L388">                        break;</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L382">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L383">                    j -= inc;</span>
+<span class="fc bfc" id="L384" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L385">                        break;</span>
                     }
                 }
-<span class="fc" id="L391">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L388">                array[j + fromIndex] = v;</span>
             }
-<span class="fc bfc" id="L393" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
-<span class="fc" id="L394">    }</span>
+<span class="fc bfc" id="L390" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L391">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -417,56 +414,56 @@ import java.util.Comparator;
      */    
     @Override
     public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L423" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L424">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L419" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L420">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L426" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L427">            throw new ArrayIndexOutOfBoundsException();</span>
-        }
-        
-<span class="fc" id="L430">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L431" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L432">            return indices;</span>
+<span class="fc bfc" id="L422" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L423">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-        int j, b;
-<span class="fc" id="L436">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L437">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L426">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L427" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L428">            return indices;</span>
+        }
+        
+        int j;
+        int b;
+<span class="fc" id="L433">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L434">        int n = toIndex - fromIndex;</span>
         
         float v;
         
         do {
-<span class="fc" id="L442">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L443">            inc++;</span>
-<span class="fc bfc" id="L444" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L439">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L440">            inc++;</span>
+<span class="fc bfc" id="L441" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L448">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L445">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L450" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L451">                v = array[i + fromIndex];</span>
-<span class="fc" id="L452">                b = indices[i + fromIndex];</span>
-<span class="fc" id="L453">                j = i;</span>
+<span class="fc bfc" id="L447" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L448">                v = array[i + fromIndex];</span>
+<span class="fc" id="L449">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L450">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L456" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
-<span class="fc" id="L457">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L458">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
-<span class="fc" id="L459">                    j -= inc;</span>
-<span class="fc bfc" id="L460" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L461">                        break;</span>
+<span class="fc bfc" id="L453" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L454">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L455">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L456">                    j -= inc;</span>
+<span class="fc bfc" id="L457" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L458">                        break;</span>
                     }
                 }
-<span class="fc" id="L464">                array[j + fromIndex] = v;</span>
-<span class="fc" id="L465">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L461">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L462">                indices[j + fromIndex] = b;</span>
             }
-<span class="fc bfc" id="L467" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc bfc" id="L464" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
         
-<span class="fc" id="L469">        return indices;        </span>
+<span class="fc" id="L466">        return indices;        </span>
     }    
     
     /**
@@ -486,50 +483,49 @@ import java.util.Comparator;
      */    
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L492" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L493">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L488" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L489">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L495" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L496">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L491" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L492">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L498" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L499">            return;</span>
+<span class="pc bpc" id="L494" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L495">            return;</span>
         }
         
         int j;
-<span class="fc" id="L503">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L504">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L499">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L500">        int n = toIndex - fromIndex;</span>
         
         int v;
         
         do {
-<span class="fc" id="L509">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L510">            inc++;</span>
-<span class="fc bfc" id="L511" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L505">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L506">            inc++;</span>
+<span class="fc bfc" id="L507" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L515">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L511">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L517" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L518">                v = array[i + fromIndex];</span>
-<span class="fc" id="L519">                j = i;</span>
+<span class="fc bfc" id="L513" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L514">                v = array[i + fromIndex];</span>
+<span class="fc" id="L515">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L522" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
-<span class="fc" id="L523">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L524">                    j -= inc;</span>
-<span class="fc bfc" id="L525" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L526">                        break;</span>
+<span class="fc bfc" id="L518" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L519">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L520">                    j -= inc;</span>
+<span class="fc bfc" id="L521" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L522">                        break;</span>
                     }
                 }
-<span class="fc" id="L529">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L525">                array[j + fromIndex] = v;</span>
             }
-<span class="fc bfc" id="L531" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
-<span class="fc" id="L532">    }</span>
+<span class="fc bfc" id="L527" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L528">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -555,56 +551,56 @@ import java.util.Comparator;
      */    
     @Override
     public int[] sortWithIndices(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L561" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L562">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L556" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L557">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L564" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L565">            throw new ArrayIndexOutOfBoundsException();</span>
-        }
-        
-<span class="fc" id="L568">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L569" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L570">            return indices;</span>
+<span class="fc bfc" id="L559" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L560">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-        int j, b;
-<span class="fc" id="L574">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L575">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L563">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L564" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L565">            return indices;</span>
+        }
+        
+        int j;
+        int b;
+<span class="fc" id="L570">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L571">        int n = toIndex - fromIndex;</span>
         
         int v;
         
         do {
-<span class="fc" id="L580">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L581">            inc++;</span>
-<span class="fc bfc" id="L582" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L576">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L577">            inc++;</span>
+<span class="fc bfc" id="L578" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L586">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L582">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L588" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L589">                v = array[i + fromIndex];</span>
-<span class="fc" id="L590">                b = indices[i + fromIndex];</span>
-<span class="fc" id="L591">                j = i;</span>
+<span class="fc bfc" id="L584" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L585">                v = array[i + fromIndex];</span>
+<span class="fc" id="L586">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L587">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L594" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
-<span class="fc" id="L595">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L596">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
-<span class="fc" id="L597">                    j -= inc;</span>
-<span class="fc bfc" id="L598" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L599">                        break;</span>
+<span class="fc bfc" id="L590" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L591">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L592">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L593">                    j -= inc;</span>
+<span class="fc bfc" id="L594" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L595">                        break;</span>
                     }
                 }
-<span class="fc" id="L602">                array[j + fromIndex] = v;</span>
-<span class="fc" id="L603">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L598">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L599">                indices[j + fromIndex] = b;</span>
             }
-<span class="fc bfc" id="L605" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc bfc" id="L601" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
         
-<span class="fc" id="L607">        return indices;        </span>
+<span class="fc" id="L603">        return indices;        </span>
     }    
     
     /**
@@ -624,50 +620,49 @@ import java.util.Comparator;
      */    
     @Override
     public void sort(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L630" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L631">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L625" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L626">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L633" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L634">            throw new ArrayIndexOutOfBoundsException();</span>
+<span class="fc bfc" id="L628" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L629">            throw new ArrayIndexOutOfBoundsException();</span>
         }
-<span class="pc bpc" id="L636" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L637">            return;</span>
+<span class="pc bpc" id="L631" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L632">            return;</span>
         }
         
         int j;
-<span class="fc" id="L641">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L642">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L636">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L637">        int n = toIndex - fromIndex;</span>
         
         long v;
         
         do {
-<span class="fc" id="L647">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L648">            inc++;</span>
-<span class="fc bfc" id="L649" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L642">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L643">            inc++;</span>
+<span class="fc bfc" id="L644" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L653">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L648">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L655" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L656">                v = array[i + fromIndex];</span>
-<span class="fc" id="L657">                j = i;</span>
+<span class="fc bfc" id="L650" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L651">                v = array[i + fromIndex];</span>
+<span class="fc" id="L652">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L660" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
-<span class="fc" id="L661">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L662">                    j -= inc;</span>
-<span class="fc bfc" id="L663" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L664">                        break;</span>
+<span class="fc bfc" id="L655" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L656">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L657">                    j -= inc;</span>
+<span class="fc bfc" id="L658" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L659">                        break;</span>
                     }
                 }
-<span class="fc" id="L667">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L662">                array[j + fromIndex] = v;</span>
             }
-<span class="fc bfc" id="L669" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
-<span class="fc" id="L670">    }</span>
+<span class="fc bfc" id="L664" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L665">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -693,56 +688,56 @@ import java.util.Comparator;
      */    
     @Override
     public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
-<span class="fc bfc" id="L699" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
-<span class="fc" id="L700">            throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L693" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L694">            throw new IllegalArgumentException();</span>
         }
-<span class="fc bfc" id="L702" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
-<span class="fc" id="L703">            throw new ArrayIndexOutOfBoundsException();</span>
-        }
-        
-<span class="fc" id="L706">        int [] indices = getInitialIndicesVector(array.length);</span>
-<span class="pc bpc" id="L707" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
-<span class="nc" id="L708">            return indices;</span>
+<span class="fc bfc" id="L696" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L697">            throw new ArrayIndexOutOfBoundsException();</span>
         }
         
-        int j, b;
-<span class="fc" id="L712">        int inc = MIN_INCREMENT;</span>
-<span class="fc" id="L713">        int n = toIndex - fromIndex;</span>
+<span class="fc" id="L700">        int [] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L701" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L702">            return indices;</span>
+        }
+        
+        int j;
+        int b;
+<span class="fc" id="L707">        int inc = MIN_INCREMENT;</span>
+<span class="fc" id="L708">        int n = toIndex - fromIndex;</span>
         
         long v;
         
         do {
-<span class="fc" id="L718">            inc *= INCREMENT_FACTOR;</span>
-<span class="fc" id="L719">            inc++;</span>
-<span class="fc bfc" id="L720" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+<span class="fc" id="L713">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L714">            inc++;</span>
+<span class="fc bfc" id="L715" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
         
         //Loop over the partial sorts
         do {
-<span class="fc" id="L724">            inc /= INCREMENT_FACTOR;</span>
+<span class="fc" id="L719">            inc /= INCREMENT_FACTOR;</span>
             //Outer loop of straight insertion
-<span class="fc bfc" id="L726" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
-<span class="fc" id="L727">                v = array[i + fromIndex];</span>
-<span class="fc" id="L728">                b = indices[i + fromIndex];</span>
-<span class="fc" id="L729">                j = i;</span>
+<span class="fc bfc" id="L721" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L722">                v = array[i + fromIndex];</span>
+<span class="fc" id="L723">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L724">                j = i;</span>
                 
                 //Inner loop of straight insertion
-<span class="fc bfc" id="L732" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
-<span class="fc" id="L733">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
-<span class="fc" id="L734">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
-<span class="fc" id="L735">                    j -= inc;</span>
-<span class="fc bfc" id="L736" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
-<span class="fc" id="L737">                        break;</span>
+<span class="fc bfc" id="L727" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L728">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L729">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L730">                    j -= inc;</span>
+<span class="fc bfc" id="L731" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L732">                        break;</span>
                     }
                 }
-<span class="fc" id="L740">                array[j + fromIndex] = v;</span>
-<span class="fc" id="L741">                indices[j + fromIndex] = b;</span>
+<span class="fc" id="L735">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L736">                indices[j + fromIndex] = b;</span>
             }
-<span class="fc bfc" id="L743" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc bfc" id="L738" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
         
-<span class="fc" id="L745">        return indices;        </span>
+<span class="fc" id="L740">        return indices;        </span>
     }    
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -52,11 +52,10 @@ import java.util.Comparator;
      */        
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
-        Comparator&lt;T&gt; comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {    
+        Comparator&lt;T&gt; comparator) throws SortingException {
         
-<span class="fc" id="L58">        Arrays.sort(array, fromIndex, toIndex, comparator);</span>
-<span class="fc" id="L59">    }</span>
+<span class="fc" id="L57">        Arrays.sort(array, fromIndex, toIndex, comparator);</span>
+<span class="fc" id="L58">    }</span>
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -75,11 +74,10 @@ import java.util.Comparator;
      */        
     @Override
     public void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {    
+            throws SortingException {
         
-<span class="fc" id="L81">        Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="fc" id="L82">    }</span>
+<span class="fc" id="L79">        Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="fc" id="L80">    }</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -98,11 +96,10 @@ import java.util.Comparator;
      */        
     @Override
     public void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {    
+            throws SortingException {
         
-<span class="fc" id="L104">        Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="fc" id="L105">    }</span>
+<span class="fc" id="L101">        Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="fc" id="L102">    }</span>
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -121,11 +118,10 @@ import java.util.Comparator;
      */        
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {    
+            throws SortingException {
         
-<span class="fc" id="L127">        Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="fc" id="L128">    }</span>
+<span class="fc" id="L123">        Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="fc" id="L124">    }</span>
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -144,11 +140,10 @@ import java.util.Comparator;
      */        
     @Override
     public void sort(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {    
+            throws SortingException {
         
-<span class="fc" id="L150">        Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="fc" id="L151">    }    </span>
+<span class="fc" id="L145">        Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="fc" id="L146">    }    </span>
     
     /**
      * Returns sorting method of this class.
@@ -156,7 +151,7 @@ import java.util.Comparator;
      */    
     @Override
     public SortingMethod getMethod() {
-<span class="fc" id="L159">        return SortingMethod.SYSTEM_SORTING_METHOD;</span>
+<span class="fc" id="L154">        return SortingMethod.SYSTEM_SORTING_METHOD;</span>
     }    
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

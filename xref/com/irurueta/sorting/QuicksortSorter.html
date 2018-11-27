@@ -1333,72 +1333,71 @@
 <a class="jxr_linenumber" name="L1325" href="#L1325">1325</a>                 <strong class="jxr_keyword">if</strong> (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {
 <a class="jxr_linenumber" name="L1326" href="#L1326">1326</a>                     swap(array, l + fromIndex, l + 1 + fromIndex);
 <a class="jxr_linenumber" name="L1327" href="#L1327">1327</a>                     swapIndices(indices, l + fromIndex, l + 1 + fromIndex);
-<a class="jxr_linenumber" name="L1328" href="#L1328">1328</a>                     <em class="jxr_comment">//swap(arr(l), arr(l + 1));</em>
-<a class="jxr_linenumber" name="L1329" href="#L1329">1329</a>                 }
-<a class="jxr_linenumber" name="L1330" href="#L1330">1330</a>                 <em class="jxr_comment">//Initialize pointers for partitioning</em>
-<a class="jxr_linenumber" name="L1331" href="#L1331">1331</a>                 i = l + 1;
-<a class="jxr_linenumber" name="L1332" href="#L1332">1332</a>                 j = ir;
-<a class="jxr_linenumber" name="L1333" href="#L1333">1333</a>                 <em class="jxr_comment">//Partitioning element</em>
-<a class="jxr_linenumber" name="L1334" href="#L1334">1334</a>                 a = array[l + 1 + fromIndex];
-<a class="jxr_linenumber" name="L1335" href="#L1335">1335</a>                 b = indices[l + 1 + fromIndex];
-<a class="jxr_linenumber" name="L1336" href="#L1336">1336</a>                 <em class="jxr_comment">//Beginning of innermost loop</em>
-<a class="jxr_linenumber" name="L1337" href="#L1337">1337</a>                 <strong class="jxr_keyword">for</strong> (;;) {
-<a class="jxr_linenumber" name="L1338" href="#L1338">1338</a>                     <em class="jxr_comment">//Scan up to find element &gt; a</em>
-<a class="jxr_linenumber" name="L1339" href="#L1339">1339</a>                     <strong class="jxr_keyword">do</strong> {
-<a class="jxr_linenumber" name="L1340" href="#L1340">1340</a>                         i++;
-<a class="jxr_linenumber" name="L1341" href="#L1341">1341</a>                     } <strong class="jxr_keyword">while</strong> (array[i + fromIndex] &lt; a);
-<a class="jxr_linenumber" name="L1342" href="#L1342">1342</a>                     <em class="jxr_comment">//Scan down to find element &lt; a</em>
-<a class="jxr_linenumber" name="L1343" href="#L1343">1343</a>                     <strong class="jxr_keyword">do</strong> {
-<a class="jxr_linenumber" name="L1344" href="#L1344">1344</a>                         j--;
-<a class="jxr_linenumber" name="L1345" href="#L1345">1345</a>                     } <strong class="jxr_keyword">while</strong> (array[j + fromIndex] &gt; a);
-<a class="jxr_linenumber" name="L1346" href="#L1346">1346</a>                     <em class="jxr_comment">//Pointers crossed. Partitioning complete</em>
-<a class="jxr_linenumber" name="L1347" href="#L1347">1347</a>                     <strong class="jxr_keyword">if</strong> (j &lt; i) {
-<a class="jxr_linenumber" name="L1348" href="#L1348">1348</a>                         <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L1349" href="#L1349">1349</a>                     }
-<a class="jxr_linenumber" name="L1350" href="#L1350">1350</a>                     <em class="jxr_comment">//Exchange elements</em>
-<a class="jxr_linenumber" name="L1351" href="#L1351">1351</a>                     swap(array, i + fromIndex, j + fromIndex);
-<a class="jxr_linenumber" name="L1352" href="#L1352">1352</a>                     swapIndices(indices, i + fromIndex, j + fromIndex);
-<a class="jxr_linenumber" name="L1353" href="#L1353">1353</a>                     <em class="jxr_comment">//End of innermost loop</em>
-<a class="jxr_linenumber" name="L1354" href="#L1354">1354</a>                 }
-<a class="jxr_linenumber" name="L1355" href="#L1355">1355</a>                 <em class="jxr_comment">//Insert partitioning element</em>
-<a class="jxr_linenumber" name="L1356" href="#L1356">1356</a>                 array[l + 1 + fromIndex] = array[j + fromIndex];
-<a class="jxr_linenumber" name="L1357" href="#L1357">1357</a>                 array[j + fromIndex] = a;
-<a class="jxr_linenumber" name="L1358" href="#L1358">1358</a>                 indices[l + 1 + fromIndex] = indices[j + fromIndex];
-<a class="jxr_linenumber" name="L1359" href="#L1359">1359</a>                 indices[j + fromIndex] = b;
-<a class="jxr_linenumber" name="L1360" href="#L1360">1360</a>                 jstack += 2;
-<a class="jxr_linenumber" name="L1361" href="#L1361">1361</a>                 <em class="jxr_comment">//NSTACK too small in sort</em>
-<a class="jxr_linenumber" name="L1362" href="#L1362">1362</a>                 <strong class="jxr_keyword">if</strong> (jstack &gt;= NSTACK) {
-<a class="jxr_linenumber" name="L1363" href="#L1363">1363</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/irurueta/sorting/SortingException.html">SortingException</a>();
-<a class="jxr_linenumber" name="L1364" href="#L1364">1364</a>                 }
-<a class="jxr_linenumber" name="L1365" href="#L1365">1365</a>                 <em class="jxr_comment">//Push pointers to larger subarray on stack; process smaller</em>
-<a class="jxr_linenumber" name="L1366" href="#L1366">1366</a>                 <em class="jxr_comment">//subarray immediately</em>
-<a class="jxr_linenumber" name="L1367" href="#L1367">1367</a>                 <strong class="jxr_keyword">if</strong> (ir - i + 1 &gt;= j - l) {
-<a class="jxr_linenumber" name="L1368" href="#L1368">1368</a>                     istack[jstack] = ir;
-<a class="jxr_linenumber" name="L1369" href="#L1369">1369</a>                     istack[jstack - 1] = i;
-<a class="jxr_linenumber" name="L1370" href="#L1370">1370</a>                     ir = j - 1;
-<a class="jxr_linenumber" name="L1371" href="#L1371">1371</a>                 } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L1372" href="#L1372">1372</a>                     istack[jstack] = j - 1;
-<a class="jxr_linenumber" name="L1373" href="#L1373">1373</a>                     istack[jstack - 1] = l;
-<a class="jxr_linenumber" name="L1374" href="#L1374">1374</a>                     l = i;
-<a class="jxr_linenumber" name="L1375" href="#L1375">1375</a>                 }
-<a class="jxr_linenumber" name="L1376" href="#L1376">1376</a>             }
-<a class="jxr_linenumber" name="L1377" href="#L1377">1377</a>         }
-<a class="jxr_linenumber" name="L1378" href="#L1378">1378</a>         
-<a class="jxr_linenumber" name="L1379" href="#L1379">1379</a>         <strong class="jxr_keyword">return</strong> indices;
-<a class="jxr_linenumber" name="L1380" href="#L1380">1380</a>     }
-<a class="jxr_linenumber" name="L1381" href="#L1381">1381</a>     
-<a class="jxr_linenumber" name="L1382" href="#L1382">1382</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L1383" href="#L1383">1383</a> <em class="jxr_javadoccomment">     * Swaps values in array of indices at locations posA and posB.</em>
-<a class="jxr_linenumber" name="L1384" href="#L1384">1384</a> <em class="jxr_javadoccomment">     * @param indices array containing indices to be swapped.</em>
-<a class="jxr_linenumber" name="L1385" href="#L1385">1385</a> <em class="jxr_javadoccomment">     * @param posA Location to be swapped.</em>
-<a class="jxr_linenumber" name="L1386" href="#L1386">1386</a> <em class="jxr_javadoccomment">     * @param posB Location to be swapped.</em>
-<a class="jxr_linenumber" name="L1387" href="#L1387">1387</a> <em class="jxr_javadoccomment">     */</em>    
-<a class="jxr_linenumber" name="L1388" href="#L1388">1388</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> swapIndices(<strong class="jxr_keyword">int</strong>[] indices, <strong class="jxr_keyword">int</strong> posA, <strong class="jxr_keyword">int</strong> posB) {
-<a class="jxr_linenumber" name="L1389" href="#L1389">1389</a>         <strong class="jxr_keyword">int</strong> value = indices[posA];
-<a class="jxr_linenumber" name="L1390" href="#L1390">1390</a>         indices[posA] = indices[posB];
-<a class="jxr_linenumber" name="L1391" href="#L1391">1391</a>         indices[posB] = value;
-<a class="jxr_linenumber" name="L1392" href="#L1392">1392</a>     }    
-<a class="jxr_linenumber" name="L1393" href="#L1393">1393</a> }
+<a class="jxr_linenumber" name="L1328" href="#L1328">1328</a>                 }
+<a class="jxr_linenumber" name="L1329" href="#L1329">1329</a>                 <em class="jxr_comment">//Initialize pointers for partitioning</em>
+<a class="jxr_linenumber" name="L1330" href="#L1330">1330</a>                 i = l + 1;
+<a class="jxr_linenumber" name="L1331" href="#L1331">1331</a>                 j = ir;
+<a class="jxr_linenumber" name="L1332" href="#L1332">1332</a>                 <em class="jxr_comment">//Partitioning element</em>
+<a class="jxr_linenumber" name="L1333" href="#L1333">1333</a>                 a = array[l + 1 + fromIndex];
+<a class="jxr_linenumber" name="L1334" href="#L1334">1334</a>                 b = indices[l + 1 + fromIndex];
+<a class="jxr_linenumber" name="L1335" href="#L1335">1335</a>                 <em class="jxr_comment">//Beginning of innermost loop</em>
+<a class="jxr_linenumber" name="L1336" href="#L1336">1336</a>                 <strong class="jxr_keyword">for</strong> (;;) {
+<a class="jxr_linenumber" name="L1337" href="#L1337">1337</a>                     <em class="jxr_comment">//Scan up to find element &gt; a</em>
+<a class="jxr_linenumber" name="L1338" href="#L1338">1338</a>                     <strong class="jxr_keyword">do</strong> {
+<a class="jxr_linenumber" name="L1339" href="#L1339">1339</a>                         i++;
+<a class="jxr_linenumber" name="L1340" href="#L1340">1340</a>                     } <strong class="jxr_keyword">while</strong> (array[i + fromIndex] &lt; a);
+<a class="jxr_linenumber" name="L1341" href="#L1341">1341</a>                     <em class="jxr_comment">//Scan down to find element &lt; a</em>
+<a class="jxr_linenumber" name="L1342" href="#L1342">1342</a>                     <strong class="jxr_keyword">do</strong> {
+<a class="jxr_linenumber" name="L1343" href="#L1343">1343</a>                         j--;
+<a class="jxr_linenumber" name="L1344" href="#L1344">1344</a>                     } <strong class="jxr_keyword">while</strong> (array[j + fromIndex] &gt; a);
+<a class="jxr_linenumber" name="L1345" href="#L1345">1345</a>                     <em class="jxr_comment">//Pointers crossed. Partitioning complete</em>
+<a class="jxr_linenumber" name="L1346" href="#L1346">1346</a>                     <strong class="jxr_keyword">if</strong> (j &lt; i) {
+<a class="jxr_linenumber" name="L1347" href="#L1347">1347</a>                         <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L1348" href="#L1348">1348</a>                     }
+<a class="jxr_linenumber" name="L1349" href="#L1349">1349</a>                     <em class="jxr_comment">//Exchange elements</em>
+<a class="jxr_linenumber" name="L1350" href="#L1350">1350</a>                     swap(array, i + fromIndex, j + fromIndex);
+<a class="jxr_linenumber" name="L1351" href="#L1351">1351</a>                     swapIndices(indices, i + fromIndex, j + fromIndex);
+<a class="jxr_linenumber" name="L1352" href="#L1352">1352</a>                     <em class="jxr_comment">//End of innermost loop</em>
+<a class="jxr_linenumber" name="L1353" href="#L1353">1353</a>                 }
+<a class="jxr_linenumber" name="L1354" href="#L1354">1354</a>                 <em class="jxr_comment">//Insert partitioning element</em>
+<a class="jxr_linenumber" name="L1355" href="#L1355">1355</a>                 array[l + 1 + fromIndex] = array[j + fromIndex];
+<a class="jxr_linenumber" name="L1356" href="#L1356">1356</a>                 array[j + fromIndex] = a;
+<a class="jxr_linenumber" name="L1357" href="#L1357">1357</a>                 indices[l + 1 + fromIndex] = indices[j + fromIndex];
+<a class="jxr_linenumber" name="L1358" href="#L1358">1358</a>                 indices[j + fromIndex] = b;
+<a class="jxr_linenumber" name="L1359" href="#L1359">1359</a>                 jstack += 2;
+<a class="jxr_linenumber" name="L1360" href="#L1360">1360</a>                 <em class="jxr_comment">//NSTACK too small in sort</em>
+<a class="jxr_linenumber" name="L1361" href="#L1361">1361</a>                 <strong class="jxr_keyword">if</strong> (jstack &gt;= NSTACK) {
+<a class="jxr_linenumber" name="L1362" href="#L1362">1362</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/irurueta/sorting/SortingException.html">SortingException</a>();
+<a class="jxr_linenumber" name="L1363" href="#L1363">1363</a>                 }
+<a class="jxr_linenumber" name="L1364" href="#L1364">1364</a>                 <em class="jxr_comment">//Push pointers to larger subarray on stack; process smaller</em>
+<a class="jxr_linenumber" name="L1365" href="#L1365">1365</a>                 <em class="jxr_comment">//subarray immediately</em>
+<a class="jxr_linenumber" name="L1366" href="#L1366">1366</a>                 <strong class="jxr_keyword">if</strong> (ir - i + 1 &gt;= j - l) {
+<a class="jxr_linenumber" name="L1367" href="#L1367">1367</a>                     istack[jstack] = ir;
+<a class="jxr_linenumber" name="L1368" href="#L1368">1368</a>                     istack[jstack - 1] = i;
+<a class="jxr_linenumber" name="L1369" href="#L1369">1369</a>                     ir = j - 1;
+<a class="jxr_linenumber" name="L1370" href="#L1370">1370</a>                 } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L1371" href="#L1371">1371</a>                     istack[jstack] = j - 1;
+<a class="jxr_linenumber" name="L1372" href="#L1372">1372</a>                     istack[jstack - 1] = l;
+<a class="jxr_linenumber" name="L1373" href="#L1373">1373</a>                     l = i;
+<a class="jxr_linenumber" name="L1374" href="#L1374">1374</a>                 }
+<a class="jxr_linenumber" name="L1375" href="#L1375">1375</a>             }
+<a class="jxr_linenumber" name="L1376" href="#L1376">1376</a>         }
+<a class="jxr_linenumber" name="L1377" href="#L1377">1377</a>         
+<a class="jxr_linenumber" name="L1378" href="#L1378">1378</a>         <strong class="jxr_keyword">return</strong> indices;
+<a class="jxr_linenumber" name="L1379" href="#L1379">1379</a>     }
+<a class="jxr_linenumber" name="L1380" href="#L1380">1380</a>     
+<a class="jxr_linenumber" name="L1381" href="#L1381">1381</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L1382" href="#L1382">1382</a> <em class="jxr_javadoccomment">     * Swaps values in array of indices at locations posA and posB.</em>
+<a class="jxr_linenumber" name="L1383" href="#L1383">1383</a> <em class="jxr_javadoccomment">     * @param indices array containing indices to be swapped.</em>
+<a class="jxr_linenumber" name="L1384" href="#L1384">1384</a> <em class="jxr_javadoccomment">     * @param posA Location to be swapped.</em>
+<a class="jxr_linenumber" name="L1385" href="#L1385">1385</a> <em class="jxr_javadoccomment">     * @param posB Location to be swapped.</em>
+<a class="jxr_linenumber" name="L1386" href="#L1386">1386</a> <em class="jxr_javadoccomment">     */</em>    
+<a class="jxr_linenumber" name="L1387" href="#L1387">1387</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> swapIndices(<strong class="jxr_keyword">int</strong>[] indices, <strong class="jxr_keyword">int</strong> posA, <strong class="jxr_keyword">int</strong> posB) {
+<a class="jxr_linenumber" name="L1388" href="#L1388">1388</a>         <strong class="jxr_keyword">int</strong> value = indices[posA];
+<a class="jxr_linenumber" name="L1389" href="#L1389">1389</a>         indices[posA] = indices[posB];
+<a class="jxr_linenumber" name="L1390" href="#L1390">1390</a>         indices[posB] = value;
+<a class="jxr_linenumber" name="L1391" href="#L1391">1391</a>     }    
+<a class="jxr_linenumber" name="L1392" href="#L1392">1392</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2017&#x2013;2018. All rights reserved.</div>

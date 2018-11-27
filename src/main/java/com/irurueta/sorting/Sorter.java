@@ -49,8 +49,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */    
     public abstract void sort(T[] array, int fromIndex, int toIndex, 
-            Comparator<T> comparator) throws SortingException, 
-            IllegalArgumentException, ArrayIndexOutOfBoundsException;
+            Comparator<T> comparator) throws SortingException;
         
     /**
      * Sorts provided array in ascending order so that {@code
@@ -77,8 +76,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */    
     public abstract int[] sortWithIndices(T[] array, int fromIndex, int toIndex,
-            Comparator<T> comparator) throws SortingException, 
-            IllegalArgumentException, ArrayIndexOutOfBoundsException;
+            Comparator<T> comparator) throws SortingException;
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -96,8 +94,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */        
     public abstract void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException;    
+            throws SortingException;
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -122,8 +119,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */        
     public abstract int[] sortWithIndices(double[] array, int fromIndex, 
-            int toIndex) throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException;    
+            int toIndex) throws SortingException;
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -141,8 +137,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */        
     public abstract void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException;   
+            throws SortingException;
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -167,8 +162,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */        
     public abstract int[] sortWithIndices(float[] array, int fromIndex, 
-            int toIndex) throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException;    
+            int toIndex) throws SortingException;
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -186,8 +180,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */        
     public abstract void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException;
+            throws SortingException;
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -212,8 +205,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */        
     public abstract int[] sortWithIndices(int[] array, int fromIndex, 
-            int toIndex) throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException;    
+            int toIndex) throws SortingException;
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -231,8 +223,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */        
     public abstract void sort(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException;    
+            throws SortingException;
     
     /**
      * Sorts provided array in ascending order so that {@code
@@ -257,8 +248,7 @@ public abstract class Sorter<T> {
      * {@code toIndex > array.length}.
      */        
     public abstract int[] sortWithIndices(long[] array, int fromIndex, 
-            int toIndex) throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException;    
+            int toIndex) throws SortingException;
     
     /**
      * Sorts provided array of Comparables in ascending order so that 
@@ -277,8 +267,7 @@ public abstract class Sorter<T> {
      */
     @SuppressWarnings("unchecked")
     public void sort(Comparable<T>[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {                
+            throws SortingException {
         sort((T[])array, fromIndex, toIndex, new Comparator<T>() {
 
             @Override
@@ -420,8 +409,7 @@ public abstract class Sorter<T> {
      */
     @SuppressWarnings("unchecked")
     public int[] sortWithIndices(Comparable<T>[] array, int fromIndex, 
-            int toIndex) throws SortingException, IllegalArgumentException,
-            ArrayIndexOutOfBoundsException {
+            int toIndex) throws SortingException {
         return sortWithIndices((T[])array, fromIndex, toIndex, new Comparator<T>() {
                 @Override
                 public int compare(T t1, T t2) {
@@ -571,8 +559,7 @@ public abstract class Sorter<T> {
      * @return The k-th sorted element in provided array
      * @throws IllegalArgumentException if k &lt; array.length
      */
-    public T select(int k, Comparable<T>[] array) 
-            throws IllegalArgumentException {
+    public T select(int k, Comparable<T>[] array) {
         return select(k, array, 0, array.length);
     }
 
@@ -607,8 +594,7 @@ public abstract class Sorter<T> {
      * outside array boundaries.
      */
     @SuppressWarnings("unchecked")
-    public T select(int k, Comparable<T>[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public T select(int k, Comparable<T>[] array, int fromIndex, int toIndex) {
         return select(k, (T[])array, fromIndex, toIndex, new Comparator<T>() {
                 @Override
                 public int compare(T t1, T t2) {
@@ -643,8 +629,7 @@ public abstract class Sorter<T> {
      * @return The k-th sorted element in provided array.
      * @throws IllegalArgumentException k &lt; array.length.
      */    
-    public T select(int k, T[] array, Comparator<T> comparator)
-            throws IllegalArgumentException {
+    public T select(int k, T[] array, Comparator<T> comparator) {
         return select(k, array, 0, array.length, comparator);
     }
 
@@ -669,8 +654,7 @@ public abstract class Sorter<T> {
      * @return The k-th sorted element in provided array.
      * @throws IllegalArgumentException k &lt; array.length.
      */    
-    public double select(int k, double[] array)
-            throws IllegalArgumentException {
+    public double select(int k, double[] array) {
         return select(k, array, 0, array.length);
     }
 
@@ -695,7 +679,7 @@ public abstract class Sorter<T> {
      * @return The k-th sorted element in provided array.
      * @throws IllegalArgumentException k &lt; array.length.
      */    
-    public float select(int k, float[] array) throws IllegalArgumentException {
+    public float select(int k, float[] array) {
         return select(k, array, 0, array.length);
     }
     
@@ -720,7 +704,7 @@ public abstract class Sorter<T> {
      * @return The k-th sorted element in provided array.
      * @throws IllegalArgumentException k &lt; array.length.
      */    
-    public int select(int k, int[] array) throws IllegalArgumentException {
+    public int select(int k, int[] array) {
         return select(k, array, 0, array.length);
     }
     
@@ -745,7 +729,7 @@ public abstract class Sorter<T> {
      * @return The k-th sorted element in provided array.
      * @throws IllegalArgumentException k &lt; array.length.
      */    
-    public long select(int k, long[] array) throws IllegalArgumentException {
+    public long select(int k, long[] array) {
         return select(k, array, 0, array.length);
     }
         
@@ -782,8 +766,7 @@ public abstract class Sorter<T> {
      * outside array boundaries.
      */        
     public T select(int k, T[] array, int fromIndex, int toIndex,
-            Comparator<T> comparator) throws IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            Comparator<T> comparator) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -792,7 +775,12 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
         
-        int i, ir, j, l, mid, n = toIndex - fromIndex;
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+        int n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -828,15 +816,16 @@ public abstract class Sorter<T> {
                 for (;;) {
                     do {
                         i++;
-                    } while (comparator.compare(
-                            array[i + fromIndex], a) < 0);
+                    } while (comparator.compare(array[i + fromIndex], a) < 0);
+
                     do {
                         j--;
-                    } while (comparator.compare(
-                            array[j + fromIndex], a) > 0);
+                    } while (comparator.compare(array[j + fromIndex], a) > 0);
+
                     if (j < i) {
                         break;
                     }
+
                     swap(array, i + fromIndex, j + fromIndex);
                 }
                 array[l + 1 + fromIndex] = array[j + fromIndex];
@@ -881,8 +870,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are 
      * outside array boundaries.
      */        
-    public double select(int k, double[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public double select(int k, double[] array, int fromIndex, int toIndex) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -891,7 +879,12 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
         
-        int i, ir, j, l, mid, n = toIndex - fromIndex;
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+        int n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -924,12 +917,15 @@ public abstract class Sorter<T> {
                     do {
                         i++;
                     } while (array[i + fromIndex] < a);
+
                     do {
                         j--;
                     } while (array[j + fromIndex] > a);
+
                     if (j < i) {
                         break;
                     }
+
                     swap(array, i + fromIndex, j + fromIndex);
                 }
                 array[l + 1 + fromIndex] = array[j + fromIndex];
@@ -974,8 +970,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are 
      * outside array boundaries.
      */        
-    public float select(int k, float[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public float select(int k, float[] array, int fromIndex, int toIndex) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -984,7 +979,12 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
         
-        int i, ir, j, l, mid, n = toIndex - fromIndex;
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+        int n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -1017,12 +1017,15 @@ public abstract class Sorter<T> {
                     do {
                         i++;
                     } while (array[i + fromIndex] < a);
+
                     do {
                         j--;
                     } while (array[j + fromIndex] > a);
+
                     if (j < i) {
                         break;
                     }
+
                     swap(array, i + fromIndex, j + fromIndex);
                 }
                 array[l + 1 + fromIndex] = array[j + fromIndex];
@@ -1067,8 +1070,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are 
      * outside array boundaries.
      */        
-    public int select(int k, int[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public int select(int k, int[] array, int fromIndex, int toIndex) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1077,7 +1079,12 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
         
-        int i, ir, j, l, mid, n = toIndex - fromIndex;
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+        int n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -1110,12 +1117,15 @@ public abstract class Sorter<T> {
                     do {
                         i++;
                     } while (array[i + fromIndex] < a);
+
                     do {
                         j--;
                     } while (array[j + fromIndex] > a);
+
                     if (j < i) {
                         break;
                     }
+
                     swap(array, i + fromIndex, j + fromIndex);
                 }
                 array[l + 1 + fromIndex] = array[j + fromIndex];
@@ -1160,8 +1170,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are 
      * outside array boundaries.
      */        
-    public long select(int k, long[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public long select(int k, long[] array, int fromIndex, int toIndex) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1170,7 +1179,12 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
         
-        int i, ir, j, l, mid, n = toIndex - fromIndex;
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+        int n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -1203,12 +1217,15 @@ public abstract class Sorter<T> {
                     do {
                         i++;
                     } while (array[i + fromIndex] < a);
+
                     do {
                         j--;
                     } while (array[j + fromIndex] > a);
+
                     if (j < i) {
                         break;
                     }
+
                     swap(array, i + fromIndex, j + fromIndex);
                 }
                 array[l + 1 + fromIndex] = array[j + fromIndex];
@@ -1260,8 +1277,7 @@ public abstract class Sorter<T> {
      * outside array boundaries.
      */
     @SuppressWarnings("unchecked")
-    public T median(Comparable<T>[] array, int fromIndex, int toIndex)
-        throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public T median(Comparable<T>[] array, int fromIndex, int toIndex) {
         
         return median((T[])array, fromIndex, toIndex, new ComparatorAndAverager<T>() {
                 @Override
@@ -1422,8 +1438,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
      */        
     public T median(T[] array, int fromIndex, int toIndex, 
-            ComparatorAndAverager<T> comparator) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+            ComparatorAndAverager<T> comparator) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1434,7 +1449,9 @@ public abstract class Sorter<T> {
         
         int length = toIndex - fromIndex;
         
-        T value1, value2, value3;
+        T value1;
+        T value2;
+        T value3;
         int pos1;
         
         pos1 = length / 2;
@@ -1483,8 +1500,7 @@ public abstract class Sorter<T> {
      * @throws IllegalArgumentException if fromIndex is greater than toIndex.
      * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
      */        
-    public double median(double[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public double median(double[] array, int fromIndex, int toIndex) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1495,7 +1511,9 @@ public abstract class Sorter<T> {
         
         int length = toIndex - fromIndex;
         
-        double value1, value2, value3;
+        double value1;
+        double value2;
+        double value3;
         int pos1;
         
         pos1 = length / 2;
@@ -1544,8 +1562,7 @@ public abstract class Sorter<T> {
      * @throws IllegalArgumentException if fromIndex is greater than toIndex.
      * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
      */        
-    public float median(float[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public float median(float[] array, int fromIndex, int toIndex) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1556,7 +1573,9 @@ public abstract class Sorter<T> {
         
         int length = toIndex - fromIndex;
         
-        float value1, value2, value3;
+        float value1;
+        float value2;
+        float value3;
         int pos1;
         
         pos1 = length / 2;
@@ -1605,8 +1624,7 @@ public abstract class Sorter<T> {
      * @throws IllegalArgumentException if fromIndex is greater than toIndex.
      * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
      */        
-    public int median(int[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public int median(int[] array, int fromIndex, int toIndex) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1617,7 +1635,9 @@ public abstract class Sorter<T> {
         
         int length = toIndex - fromIndex;
         
-        int value1, value2, value3;
+        int value1;
+        int value2;
+        int value3;
         int pos1;
         
         pos1 = length / 2;
@@ -1666,8 +1686,7 @@ public abstract class Sorter<T> {
      * @throws IllegalArgumentException if fromIndex is greater than toIndex.
      * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
      */        
-    public long median(long[] array, int fromIndex, int toIndex) 
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public long median(long[] array, int fromIndex, int toIndex) {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1678,7 +1697,9 @@ public abstract class Sorter<T> {
         
         int length = toIndex - fromIndex;
         
-        long value1, value2, value3;
+        long value1;
+        long value2;
+        long value3;
         int pos1;
         
         pos1 = length / 2;

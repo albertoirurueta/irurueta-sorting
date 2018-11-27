@@ -50,8 +50,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
-            Comparator<T> comparator) throws SortingException, 
-            IllegalArgumentException, ArrayIndexOutOfBoundsException {
+            Comparator<T> comparator) throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -109,8 +108,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public int[] sortWithIndices(T[] array, int fromIndex, int toIndex,
-            Comparator<T> comparator) throws SortingException, 
-            IllegalArgumentException, ArrayIndexOutOfBoundsException {
+            Comparator<T> comparator) throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -124,7 +122,8 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int i, b;
+        int i;
+        int b;
         T a;
         
         for (int j = fromIndex + 1; j < toIndex; j++) {
@@ -175,8 +174,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -232,8 +230,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -247,7 +244,8 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int i, b;
+        int i;
+        int b;
         double a;
         
         for (int j = fromIndex + 1; j < toIndex; j++) {
@@ -289,8 +287,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -346,8 +343,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -361,7 +357,8 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int i, b;
+        int i;
+        int b;
         float a;
         
         for (int j = fromIndex + 1; j < toIndex; j++) {
@@ -403,8 +400,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -460,8 +456,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public int[] sortWithIndices(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -475,7 +470,8 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int i, b;
+        int i;
+        int b;
         int a;
         
         for (int j = fromIndex + 1; j < toIndex; j++) {
@@ -517,8 +513,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public void sort(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -574,8 +569,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      */        
     @Override
     public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException,
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -589,7 +583,8 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int i, b;
+        int i;
+        int b;
         long a;
         
         for (int j = fromIndex + 1; j < toIndex; j++) {

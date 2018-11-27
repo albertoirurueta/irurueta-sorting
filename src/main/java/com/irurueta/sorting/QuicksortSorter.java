@@ -1325,7 +1325,6 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 if (array[l + fromIndex] > array[l + 1 + fromIndex]) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
                     swapIndices(indices, l + fromIndex, l + 1 + fromIndex);
-                    //swap(arr(l), arr(l + 1));
                 }
                 //Initialize pointers for partitioning
                 i = l + 1;

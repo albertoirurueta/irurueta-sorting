@@ -52,8 +52,7 @@ public class SystemSorter<T> extends QuicksortSorter<T> {
      */        
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
-        Comparator<T> comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {    
+        Comparator<T> comparator) throws SortingException {
         
         Arrays.sort(array, fromIndex, toIndex, comparator);
     }
@@ -75,8 +74,7 @@ public class SystemSorter<T> extends QuicksortSorter<T> {
      */        
     @Override
     public void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {    
+            throws SortingException {
         
         Arrays.sort(array, fromIndex, toIndex);
     }
@@ -98,8 +96,7 @@ public class SystemSorter<T> extends QuicksortSorter<T> {
      */        
     @Override
     public void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {    
+            throws SortingException {
         
         Arrays.sort(array, fromIndex, toIndex);
     }
@@ -121,8 +118,7 @@ public class SystemSorter<T> extends QuicksortSorter<T> {
      */        
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {    
+            throws SortingException {
         
         Arrays.sort(array, fromIndex, toIndex);
     }
@@ -144,8 +140,7 @@ public class SystemSorter<T> extends QuicksortSorter<T> {
      */        
     @Override
     public void sort(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {    
+            throws SortingException {
         
         Arrays.sort(array, fromIndex, toIndex);
     }    

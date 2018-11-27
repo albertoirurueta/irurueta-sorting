@@ -61,8 +61,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(T[] array, int fromIndex, int toIndex, 
-        Comparator<T> comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        Comparator<T> comparator) throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -132,8 +131,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(T[] array, int fromIndex, int toIndex, 
-        Comparator<T> comparator) throws SortingException, 
-        IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        Comparator<T> comparator) throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -147,7 +145,8 @@ public class ShellSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int j, b;
+        int j;
+        int b;
         int inc = MIN_INCREMENT;
         int n = toIndex - fromIndex;
         
@@ -210,8 +209,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -279,8 +277,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -294,7 +291,8 @@ public class ShellSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int j, b;
+        int j;
+        int b;
         int inc = MIN_INCREMENT;
         int n = toIndex - fromIndex;
         
@@ -348,8 +346,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -417,8 +414,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -432,7 +428,8 @@ public class ShellSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int j, b;
+        int j;
+        int b;
         int inc = MIN_INCREMENT;
         int n = toIndex - fromIndex;
         
@@ -486,8 +483,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -555,8 +551,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(int[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -570,7 +565,8 @@ public class ShellSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int j, b;
+        int j;
+        int b;
         int inc = MIN_INCREMENT;
         int n = toIndex - fromIndex;
         
@@ -624,8 +620,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public void sort(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -693,8 +688,7 @@ public class ShellSorter<T> extends Sorter<T> {
      */    
     @Override
     public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
-            throws SortingException, IllegalArgumentException, 
-            ArrayIndexOutOfBoundsException {
+            throws SortingException {
         
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -708,7 +702,8 @@ public class ShellSorter<T> extends Sorter<T> {
             return indices;
         }
         
-        int j, b;
+        int j;
+        int b;
         int inc = MIN_INCREMENT;
         int n = toIndex - fromIndex;
         

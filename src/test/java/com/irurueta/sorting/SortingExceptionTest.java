@@ -15,26 +15,12 @@
  */
 package com.irurueta.sorting;
 
-import org.junit.*;
+import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
 public class SortingExceptionTest {
-    
-    public SortingExceptionTest() { }
 
-    @BeforeClass
-    public static void setUpClass() { }
-
-    @AfterClass
-    public static void tearDownClass() { }
-    
-    @Before
-    public void setUp() { }
-    
-    @After
-    public void tearDown() { }
-    
     @Test
     public void testConstructor() {
         SortingException ex = new SortingException();
@@ -42,10 +28,10 @@ public class SortingExceptionTest {
 
         ex = new SortingException("message");
         assertNotNull(ex);
-        
+
         ex = new SortingException(new Exception());
         assertNotNull(ex);
-        
+
         ex = new SortingException("message", new Exception());
         assertNotNull(ex);
     }

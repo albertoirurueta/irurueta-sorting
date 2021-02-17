@@ -19,7 +19,7 @@ package com.irurueta.sorting;
  * Exception thrown if sorting process for some reason.
  */
 public class SortingException extends Exception {
-    
+
     /**
      * Constructor.
      */
@@ -29,26 +29,29 @@ public class SortingException extends Exception {
 
     /**
      * Constructor with String containing message.
+     *
      * @param message Message indicating the cause of the exception.
      */
-    public SortingException(String message) {
+    public SortingException(final String message) {
         super(message);
     }
 
     /**
      * Constructor with message and cause.
+     *
      * @param message Message describing the cause of the exception.
-     * @param cause Instance containing the cause of the exception.
+     * @param cause   Instance containing the cause of the exception.
      */
-    public SortingException(String message, Throwable cause) {
+    public SortingException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor with cause.
+     *
      * @param cause Instance containing the cause of the exception.
      */
-    public SortingException(Throwable cause) {
+    public SortingException(final Throwable cause) {
         super(cause);
-    }    
+    }
 }

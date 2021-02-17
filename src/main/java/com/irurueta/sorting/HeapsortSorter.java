@@ -19,39 +19,41 @@ import java.util.Comparator;
 
 /**
  * Sorts instances of type T in provided arrays using Heapsort method.
+ *
  * @param <T> Type of instances being sorted.
- * 
- * This class is based on algorithm found at
- * Numerical Recipes. 3rd Edition. Cambridge Press. Chapter 8. p. 428
- * Knuth. D.E. 1997, Sorting and Searching, 3rd ed., vol. 3 of The Art of
- * Computer Programming (Reading, MA: Addison-Wesley)
- * Sedgewick, R. 1998. Algorithms in C, 3rd ed. (Reading, MA: Addison-
- * Wesley), Chapter 11.
+ *            <p>
+ *            This class is based on algorithm found at
+ *            Numerical Recipes. 3rd Edition. Cambridge Press. Chapter 8. p. 428
+ *            Knuth. D.E. 1997, Sorting and Searching, 3rd ed., vol. 3 of The Art of
+ *            Computer Programming (Reading, MA: Addison-Wesley)
+ *            Sedgewick, R. 1998. Algorithms in C, 3rd ed. (Reading, MA: Addison-
+ *            Wesley), Chapter 11.
  */
 @SuppressWarnings("Duplicates")
 public class HeapsortSorter<T> extends Sorter<T> {
 
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @param comparator Determines whether an element is greater or lower 
-     * than another one.
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(T[] array, int fromIndex, int toIndex, 
-            Comparator<T> comparator) throws SortingException {
-        
+    public void sort(final T[] array, final int fromIndex, final int toIndex,
+                     final Comparator<T> comparator) throws SortingException {
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
@@ -61,10 +63,10 @@ public class HeapsortSorter<T> extends Sorter<T> {
         if (fromIndex == toIndex) {
             return;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, comparator, fromIndex);
         }
@@ -76,47 +78,48 @@ public class HeapsortSorter<T> extends Sorter<T> {
 
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
      * An array containing the original indices where elements were
      * located is returned so that other arrays or collections can be kept
      * in the same order.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @param comparator Determines whether an element is greater or lower 
-     * than another one.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
      * @return Array containing original location of elements that have been
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(T[] array, int fromIndex, int toIndex, 
-            Comparator<T> comparator) throws SortingException {
-        
+    public int[] sortWithIndices(final T[] array, final int fromIndex, final int toIndex,
+                                 final Comparator<T> comparator) throws SortingException {
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
         if (fromIndex < 0 || toIndex > array.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        
-        int [] indices = getInitialIndicesVector(array.length);
+
+        final int[] indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, comparator,
                     fromIndex);
@@ -124,41 +127,43 @@ public class HeapsortSorter<T> extends Sorter<T> {
         for (i = n - 1; i > 0; i--) {
             swap(array, fromIndex, i + fromIndex);
             swapIndices(indices, fromIndex, i + fromIndex);
-            siftDownWithIndices(array, indices, 0, i - 1, comparator, 
+            siftDownWithIndices(array, indices, 0, i - 1, comparator,
                     fromIndex);
         }
-        
+
         return indices;
     }
 
     /**
      * Returns sorting method of this class.
+     *
      * @return Sorting method.
      */
     @Override
     public SortingMethod getMethod() {
         return SortingMethod.HEAPSORT_SORTING_METHOD;
     }
-    
+
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(double[] array, int fromIndex, int toIndex) 
+    public void sort(final double[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
@@ -168,10 +173,10 @@ public class HeapsortSorter<T> extends Sorter<T> {
         if (fromIndex == toIndex) {
             return;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, fromIndex);
         }
@@ -183,45 +188,46 @@ public class HeapsortSorter<T> extends Sorter<T> {
 
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
      * An array containing the original indices where elements were
      * located is returned so that other arrays or collections can be kept
      * in the same order.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
      * @return Array containing original location of elements that have been
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(double[] array, int fromIndex, int toIndex) 
+    public int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
         if (fromIndex < 0 || toIndex > array.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        
-        int [] indices = getInitialIndicesVector(array.length);
+
+        final int[] indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, fromIndex);
         }
@@ -230,29 +236,30 @@ public class HeapsortSorter<T> extends Sorter<T> {
             swapIndices(indices, fromIndex, i + fromIndex);
             siftDownWithIndices(array, indices, 0, i - 1, fromIndex);
         }
-        
+
         return indices;
-    }    
+    }
 
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(float[] array, int fromIndex, int toIndex) 
+    public void sort(final float[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
@@ -262,10 +269,10 @@ public class HeapsortSorter<T> extends Sorter<T> {
         if (fromIndex == toIndex) {
             return;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, fromIndex);
         }
@@ -277,45 +284,46 @@ public class HeapsortSorter<T> extends Sorter<T> {
 
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
      * An array containing the original indices where elements were
      * located is returned so that other arrays or collections can be kept
      * in the same order.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
      * @return Array containing original location of elements that have been
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(float[] array, int fromIndex, int toIndex) 
+    public int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
         if (fromIndex < 0 || toIndex > array.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        
-        int [] indices = getInitialIndicesVector(array.length);
+
+        final int[] indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, fromIndex);
         }
@@ -324,29 +332,30 @@ public class HeapsortSorter<T> extends Sorter<T> {
             swapIndices(indices, fromIndex, i + fromIndex);
             siftDownWithIndices(array, indices, 0, i - 1, fromIndex);
         }
-        
+
         return indices;
-    }    
-    
+    }
+
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(int[] array, int fromIndex, int toIndex) 
+    public void sort(final int[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
@@ -356,10 +365,10 @@ public class HeapsortSorter<T> extends Sorter<T> {
         if (fromIndex == toIndex) {
             return;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, fromIndex);
         }
@@ -371,45 +380,46 @@ public class HeapsortSorter<T> extends Sorter<T> {
 
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
      * An array containing the original indices where elements were
      * located is returned so that other arrays or collections can be kept
      * in the same order.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
      * @return Array containing original location of elements that have been
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(int[] array, int fromIndex, int toIndex) 
+    public int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
         if (fromIndex < 0 || toIndex > array.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        
-        int [] indices = getInitialIndicesVector(array.length);
+
+        final int[] indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, fromIndex);
         }
@@ -418,29 +428,30 @@ public class HeapsortSorter<T> extends Sorter<T> {
             swapIndices(indices, fromIndex, i + fromIndex);
             siftDownWithIndices(array, indices, 0, i - 1, fromIndex);
         }
-        
+
         return indices;
-    }    
-    
+    }
+
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(long[] array, int fromIndex, int toIndex) 
+    public void sort(final long[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
@@ -450,10 +461,10 @@ public class HeapsortSorter<T> extends Sorter<T> {
         if (fromIndex == toIndex) {
             return;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, fromIndex);
         }
@@ -465,45 +476,46 @@ public class HeapsortSorter<T> extends Sorter<T> {
 
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] < array[i]} for any valid i. 
+     * array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
      * An array containing the original indices where elements were
      * located is returned so that other arrays or collections can be kept
      * in the same order.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
      * @return Array containing original location of elements that have been
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex < 0} or 
-     * {@code toIndex > array.length}.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
+     *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(long[] array, int fromIndex, int toIndex) 
+    public int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
+
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
         }
         if (fromIndex < 0 || toIndex > array.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        
-        int [] indices = getInitialIndicesVector(array.length);
+
+        final int[] indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
-        
+
         int i;
-        int n = toIndex - fromIndex;
-        
+        final int n = toIndex - fromIndex;
+
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, fromIndex);
         }
@@ -512,23 +524,24 @@ public class HeapsortSorter<T> extends Sorter<T> {
             swapIndices(indices, fromIndex, i + fromIndex);
             siftDownWithIndices(array, indices, 0, i - 1, fromIndex);
         }
-        
+
         return indices;
-    }    
-    
+    }
+
     /**
      * Internal method to reorder sub-array ra.
-     * @param ra sub-array ra.
-     * @param l l value.
-     * @param r r value.
+     *
+     * @param ra         sub-array ra.
+     * @param l          l value.
+     * @param r          r value.
      * @param comparator a comparator.
-     * @param fromIndex initial position.
+     * @param fromIndex  initial position.
      */
-    private void siftDown(T[] ra, int l, int r, Comparator<T> comparator,
-            int fromIndex) {
+    private void siftDown(final T[] ra, final int l, final int r, final Comparator<T> comparator,
+                          final int fromIndex) {
         int j;
         int jold;
-        T a = ra[l + fromIndex];
+        final T a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -545,23 +558,24 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
         ra[jold + fromIndex] = a;
     }
-    
+
     /**
      * Internal method to reorder sub-array ra along with its corresponding
      * indices.
-     * @param ra sub-array ra.
-     * @param rb sub-array rb.
-     * @param l l value.
-     * @param r r value.
+     *
+     * @param ra         sub-array ra.
+     * @param rb         sub-array rb.
+     * @param l          l value.
+     * @param r          r value.
      * @param comparator a comparator.
-     * @param fromIndex initial position.
+     * @param fromIndex  initial position.
      */
-    private void siftDownWithIndices(T[] ra, int[] rb, int l, int r, 
-            Comparator<T> comparator, int fromIndex) {
+    private void siftDownWithIndices(final T[] ra, final int[] rb, final int l, final int r,
+                                     final Comparator<T> comparator, final int fromIndex) {
         int j;
         int jold;
-        T a = ra[l + fromIndex];
-        int b = rb[l + fromIndex];
+        final T a = ra[l + fromIndex];
+        final int b = rb[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -580,150 +594,32 @@ public class HeapsortSorter<T> extends Sorter<T> {
         ra[jold + fromIndex] = a;
         rb[jold + fromIndex] = b;
     }
-    
+
     /**
      * Swaps values in array of indices at locations posA and posB.
+     *
      * @param indices array containing indices to be swapped.
-     * @param posA Location to be swapped.
-     * @param posB Location to be swapped.
+     * @param posA    Location to be swapped.
+     * @param posB    Location to be swapped.
      */
-    private void swapIndices(int[] indices, int posA, int posB) {
-        int value = indices[posA];
+    private void swapIndices(final int[] indices, final int posA, final int posB) {
+        final int value = indices[posA];
         indices[posA] = indices[posB];
         indices[posB] = value;
-    }    
-    
-    /**
-     * Internal method to reorder sub-array ra.
-     * @param ra sub-array ra.
-     * @param l l value.
-     * @param r r value.
-     * @param fromIndex initial position.
-     */
-    private void siftDown(double[] ra, int l, int r, int fromIndex) {
-        int j;
-        int jold;
-        double a = ra[l + fromIndex];
-        jold = l;
-        j = 2 * l + 1;
-        while (j <= r) {
-            if (j < r && ra[j + fromIndex] < ra[j + 1 + fromIndex]) {
-                j++;
-            }
-            if (a >= ra[j + fromIndex]) {
-                break;
-            }
-            ra[jold + fromIndex] = ra[j + fromIndex];
-            jold = j;
-            j = 2 * j + 1;
-        }
-        ra[jold + fromIndex] = a;
     }
-    
-    /**
-     * Internal method to reorder sub-array ra along with its corresponding
-     * indices.
-     * @param ra sub-array ra.
-     * @param rb sub-array rb.
-     * @param l l value.
-     * @param r r value.
-     * @param fromIndex initial position.
-     */
-    private void siftDownWithIndices(double[] ra, int[] rb, int l, int r, 
-            int fromIndex) {
-        int j;
-        int jold;
-        double a = ra[l + fromIndex];
-        int b = rb[l + fromIndex];
-        jold = l;
-        j = 2 * l + 1;
-        while (j <= r) {
-            if (j < r && ra[j + fromIndex] < ra[j + 1 + fromIndex]) {
-                j++;
-            }
-            if (a >= ra[j + fromIndex]) {
-                break;
-            }
-            ra[jold + fromIndex] = ra[j + fromIndex];
-            rb[jold + fromIndex] = rb[j + fromIndex];
-            jold = j;
-            j = 2 * j + 1;
-        }
-        ra[jold + fromIndex] = a;
-        rb[jold + fromIndex] = b;
-    }        
-    
-    /**
-     * Internal method to reorder sub-array ra.
-     * @param ra sub-array ra.
-     * @param l l value.
-     * @param r r value.
-     * @param fromIndex initial position.
-     */
-    private void siftDown(float[] ra, int l, int r, int fromIndex) {
-        int j;
-        int jold;
-        float a = ra[l + fromIndex];
-        jold = l;
-        j = 2 * l + 1;
-        while (j <= r) {
-            if (j < r && ra[j + fromIndex] < ra[j + 1 + fromIndex]) {
-                j++;
-            }
-            if (a >= ra[j + fromIndex]) {
-                break;
-            }
-            ra[jold + fromIndex] = ra[j + fromIndex];
-            jold = j;
-            j = 2 * j + 1;
-        }
-        ra[jold + fromIndex] = a;
-    }
-    
-    /**
-     * Internal method to reorder sub-array ra along with its corresponding
-     * indices.
-     * @param ra sub-array ra.
-     * @param rb sub-array rb.
-     * @param l l value.
-     * @param r r value.
-     * @param fromIndex initial position.
-     */
-    private void siftDownWithIndices(float[] ra, int[] rb, int l, int r, 
-            int fromIndex) {
-        int j;
-        int jold;
-        float a = ra[l + fromIndex];
-        int b = rb[l + fromIndex];
-        jold = l;
-        j = 2 * l + 1;
-        while (j <= r) {
-            if (j < r && ra[j + fromIndex] < ra[j + 1 + fromIndex]) {
-                j++;
-            }
-            if (a >= ra[j + fromIndex]) {
-                break;
-            }
-            ra[jold + fromIndex] = ra[j + fromIndex];
-            rb[jold + fromIndex] = rb[j + fromIndex];
-            jold = j;
-            j = 2 * j + 1;
-        }
-        ra[jold + fromIndex] = a;
-        rb[jold + fromIndex] = b;
-    }        
 
     /**
      * Internal method to reorder sub-array ra.
-     * @param ra sub-array ra.
-     * @param l l value.
-     * @param r r value.
+     *
+     * @param ra        sub-array ra.
+     * @param l         l value.
+     * @param r         r value.
      * @param fromIndex initial position.
      */
-    private void siftDown(int[] ra, int l, int r, int fromIndex) {
+    private void siftDown(final double[] ra, final int l, final int r, final int fromIndex) {
         int j;
         int jold;
-        int a = ra[l + fromIndex];
+        final double a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -739,22 +635,23 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
         ra[jold + fromIndex] = a;
     }
-    
+
     /**
      * Internal method to reorder sub-array ra along with its corresponding
      * indices.
-     * @param ra sub-array ra.
-     * @param rb sub-array rb.
-     * @param l l value.
-     * @param r r value.
+     *
+     * @param ra        sub-array ra.
+     * @param rb        sub-array rb.
+     * @param l         l value.
+     * @param r         r value.
      * @param fromIndex initial position.
      */
-    private void siftDownWithIndices(int[] ra, int[] rb, int l, int r, 
-            int fromIndex) {
+    private void siftDownWithIndices(final double[] ra, final int[] rb, final int l, final int r,
+                                     final int fromIndex) {
         int j;
         int jold;
-        int a = ra[l + fromIndex];
-        int b = rb[l + fromIndex];
+        final double a = ra[l + fromIndex];
+        final int b = rb[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -771,13 +668,138 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
         ra[jold + fromIndex] = a;
         rb[jold + fromIndex] = b;
-    }   
-    
+    }
+
     /**
      * Internal method to reorder sub-array ra.
-     * @param ra sub-array ra.
-     * @param l l value.
-     * @param r r value.
+     *
+     * @param ra        sub-array ra.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDown(final float[] ra, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+        final float a = ra[l + fromIndex];
+        jold = l;
+        j = 2 * l + 1;
+        while (j <= r) {
+            if (j < r && ra[j + fromIndex] < ra[j + 1 + fromIndex]) {
+                j++;
+            }
+            if (a >= ra[j + fromIndex]) {
+                break;
+            }
+            ra[jold + fromIndex] = ra[j + fromIndex];
+            jold = j;
+            j = 2 * j + 1;
+        }
+        ra[jold + fromIndex] = a;
+    }
+
+    /**
+     * Internal method to reorder sub-array ra along with its corresponding
+     * indices.
+     *
+     * @param ra        sub-array ra.
+     * @param rb        sub-array rb.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDownWithIndices(final float[] ra, final int[] rb, final int l, final int r,
+                                     final int fromIndex) {
+        int j;
+        int jold;
+        final float a = ra[l + fromIndex];
+        final int b = rb[l + fromIndex];
+        jold = l;
+        j = 2 * l + 1;
+        while (j <= r) {
+            if (j < r && ra[j + fromIndex] < ra[j + 1 + fromIndex]) {
+                j++;
+            }
+            if (a >= ra[j + fromIndex]) {
+                break;
+            }
+            ra[jold + fromIndex] = ra[j + fromIndex];
+            rb[jold + fromIndex] = rb[j + fromIndex];
+            jold = j;
+            j = 2 * j + 1;
+        }
+        ra[jold + fromIndex] = a;
+        rb[jold + fromIndex] = b;
+    }
+
+    /**
+     * Internal method to reorder sub-array ra.
+     *
+     * @param ra        sub-array ra.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDown(final int[] ra, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+        final int a = ra[l + fromIndex];
+        jold = l;
+        j = 2 * l + 1;
+        while (j <= r) {
+            if (j < r && ra[j + fromIndex] < ra[j + 1 + fromIndex]) {
+                j++;
+            }
+            if (a >= ra[j + fromIndex]) {
+                break;
+            }
+            ra[jold + fromIndex] = ra[j + fromIndex];
+            jold = j;
+            j = 2 * j + 1;
+        }
+        ra[jold + fromIndex] = a;
+    }
+
+    /**
+     * Internal method to reorder sub-array ra along with its corresponding
+     * indices.
+     *
+     * @param ra        sub-array ra.
+     * @param rb        sub-array rb.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDownWithIndices(final int[] ra, final int[] rb, final int l, final int r,
+                                     final int fromIndex) {
+        int j;
+        int jold;
+        final int a = ra[l + fromIndex];
+        final int b = rb[l + fromIndex];
+        jold = l;
+        j = 2 * l + 1;
+        while (j <= r) {
+            if (j < r && ra[j + fromIndex] < ra[j + 1 + fromIndex]) {
+                j++;
+            }
+            if (a >= ra[j + fromIndex]) {
+                break;
+            }
+            ra[jold + fromIndex] = ra[j + fromIndex];
+            rb[jold + fromIndex] = rb[j + fromIndex];
+            jold = j;
+            j = 2 * j + 1;
+        }
+        ra[jold + fromIndex] = a;
+        rb[jold + fromIndex] = b;
+    }
+
+    /**
+     * Internal method to reorder sub-array ra.
+     *
+     * @param ra        sub-array ra.
+     * @param l         l value.
+     * @param r         r value.
      * @param fromIndex initial value.
      */
     private void siftDown(long[] ra, int l, int r, int fromIndex) {
@@ -799,22 +821,23 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
         ra[jold + fromIndex] = a;
     }
-    
+
     /**
      * Internal method to reorder sub-array ra along with its corresponding
      * indices.
-     * @param ra sub-array ra.
-     * @param rb sub-array rb.
-     * @param l l value.
-     * @param r r value.
+     *
+     * @param ra        sub-array ra.
+     * @param rb        sub-array rb.
+     * @param l         l value.
+     * @param r         r value.
      * @param fromIndex initial value.
      */
-    private void siftDownWithIndices(long[] ra, int[] rb, int l, int r, 
-            int fromIndex) {
+    private void siftDownWithIndices(final long[] ra, final int[] rb, final int l, final int r,
+                                     final int fromIndex) {
         int j;
         int jold;
-        long a = ra[l + fromIndex];
-        int b = rb[l + fromIndex];
+        final long a = ra[l + fromIndex];
+        final int b = rb[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {

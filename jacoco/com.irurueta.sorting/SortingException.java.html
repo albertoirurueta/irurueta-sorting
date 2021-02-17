@@ -19,7 +19,7 @@ package com.irurueta.sorting;
  * Exception thrown if sorting process for some reason.
  */
 public class SortingException extends Exception {
-    
+
     /**
      * Constructor.
      */
@@ -29,27 +29,30 @@ public class SortingException extends Exception {
 
     /**
      * Constructor with String containing message.
+     *
      * @param message Message indicating the cause of the exception.
      */
-    public SortingException(String message) {
-<span class="fc" id="L35">        super(message);</span>
-<span class="fc" id="L36">    }</span>
+    public SortingException(final String message) {
+<span class="fc" id="L36">        super(message);</span>
+<span class="fc" id="L37">    }</span>
 
     /**
      * Constructor with message and cause.
+     *
      * @param message Message describing the cause of the exception.
-     * @param cause Instance containing the cause of the exception.
+     * @param cause   Instance containing the cause of the exception.
      */
-    public SortingException(String message, Throwable cause) {
-<span class="fc" id="L44">        super(message, cause);</span>
-<span class="fc" id="L45">    }</span>
+    public SortingException(final String message, final Throwable cause) {
+<span class="fc" id="L46">        super(message, cause);</span>
+<span class="fc" id="L47">    }</span>
 
     /**
      * Constructor with cause.
+     *
      * @param cause Instance containing the cause of the exception.
      */
-    public SortingException(Throwable cause) {
-<span class="fc" id="L52">        super(cause);</span>
-<span class="fc" id="L53">    }    </span>
+    public SortingException(final Throwable cause) {
+<span class="fc" id="L55">        super(cause);</span>
+<span class="fc" id="L56">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

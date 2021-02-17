@@ -20,138 +20,145 @@ import java.util.Comparator;
 
 /**
  * Sorts instances of type T in provided arrays using Quicksort method.
+ *
  * @param &lt;T&gt; Type of instances being sorted.
- * 
- * Where available, sort is based on Java SDK implementation, which also
- * uses Quicksort, however Java SDK implementation does not offer the
- * ability to retrieve indices when sorting
- * 
- * This class is based on algorithm found at
- * Numerical Recipes. 3rd Edition. Cambridge Press. Chapter 8. p. 424
- * Sedgewick, R. 1978. &quot;Implementing Quicksort Programs&quot;, Communications 
- * of the ACM, vol. 21, pp. 847-857.
+ *            &lt;p&gt;
+ *            Where available, sort is based on Java SDK implementation, which also
+ *            uses Quicksort, however Java SDK implementation does not offer the
+ *            ability to retrieve indices when sorting
+ *            &lt;p&gt;
+ *            This class is based on algorithm found at
+ *            Numerical Recipes. 3rd Edition. Cambridge Press. Chapter 8. p. 424
+ *            Sedgewick, R. 1978. &quot;Implementing Quicksort Programs&quot;, Communications
+ *            of the ACM, vol. 21, pp. 847-857.
  */
-<span class="fc" id="L34">public class SystemSorter&lt;T&gt; extends QuicksortSorter&lt;T&gt; {</span>
-    
-    /**
-     * Sorts provided array in ascending order so that {@code
-     * array[i - 1] &lt; array[i]} for any valid i. 
-     * This method modifies provided array so that
-     * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @param comparator Determines whether an element is greater or lower 
-     * than another one.
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
-     * {@code toIndex &gt; array.length}.
-     */        
-    @Override
-    public void sort(T[] array, int fromIndex, int toIndex, 
-        Comparator&lt;T&gt; comparator) throws SortingException {
-        
-<span class="fc" id="L57">        Arrays.sort(array, fromIndex, toIndex, comparator);</span>
-<span class="fc" id="L58">    }</span>
-    
-    /**
-     * Sorts provided array in ascending order so that {@code
-     * array[i - 1] &lt; array[i]} for any valid i. 
-     * This method modifies provided array so that
-     * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
-     * {@code toIndex &gt; array.length}.
-     */        
-    @Override
-    public void sort(double[] array, int fromIndex, int toIndex) 
-            throws SortingException {
-        
-<span class="fc" id="L79">        Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="fc" id="L80">    }</span>
+<span class="fc" id="L35">public class SystemSorter&lt;T&gt; extends QuicksortSorter&lt;T&gt; {</span>
 
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] &lt; array[i]} for any valid i. 
+     * array[i - 1] &lt; array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
-     * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
-     * {@code toIndex &gt; array.length}.
-     */        
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
     @Override
-    public void sort(float[] array, int fromIndex, int toIndex) 
-            throws SortingException {
-        
-<span class="fc" id="L101">        Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="fc" id="L102">    }</span>
-    
+    public void sort(final T[] array, final int fromIndex, final int toIndex,
+                     final Comparator&lt;T&gt; comparator) throws SortingException {
+
+<span class="fc" id="L59">        Arrays.sort(array, fromIndex, toIndex, comparator);</span>
+<span class="fc" id="L60">    }</span>
+
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] &lt; array[i]} for any valid i. 
+     * array[i - 1] &lt; array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
-     * {@code toIndex &gt; array.length}.
-     */        
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
     @Override
-    public void sort(int[] array, int fromIndex, int toIndex) 
+    public void sort(final double[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
-<span class="fc" id="L123">        Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="fc" id="L124">    }</span>
-    
+
+<span class="fc" id="L82">        Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="fc" id="L83">    }</span>
+
     /**
      * Sorts provided array in ascending order so that {@code
-     * array[i - 1] &lt; array[i]} for any valid i. 
+     * array[i - 1] &lt; array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
-     * @param array Array to be sorted. After execution of this method 
-     * elements in array between fromIndex (inclusive) and toIndex 
-     * (exclusive) are modified so that they are on ascending order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
-     * @param toIndex Index were sorting stops (exclusive).
-     * @throws SortingException If for some reason sorting fails.
-     * @throws IllegalArgumentException If {@code fromIndex &gt; toIndex}.
-     * @throws ArrayIndexOutOfBoundsException  if {@code fromIndex &lt; 0} or 
-     * {@code toIndex &gt; array.length}.
-     */        
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
     @Override
-    public void sort(long[] array, int fromIndex, int toIndex) 
+    public void sort(final float[] array, final int fromIndex, final int toIndex)
             throws SortingException {
-        
-<span class="fc" id="L145">        Arrays.sort(array, fromIndex, toIndex);</span>
-<span class="fc" id="L146">    }    </span>
-    
+
+<span class="fc" id="L105">        Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="fc" id="L106">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final int[] array, final int fromIndex, final int toIndex)
+            throws SortingException {
+
+<span class="fc" id="L128">        Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="fc" id="L129">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final long[] array, final int fromIndex, final int toIndex)
+            throws SortingException {
+
+<span class="fc" id="L151">        Arrays.sort(array, fromIndex, toIndex);</span>
+<span class="fc" id="L152">    }</span>
+
     /**
      * Returns sorting method of this class.
+     *
      * @return Sorting method.
-     */    
+     */
     @Override
     public SortingMethod getMethod() {
-<span class="fc" id="L154">        return SortingMethod.SYSTEM_SORTING_METHOD;</span>
-    }    
+<span class="fc" id="L161">        return SortingMethod.SYSTEM_SORTING_METHOD;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

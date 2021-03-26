@@ -185,12 +185,12 @@ public class StraightInsertionSorterTest {
             try {
                 sorter.sort(array, -1, toIndex);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch ( ArrayIndexOutOfBoundsException ignore) {
+            } catch (ArrayIndexOutOfBoundsException ignore) {
             }
             try {
                 sorter.sort(array, fromIndex, length + 1);
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch ( ArrayIndexOutOfBoundsException ignore) {
+            } catch (ArrayIndexOutOfBoundsException ignore) {
             }
         }
     }

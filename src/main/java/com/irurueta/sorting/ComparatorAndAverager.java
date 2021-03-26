@@ -18,7 +18,7 @@ package com.irurueta.sorting;
 import java.util.Comparator;
 
 /**
- * This insterface represents an object capable of comparing and averaging
+ * This interface represents an object capable of comparing and averaging
  * instances of type T.
  *
  * @param <T> Type to be compared and averaged.

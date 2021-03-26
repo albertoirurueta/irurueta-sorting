@@ -1942,7 +1942,7 @@ public class SorterTest {
 
                         @Override
                         public Date average(final Date obj1, final Date obj2) {
-                            return new Date((long)(0.5 * (obj1.getTime() + obj2.getTime())));
+                            return new Date((long) (0.5 * (obj1.getTime() + obj2.getTime())));
                         }
 
                     });
@@ -1967,7 +1967,7 @@ public class SorterTest {
             final Date otherMedian;
             if ((length % 2) == 0) {
                 // even length
-                otherMedian = new Date((long)(0.5 * (array[(length / 2) - 1].getTime() +
+                otherMedian = new Date((long) (0.5 * (array[(length / 2) - 1].getTime() +
                         array[length / 2].getTime())));
             } else {
                 otherMedian = array[length / 2];
@@ -2015,7 +2015,7 @@ public class SorterTest {
 
                         @Override
                         public Date average(final Date obj1, final Date obj2) {
-                            return new Date((long)(0.5 * (obj1.getTime() + obj2.getTime())));
+                            return new Date((long) (0.5 * (obj1.getTime() + obj2.getTime())));
                         }
 
                     });
@@ -2042,7 +2042,7 @@ public class SorterTest {
             final Date otherMedian;
             if ((n % 2) == 0) {
                 // even length
-                otherMedian = new Date((long)(0.5 * (array[(n / 2 + fromIndex) - 1].getTime() +
+                otherMedian = new Date((long) (0.5 * (array[(n / 2 + fromIndex) - 1].getTime() +
                         array[n / 2 + fromIndex].getTime())));
             } else {
                 otherMedian = array[n / 2 + fromIndex];

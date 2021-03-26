@@ -193,12 +193,12 @@
 <a class="jxr_linenumber" name="L185" href="#L185">185</a>             <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L186" href="#L186">186</a>                 sorter.sort(array, -1, toIndex);
 <a class="jxr_linenumber" name="L187" href="#L187">187</a>                 fail(<span class="jxr_string">"ArrayIndexOutOfBoundsException expected but not thrown"</span>);
-<a class="jxr_linenumber" name="L188" href="#L188">188</a>             } <strong class="jxr_keyword">catch</strong> ( ArrayIndexOutOfBoundsException ignore) {
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>             } <strong class="jxr_keyword">catch</strong> (ArrayIndexOutOfBoundsException ignore) {
 <a class="jxr_linenumber" name="L189" href="#L189">189</a>             }
 <a class="jxr_linenumber" name="L190" href="#L190">190</a>             <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L191" href="#L191">191</a>                 sorter.sort(array, fromIndex, length + 1);
 <a class="jxr_linenumber" name="L192" href="#L192">192</a>                 fail(<span class="jxr_string">"ArrayIndexOutOfBoundsException expected but not thrown"</span>);
-<a class="jxr_linenumber" name="L193" href="#L193">193</a>             } <strong class="jxr_keyword">catch</strong> ( ArrayIndexOutOfBoundsException ignore) {
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>             } <strong class="jxr_keyword">catch</strong> (ArrayIndexOutOfBoundsException ignore) {
 <a class="jxr_linenumber" name="L194" href="#L194">194</a>             }
 <a class="jxr_linenumber" name="L195" href="#L195">195</a>         }
 <a class="jxr_linenumber" name="L196" href="#L196">196</a>     }

@@ -1950,7 +1950,7 @@
 <a class="jxr_linenumber" name="L1942" href="#L1942">1942</a> 
 <a class="jxr_linenumber" name="L1943" href="#L1943">1943</a>                         @Override
 <a class="jxr_linenumber" name="L1944" href="#L1944">1944</a>                         <strong class="jxr_keyword">public</strong> Date average(<strong class="jxr_keyword">final</strong> Date obj1, <strong class="jxr_keyword">final</strong> Date obj2) {
-<a class="jxr_linenumber" name="L1945" href="#L1945">1945</a>                             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Date((<strong class="jxr_keyword">long</strong>)(0.5 * (obj1.getTime() + obj2.getTime())));
+<a class="jxr_linenumber" name="L1945" href="#L1945">1945</a>                             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Date((<strong class="jxr_keyword">long</strong>) (0.5 * (obj1.getTime() + obj2.getTime())));
 <a class="jxr_linenumber" name="L1946" href="#L1946">1946</a>                         }
 <a class="jxr_linenumber" name="L1947" href="#L1947">1947</a> 
 <a class="jxr_linenumber" name="L1948" href="#L1948">1948</a>                     });
@@ -1975,7 +1975,7 @@
 <a class="jxr_linenumber" name="L1967" href="#L1967">1967</a>             <strong class="jxr_keyword">final</strong> Date otherMedian;
 <a class="jxr_linenumber" name="L1968" href="#L1968">1968</a>             <strong class="jxr_keyword">if</strong> ((length % 2) == 0) {
 <a class="jxr_linenumber" name="L1969" href="#L1969">1969</a>                 <em class="jxr_comment">// even length</em>
-<a class="jxr_linenumber" name="L1970" href="#L1970">1970</a>                 otherMedian = <strong class="jxr_keyword">new</strong> Date((<strong class="jxr_keyword">long</strong>)(0.5 * (array[(length / 2) - 1].getTime() +
+<a class="jxr_linenumber" name="L1970" href="#L1970">1970</a>                 otherMedian = <strong class="jxr_keyword">new</strong> Date((<strong class="jxr_keyword">long</strong>) (0.5 * (array[(length / 2) - 1].getTime() +
 <a class="jxr_linenumber" name="L1971" href="#L1971">1971</a>                         array[length / 2].getTime())));
 <a class="jxr_linenumber" name="L1972" href="#L1972">1972</a>             } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L1973" href="#L1973">1973</a>                 otherMedian = array[length / 2];
@@ -2023,7 +2023,7 @@
 <a class="jxr_linenumber" name="L2015" href="#L2015">2015</a> 
 <a class="jxr_linenumber" name="L2016" href="#L2016">2016</a>                         @Override
 <a class="jxr_linenumber" name="L2017" href="#L2017">2017</a>                         <strong class="jxr_keyword">public</strong> Date average(<strong class="jxr_keyword">final</strong> Date obj1, <strong class="jxr_keyword">final</strong> Date obj2) {
-<a class="jxr_linenumber" name="L2018" href="#L2018">2018</a>                             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Date((<strong class="jxr_keyword">long</strong>)(0.5 * (obj1.getTime() + obj2.getTime())));
+<a class="jxr_linenumber" name="L2018" href="#L2018">2018</a>                             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Date((<strong class="jxr_keyword">long</strong>) (0.5 * (obj1.getTime() + obj2.getTime())));
 <a class="jxr_linenumber" name="L2019" href="#L2019">2019</a>                         }
 <a class="jxr_linenumber" name="L2020" href="#L2020">2020</a> 
 <a class="jxr_linenumber" name="L2021" href="#L2021">2021</a>                     });
@@ -2050,7 +2050,7 @@
 <a class="jxr_linenumber" name="L2042" href="#L2042">2042</a>             <strong class="jxr_keyword">final</strong> Date otherMedian;
 <a class="jxr_linenumber" name="L2043" href="#L2043">2043</a>             <strong class="jxr_keyword">if</strong> ((n % 2) == 0) {
 <a class="jxr_linenumber" name="L2044" href="#L2044">2044</a>                 <em class="jxr_comment">// even length</em>
-<a class="jxr_linenumber" name="L2045" href="#L2045">2045</a>                 otherMedian = <strong class="jxr_keyword">new</strong> Date((<strong class="jxr_keyword">long</strong>)(0.5 * (array[(n / 2 + fromIndex) - 1].getTime() +
+<a class="jxr_linenumber" name="L2045" href="#L2045">2045</a>                 otherMedian = <strong class="jxr_keyword">new</strong> Date((<strong class="jxr_keyword">long</strong>) (0.5 * (array[(n / 2 + fromIndex) - 1].getTime() +
 <a class="jxr_linenumber" name="L2046" href="#L2046">2046</a>                         array[n / 2 + fromIndex].getTime())));
 <a class="jxr_linenumber" name="L2047" href="#L2047">2047</a>             } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L2048" href="#L2048">2048</a>                 otherMedian = array[n / 2 + fromIndex];

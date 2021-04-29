@@ -20,7 +20,7 @@ package com.irurueta.sorting;
  *
  * @param <T> Type to be compared and averaged
  */
-public interface ComparableAndAveragable<T> extends Comparable<T> {
+public interface ComparableAndAverageable<T> extends Comparable<T> {
 
     /**
      * Averages current instance with another instance. (i.e. if both objects
@@ -29,5 +29,5 @@ public interface ComparableAndAveragable<T> extends Comparable<T> {
      * @param other Other instance to be averaged with.
      * @return An instance representing the average of both instances.
      */
-    T averageWith(T other);
+    T averageWith(final T other);
 }

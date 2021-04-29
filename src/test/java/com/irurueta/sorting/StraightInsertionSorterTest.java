@@ -149,7 +149,7 @@ public class StraightInsertionSorterTest {
     }
 
     @Test
-    public void testSortDoubles() throws SortingException {
+    public void testSortDoubles() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -196,7 +196,7 @@ public class StraightInsertionSorterTest {
     }
 
     @Test
-    public void testSortWithIndicesDoubles() throws SortingException {
+    public void testSortWithIndicesDoubles() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -248,7 +248,7 @@ public class StraightInsertionSorterTest {
     }
 
     @Test
-    public void testSortFloats() throws SortingException {
+    public void testSortFloats() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -295,7 +295,7 @@ public class StraightInsertionSorterTest {
     }
 
     @Test
-    public void testSortWithIndicesFloats() throws SortingException {
+    public void testSortWithIndicesFloats() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -348,7 +348,7 @@ public class StraightInsertionSorterTest {
     }
 
     @Test
-    public void testSortInts() throws SortingException {
+    public void testSortInts() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -395,7 +395,7 @@ public class StraightInsertionSorterTest {
     }
 
     @Test
-    public void testSortWithIndicesInts() throws SortingException {
+    public void testSortWithIndicesInts() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -447,7 +447,7 @@ public class StraightInsertionSorterTest {
     }
 
     @Test
-    public void testSortLongs() throws SortingException {
+    public void testSortLongs() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -494,7 +494,7 @@ public class StraightInsertionSorterTest {
     }
 
     @Test
-    public void testSortWithIndicesLongs() throws SortingException {
+    public void testSortWithIndicesLongs() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 

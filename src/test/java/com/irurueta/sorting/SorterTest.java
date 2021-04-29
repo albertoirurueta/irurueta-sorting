@@ -2158,7 +2158,7 @@ public class SorterTest {
             final double median = sorter.median(array2, fromIndex, toIndex);
 
 
-            // for that reason elementat length / 2 is the same on sorted and
+            // for that reason element at length / 2 is the same on sorted and
             // selected arrays
             assertEquals(array[n / 2 + fromIndex],
                     array2[n / 2 + fromIndex], 0.0);
@@ -2373,7 +2373,7 @@ public class SorterTest {
             // length / 2 because selection is done at length / 2
             final int median = sorter.median(array2);
 
-            // for that reason elementat length / 2 is the same on sorted and
+            // for that reason element at length / 2 is the same on sorted and
             // selected arrays
             assertEquals(array[length / 2], array2[length / 2], 0.0);
 
@@ -2434,7 +2434,7 @@ public class SorterTest {
             final int median = sorter.median(array2, fromIndex, toIndex);
 
 
-            // for that reason elementat length / 2 is the same on sorted and
+            // for that reason element at length / 2 is the same on sorted and
             // selected arrays
             assertEquals(array[n / 2 + fromIndex],
                     array2[n / 2 + fromIndex], 0.0);

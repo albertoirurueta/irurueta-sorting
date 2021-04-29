@@ -262,7 +262,7 @@ public abstract class Sorter<T> {
                                           final int toIndex) throws SortingException;
 
     /**
-     * Sorts provided array of Comparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -292,7 +292,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Sorts provided array of Comparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -402,7 +402,7 @@ public abstract class Sorter<T> {
 
 
     /**
-     * Sorts provided array of COmparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -437,7 +437,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Sorts provided array of COmparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -457,7 +457,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Sorts provided array of COmparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -480,7 +480,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Sorts provided array of COmparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -500,7 +500,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Sorts provided array of COmparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -520,7 +520,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Sorts provided array of COmparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -540,7 +540,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Sorts provided array of COmparables in ascending order so that
+     * Sorts provided array of {@link Comparable} in ascending order so that
      * {@code array[i - 1] < array[i]} for any valid i.
      * This method modifies provided array so that
      * after execution of this method array elements are ordered.
@@ -560,7 +560,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Returns the k-th sorted element in provided array of Comparables.
+     * Returns the k-th sorted element in provided array of {@link Comparable}.
      * Selecting an element is usually faster than sorting the whole
      * array, and for that reason, when only a few sorted elements are
      * required, this method should be used instead of sort.
@@ -586,7 +586,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Returns the k-th sorted element in provided array of COmparables
+     * Returns the k-th sorted element in provided array of {@link Comparable}
      * starting at fromIndex and finishing at toIndex, elements outside this
      * range are ignored.
      * Selecting an element is usually faster than sorting the whole
@@ -760,7 +760,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Returns the k-th sorted element in provided array of COmparables
+     * Returns the k-th sorted element in provided array of {@link Comparable}
      * starting at fromIndex and finishing at toIndex, elements outside this
      * range are ignored.
      * Selecting an element is usually faster than sorting the whole
@@ -868,7 +868,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Returns the k-th sorted element in provided array of COmparables
+     * Returns the k-th sorted element in provided array of {@link Comparable}
      * starting at fromIndex and finishing at toIndex, elements outside this
      * range are ignored.
      * Selecting an element is usually faster than sorting the whole
@@ -969,7 +969,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Returns the k-th sorted element in provided array of COmparables
+     * Returns the k-th sorted element in provided array of {@link Comparable}
      * starting at fromIndex and finishing at toIndex, elements outside this
      * range are ignored.
      * Selecting an element is usually faster than sorting the whole
@@ -1070,7 +1070,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Returns the k-th sorted element in provided array of COmparables
+     * Returns the k-th sorted element in provided array of {@link Comparable}
      * starting at fromIndex and finishing at toIndex, elements outside this
      * range are ignored.
      * Selecting an element is usually faster than sorting the whole
@@ -1171,7 +1171,7 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Returns the k-th sorted element in provided array of COmparables
+     * Returns the k-th sorted element in provided array of {@link Comparable}
      * starting at fromIndex and finishing at toIndex, elements outside this
      * range are ignored.
      * Selecting an element is usually faster than sorting the whole
@@ -1276,7 +1276,7 @@ public abstract class Sorter<T> {
      * Median is computed by selecting the length / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location length / 2, smaller unsorted elements at
-     * arra[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
      * array[length / 2 + 1] ... array[length - 1].
      *
      * @param array Array to be used for computation of median. This array
@@ -1288,12 +1288,12 @@ public abstract class Sorter<T> {
     }
 
     /**
-     * Computes median of provided array of Comparables
+     * Computes median of provided array of {@link Comparable}
      * Median is computed by selecting the
      * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
-     * smaller unsorted elements at arra[fromIndex] ...
+     * smaller unsorted elements at array[fromIndex] ...
      * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
      * unsorted elements at
      * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
@@ -1321,9 +1321,9 @@ public abstract class Sorter<T> {
 
             @Override
             public T average(final T t1, final T t2) {
-                if (t1 instanceof ComparableAndAveragable &&
-                        t2 instanceof ComparableAndAveragable) {
-                    return ((ComparableAndAveragable<T>) t1).averageWith(t2);
+                if (t1 instanceof ComparableAndAverageable &&
+                        t2 instanceof ComparableAndAverageable) {
+                    return ((ComparableAndAverageable<T>) t1).averageWith(t2);
                 }
                 if (t1 instanceof Byte && t2 instanceof Byte) {
                     byte b1 = ((Byte) t1);
@@ -1372,7 +1372,7 @@ public abstract class Sorter<T> {
      * Median is computed by selecting the length / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location length / 2, smaller unsorted elements at
-     * arra[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
      * array[length / 2 + 1] ... array[length - 1].
      *
      * @param array      Array to be used for computation of median. This array
@@ -1391,7 +1391,7 @@ public abstract class Sorter<T> {
      * Median is computed by selecting the length / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location length / 2, smaller unsorted elements at
-     * arra[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
      * array[length / 2 + 1] ... array[length - 1].
      *
      * @param array Array to be used for computation of median. This array
@@ -1407,7 +1407,7 @@ public abstract class Sorter<T> {
      * Median is computed by selecting the length / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location length / 2, smaller unsorted elements at
-     * arra[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
      * array[length / 2 + 1] ... array[length - 1].
      *
      * @param array Array to be used for computation of median. This array
@@ -1423,7 +1423,7 @@ public abstract class Sorter<T> {
      * Median is computed by selecting the length / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location length / 2, smaller unsorted elements at
-     * arra[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
      * array[length / 2 + 1] ... array[length - 1].
      *
      * @param array Array to be used for computation of median. This array
@@ -1439,7 +1439,7 @@ public abstract class Sorter<T> {
      * Median is computed by selecting the length / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location length / 2, smaller unsorted elements at
-     * arra[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
      * array[length / 2 + 1] ... array[length - 1].
      *
      * @param array Array to be used for computation of median. This array
@@ -1457,7 +1457,7 @@ public abstract class Sorter<T> {
      * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
-     * smaller unsorted elements at arra[fromIndex] ...
+     * smaller unsorted elements at array[fromIndex] ...
      * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
      * unsorted elements at
      * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
@@ -1524,7 +1524,7 @@ public abstract class Sorter<T> {
      * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
-     * smaller unsorted elements at arra[fromIndex] ...
+     * smaller unsorted elements at array[fromIndex] ...
      * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
      * unsorted elements at
      * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
@@ -1587,7 +1587,7 @@ public abstract class Sorter<T> {
      * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
-     * smaller unsorted elements at arra[fromIndex] ...
+     * smaller unsorted elements at array[fromIndex] ...
      * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
      * unsorted elements at
      * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
@@ -1650,7 +1650,7 @@ public abstract class Sorter<T> {
      * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
-     * smaller unsorted elements at arra[fromIndex] ...
+     * smaller unsorted elements at array[fromIndex] ...
      * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
      * unsorted elements at
      * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
@@ -1713,7 +1713,7 @@ public abstract class Sorter<T> {
      * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
      * provided array is modified upon execution of this method containing
      * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
-     * smaller unsorted elements at arra[fromIndex] ...
+     * smaller unsorted elements at array[fromIndex] ...
      * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
      * unsorted elements at
      * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...

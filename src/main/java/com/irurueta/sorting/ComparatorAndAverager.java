@@ -34,5 +34,5 @@ public interface ComparatorAndAverager<T> extends Comparator<T> {
      * @param t2 Instance to be averaged.
      * @return Instance representing average of provided ones.
      */
-    T average(T t1, T t2);
+    T average(final T t1, final T t2);
 }

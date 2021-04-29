@@ -45,14 +45,13 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      * @param toIndex    Index were sorting stops (exclusive).
      * @param comparator Determines whether an element is greater or lower
      *                   than another one.
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
     public void sort(final T[] array, final int fromIndex, final int toIndex,
-                     final Comparator<T> comparator) throws SortingException {
+                     final Comparator<T> comparator) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -104,14 +103,13 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
     public int[] sortWithIndices(final T[] array, final int fromIndex, final int toIndex,
-                                 final Comparator<T> comparator) throws SortingException {
+                                 final Comparator<T> comparator) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -172,14 +170,12 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
      * @param toIndex   Index were sorting stops (exclusive).
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final double[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public void sort(final double[] array, final int fromIndex, final int toIndex) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -229,14 +225,12 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -287,14 +281,12 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
      * @param toIndex   Index were sorting stops (exclusive).
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final float[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public void sort(final float[] array, final int fromIndex, final int toIndex) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -344,14 +336,12 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -402,14 +392,12 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
      * @param toIndex   Index were sorting stops (exclusive).
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final int[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public void sort(final int[] array, final int fromIndex, final int toIndex) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -459,14 +447,12 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -517,14 +503,12 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      *                  (exclusive) are modified so that they are on ascending order.
      * @param fromIndex Index were sorting starts (inclusive).
      * @param toIndex   Index were sorting stops (exclusive).
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final long[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public void sort(final long[] array, final int fromIndex, final int toIndex) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -574,14 +558,12 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      * sorted. Only elements between fromIndex (inclusive) and toIndex
      * (exclusive) are modified, the remaining ones are kept in natural
      * order.
-     * @throws SortingException               If for some reason sorting fails.
      * @throws IllegalArgumentException       If {@code fromIndex > toIndex}.
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();

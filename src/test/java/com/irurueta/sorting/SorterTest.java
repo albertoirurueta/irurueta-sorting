@@ -18,10 +18,7 @@ package com.irurueta.sorting;
 import com.irurueta.statistics.UniformRandomizer;
 import org.junit.*;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -1793,11 +1790,65 @@ public class SorterTest {
     }
 
     @Test
-    public void testMedianComparables() throws SortingException {
+    public void testMedianComparablesOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final Date[] array = new Date[length];
+
+            // set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
+            }
+
+            final Date[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Date> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Date median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final Date otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianComparablesEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
 
             final Date[] array = new Date[length];
 
@@ -1909,11 +1960,14 @@ public class SorterTest {
     }
 
     @Test
-    public void testMedianWithComparator() throws SortingException {
+    public void testMedianWithComparatorOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
 
             final Date[] array = new Date[length];
 
@@ -1965,13 +2019,73 @@ public class SorterTest {
 
             // Check median value
             final Date otherMedian;
-            if ((length % 2) == 0) {
-                // even length
-                otherMedian = new Date((long) (0.5 * (array[(length / 2) - 1].getTime() +
-                        array[length / 2].getTime())));
-            } else {
-                otherMedian = array[length / 2];
+            otherMedian = array[length / 2];
+
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianWithComparatorEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
             }
+
+            final Date[] array = new Date[length];
+
+            // set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
+            }
+
+            final Date[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Date> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Object median = sorter.median(array2,
+                    new ComparatorAndAverager<Date>() {
+
+                        @Override
+                        public int compare(final Date obj1, final Date obj2) {
+                            return obj1.compareTo(obj2);
+                        }
+
+                        @Override
+                        public Date average(final Date obj1, final Date obj2) {
+                            return new Date((long) (0.5 * (obj1.getTime() + obj2.getTime())));
+                        }
+
+                    });
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value for even length
+            final Date otherMedian = new Date((long) (0.5 * (array[(length / 2) - 1].getTime() +
+                    array[length / 2].getTime())));
 
             assertEquals(otherMedian, median);
         }
@@ -2072,11 +2186,14 @@ public class SorterTest {
     }
 
     @Test
-    public void testMedianDoubles() throws SortingException {
+    public void testMedianDoublesOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
 
             final double[] array = new double[length];
 
@@ -2115,13 +2232,60 @@ public class SorterTest {
 
             // Check median value
             final double otherMedian;
-            if ((length % 2) == 0) {
-                // even length
-                otherMedian = 0.5 * (array[(length / 2) - 1] +
-                        array[length / 2]);
-            } else {
-                otherMedian = array[length / 2];
+            otherMedian = array[length / 2];
+
+            assertEquals(otherMedian, median, 0.0);
+        }
+    }
+
+    @Test
+    public void testMedianDoublesEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
             }
+
+            final double[] array = new double[length];
+
+            // set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
+            }
+
+            final double[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Double> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final double median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2], 0.0);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i] <= array[length / 2]);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i] >= array[length / 2]);
+            }
+
+            // Check median value even length
+            final double otherMedian = 0.5 * (array[(length / 2) - 1] +
+                    array[length / 2]);
 
             assertEquals(otherMedian, median, 0.0);
         }
@@ -2210,11 +2374,14 @@ public class SorterTest {
     }
 
     @Test
-    public void testMedianFloats() throws SortingException {
+    public void testMedianFloatsOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
 
             final float[] array = new float[length];
 
@@ -2251,15 +2418,62 @@ public class SorterTest {
                 assertTrue(array2[i] >= array[length / 2]);
             }
 
-            // Check that median value
+            // Check median value
             final float otherMedian;
-            if ((length % 2) == 0) {
-                // even length
-                otherMedian = 0.5f * (array[(length / 2) - 1] +
-                        array[length / 2]);
-            } else {
-                otherMedian = array[length / 2];
+            otherMedian = array[length / 2];
+
+            assertEquals(otherMedian, median, 0.0);
+        }
+    }
+
+    @Test
+    public void testMedianFloatsEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
             }
+
+            final float[] array = new float[length];
+
+            // set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
+            }
+
+            final float[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Float> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final float median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2], 0.0);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i] <= array[length / 2]);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i] >= array[length / 2]);
+            }
+
+            // Check median value even length
+            final float otherMedian = 0.5f * (array[(length / 2) - 1] +
+                    array[length / 2]);
 
             assertEquals(otherMedian, median, 0.0);
         }
@@ -2348,11 +2562,14 @@ public class SorterTest {
     }
 
     @Test
-    public void testMedianInts() throws SortingException {
+    public void testMedianIntsOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
 
             final int[] array = new int[length];
 
@@ -2391,13 +2608,60 @@ public class SorterTest {
 
             // Check that median value
             final int otherMedian;
-            if ((length % 2) == 0) {
-                // even length
-                otherMedian = (int) (0.5 * (array[(length / 2) - 1] +
-                        array[length / 2]));
-            } else {
-                otherMedian = array[length / 2];
+            otherMedian = array[length / 2];
+
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianIntsEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
             }
+
+            final int[] array = new int[length];
+
+            // set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final int[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Integer> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final int median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2], 0.0);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i] <= array[length / 2]);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i] >= array[length / 2]);
+            }
+
+            // Check median value even length
+            final int otherMedian = (int) (0.5 * (array[(length / 2) - 1] +
+                    array[length / 2]));
 
             assertEquals(otherMedian, median);
         }
@@ -2486,11 +2750,14 @@ public class SorterTest {
     }
 
     @Test
-    public void testMedianLongs() throws SortingException {
+    public void testMedianLongsOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
 
             final long[] array = new long[length];
 
@@ -2529,13 +2796,60 @@ public class SorterTest {
 
             // Check that median value
             final long otherMedian;
-            if ((length % 2) == 0) {
-                // even length
-                otherMedian = (long) (0.5 * (array[(length / 2) - 1] +
-                        array[length / 2]));
-            } else {
-                otherMedian = array[length / 2];
+            otherMedian = array[length / 2];
+
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianLongsEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
             }
+
+            final long[] array = new long[length];
+
+            // set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
+            }
+
+            final long[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Long> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final long median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2], 0.0);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i] <= array[length / 2]);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i] >= array[length / 2]);
+            }
+
+            // Check median value even length
+            final long otherMedian = (long) (0.5 * (array[(length / 2) - 1] +
+                    array[length / 2]));
 
             assertEquals(otherMedian, median);
         }
@@ -2620,6 +2934,854 @@ public class SorterTest {
                 fail("ArrayIndexOutOfBoundsException expected but not thrown");
             } catch (final ArrayIndexOutOfBoundsException ignore) {
             }
+        }
+    }
+
+    @Test
+    public void testMedianComparableAndAverageablesOddLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final AverageableDate[] array = new AverageableDate[length];
+
+            // set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = new AverageableDate(new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE)));
+            }
+
+            final AverageableDate[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<AverageableDate> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final AverageableDate median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final AverageableDate otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianComparableAndAverageablesEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
+
+            final AverageableDate[] array = new AverageableDate[length];
+
+            // set random values into array of comparables
+            for (int i = 0; i < length; i++) {
+                array[i] = new AverageableDate(new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE)));
+            }
+
+            final AverageableDate[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<AverageableDate> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final AverageableDate median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value
+            final AverageableDate otherMedian = array[length / 2 - 1].averageWith(array[length / 2]);
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianBytesOddLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final Byte[] array = new Byte[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (byte) randomizer.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
+            }
+
+            final Byte[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Byte> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Byte median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final Byte otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianBytesEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
+
+            final Byte[] array = new Byte[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (byte) randomizer.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
+            }
+
+            final Byte[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Byte> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Byte median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value
+            final Byte otherMedian = (byte) ((array[length / 2 - 1] + array[length / 2]) / 2);
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianCharactersOddLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final Character[] array = new Character[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (char) randomizer.nextInt(Character.MIN_VALUE, Character.MAX_VALUE);
+            }
+
+            final Character[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Character> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Character median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final Character otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianCharactersEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
+
+            final Character[] array = new Character[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (char) randomizer.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
+            }
+
+            final Character[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Character> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Character median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value
+            final Character otherMedian = (char) ((array[length / 2 - 1] + array[length / 2]) / 2);
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianShortsOddLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final Short[] array = new Short[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (short) randomizer.nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
+            }
+
+            final Short[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Short> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Short median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final Short otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianShortsEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
+
+            final Short[] array = new Short[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (short) randomizer.nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
+            }
+
+            final Short[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Short> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Short median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value
+            final Short otherMedian = (short) ((array[length / 2 - 1] + array[length / 2]) / 2);
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianIntegersOddLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final Integer[] array = new Integer[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final Integer[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Integer> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Integer median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final Integer otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianIntegersEvenLength() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
+
+            final Integer[] array = new Integer[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final Integer[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Integer> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Integer median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value
+            final Integer otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianLongsOddLength2() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final Long[] array = new Long[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (long) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final Long[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Long> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Long median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final Long otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianLongsEvenLength2() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
+
+            final Long[] array = new Long[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (long) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final Long[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Long> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Long median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value
+            final Long otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianFloatsOddLength2() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final Float[] array = new Float[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (float) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final Float[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Float> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Float median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final Float otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianFloatsEvenLength2() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
+
+            final Float[] array = new Float[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (float) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final Float[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Float> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Float median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value
+            final Float otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianDoublesOddLength2() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 == 0) {
+                length++;
+            }
+
+            final Double[] array = new Double[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (double) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final Double[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Double> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Double median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check that median value
+            final Double otherMedian = array[length / 2];
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    @Test
+    public void testMedianDoublesEvenLength2() throws SortingException {
+        for (int t = 0; t < TIMES; t++) {
+            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+
+            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            if (length % 2 != 0) {
+                length++;
+            }
+
+            final Double[] array = new Double[length];
+
+            // set random values into array of bytes
+            for (int i = 0; i < length; i++) {
+                array[i] = (double) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
+            }
+
+            final Double[] array2 = Arrays.copyOf(array, length);
+
+            final Sorter<Double> sorter = Sorter.create();
+
+            // sort original array
+            sorter.sort(array);
+
+            // after median computation array2 will contain elements smaller than
+            // element at length / 2 and elements greater than element at
+            // length / 2 because selection is done at length / 2
+            final Double median = sorter.median(array2);
+
+            // for that reason element at length / 2 is the same on sorted and
+            // selected arrays
+            assertEquals(array[length / 2], array2[length / 2]);
+
+            // check that elements in array2[0] ... array2[pos - 1] are lower
+            // than selected value
+            for (int i = 0; i < length / 2; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) <= 0);
+            }
+
+            // check that elements int array2[pos + 1] ... array2[length - 1] are
+            // greater than selected value
+            for (int i = length / 2 + 1; i < length; i++) {
+                assertTrue(array2[i].compareTo(array[length / 2]) >= 0);
+            }
+
+            // Check median value
+            final Double otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
+            assertEquals(otherMedian, median);
+        }
+    }
+
+    private static class AverageableDate implements ComparableAndAverageable<AverageableDate> {
+
+        private final Date date;
+
+        public AverageableDate(final Date date) {
+            this.date = date;
+        }
+
+        @Override
+        public AverageableDate averageWith(AverageableDate other) {
+            return new AverageableDate(new Date((date.getTime() + other.date.getTime()) / 2));
+        }
+
+        @Override
+        public int compareTo(AverageableDate o) {
+            return date.compareTo(o.date);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            AverageableDate that = (AverageableDate) o;
+            return date.equals(that.date);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(date);
         }
     }
 }

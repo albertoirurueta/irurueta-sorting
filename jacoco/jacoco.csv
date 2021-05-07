@@ -8,7 +8,7 @@ com.irurueta:irurueta-sorting,com.irurueta.sorting,Sorter.new Comparator() {...}
 com.irurueta:irurueta-sorting,com.irurueta.sorting,Sorter.new Comparator() {...},0,13,0,0,0,3,0,2,0,2
 com.irurueta:irurueta-sorting,com.irurueta.sorting,Sorter,0,1869,0,217,0,328,0,158,0,48
 com.irurueta:irurueta-sorting,com.irurueta.sorting,SortingException,0,16,0,0,0,8,0,4,0,4
-com.irurueta:irurueta-sorting,com.irurueta.sorting,Sorter.new ComparatorAndAverager() {...},137,39,24,8,22,12,16,3,0,3
+com.irurueta:irurueta-sorting,com.irurueta.sorting,Sorter.new ComparatorAndAverager() {...},0,176,8,24,0,34,8,11,0,3
 com.irurueta:irurueta-sorting,com.irurueta.sorting,SortingMethod,0,54,0,0,0,6,0,1,0,1
 com.irurueta:irurueta-sorting,com.irurueta.sorting,StraightInsertionSorter,15,725,10,130,10,152,10,72,0,12
 com.irurueta:irurueta-sorting,com.irurueta.sorting,HeapsortSorter,15,1569,10,190,10,281,10,113,0,23

@@ -1321,44 +1321,44 @@ import java.util.Comparator;
 
             @Override
             public T average(final T t1, final T t2) {
-<span class="pc bpc" id="L1324" title="3 of 4 branches missed.">                if (t1 instanceof ComparableAndAverageable &amp;&amp;</span>
+<span class="pc bpc" id="L1324" title="1 of 4 branches missed.">                if (t1 instanceof ComparableAndAverageable &amp;&amp;</span>
                         t2 instanceof ComparableAndAverageable) {
-<span class="nc" id="L1326">                    return ((ComparableAndAverageable&lt;T&gt;) t1).averageWith(t2);</span>
+<span class="fc" id="L1326">                    return ((ComparableAndAverageable&lt;T&gt;) t1).averageWith(t2);</span>
                 }
-<span class="pc bpc" id="L1328" title="3 of 4 branches missed.">                if (t1 instanceof Byte &amp;&amp; t2 instanceof Byte) {</span>
-<span class="nc" id="L1329">                    byte b1 = ((Byte) t1);</span>
-<span class="nc" id="L1330">                    byte b2 = ((Byte) t2);</span>
-<span class="nc" id="L1331">                    return (T) Byte.valueOf((byte) ((b1 + b2) / 2));</span>
+<span class="pc bpc" id="L1328" title="1 of 4 branches missed.">                if (t1 instanceof Byte &amp;&amp; t2 instanceof Byte) {</span>
+<span class="fc" id="L1329">                    byte b1 = ((Byte) t1);</span>
+<span class="fc" id="L1330">                    byte b2 = ((Byte) t2);</span>
+<span class="fc" id="L1331">                    return (T) Byte.valueOf((byte) ((b1 + b2) / 2));</span>
                 }
-<span class="pc bpc" id="L1333" title="3 of 4 branches missed.">                if (t1 instanceof Character &amp;&amp; t2 instanceof Character) {</span>
-<span class="nc" id="L1334">                    char c1 = ((Character) t1);</span>
-<span class="nc" id="L1335">                    char c2 = ((Character) t2);</span>
-<span class="nc" id="L1336">                    return (T) Character.valueOf((char) ((c1 + c2) / 2));</span>
+<span class="pc bpc" id="L1333" title="1 of 4 branches missed.">                if (t1 instanceof Character &amp;&amp; t2 instanceof Character) {</span>
+<span class="fc" id="L1334">                    char c1 = ((Character) t1);</span>
+<span class="fc" id="L1335">                    char c2 = ((Character) t2);</span>
+<span class="fc" id="L1336">                    return (T) Character.valueOf((char) ((c1 + c2) / 2));</span>
                 }
-<span class="pc bpc" id="L1338" title="3 of 4 branches missed.">                if (t1 instanceof Short &amp;&amp; t2 instanceof Short) {</span>
-<span class="nc" id="L1339">                    short c1 = ((Short) t1);</span>
-<span class="nc" id="L1340">                    short c2 = ((Short) t2);</span>
-<span class="nc" id="L1341">                    return (T) Short.valueOf((short) ((c1 + c2) / 2));</span>
+<span class="pc bpc" id="L1338" title="1 of 4 branches missed.">                if (t1 instanceof Short &amp;&amp; t2 instanceof Short) {</span>
+<span class="fc" id="L1339">                    short c1 = ((Short) t1);</span>
+<span class="fc" id="L1340">                    short c2 = ((Short) t2);</span>
+<span class="fc" id="L1341">                    return (T) Short.valueOf((short) ((c1 + c2) / 2));</span>
                 }
-<span class="pc bpc" id="L1343" title="3 of 4 branches missed.">                if (t1 instanceof Integer &amp;&amp; t2 instanceof Integer) {</span>
-<span class="nc" id="L1344">                    int i1 = ((Integer) t1);</span>
-<span class="nc" id="L1345">                    int i2 = ((Integer) t2);</span>
-<span class="nc" id="L1346">                    return (T) Integer.valueOf((i1 + i2) / 2);</span>
+<span class="pc bpc" id="L1343" title="1 of 4 branches missed.">                if (t1 instanceof Integer &amp;&amp; t2 instanceof Integer) {</span>
+<span class="fc" id="L1344">                    int i1 = ((Integer) t1);</span>
+<span class="fc" id="L1345">                    int i2 = ((Integer) t2);</span>
+<span class="fc" id="L1346">                    return (T) Integer.valueOf((i1 + i2) / 2);</span>
                 }
-<span class="pc bpc" id="L1348" title="3 of 4 branches missed.">                if (t1 instanceof Long &amp;&amp; t2 instanceof Long) {</span>
-<span class="nc" id="L1349">                    long l1 = ((Long) t1);</span>
-<span class="nc" id="L1350">                    long l2 = ((Long) t2);</span>
-<span class="nc" id="L1351">                    return (T) Long.valueOf((l1 + l2) / 2);</span>
+<span class="pc bpc" id="L1348" title="1 of 4 branches missed.">                if (t1 instanceof Long &amp;&amp; t2 instanceof Long) {</span>
+<span class="fc" id="L1349">                    long l1 = ((Long) t1);</span>
+<span class="fc" id="L1350">                    long l2 = ((Long) t2);</span>
+<span class="fc" id="L1351">                    return (T) Long.valueOf((l1 + l2) / 2);</span>
                 }
-<span class="pc bpc" id="L1353" title="3 of 4 branches missed.">                if (t1 instanceof Float &amp;&amp; t2 instanceof Float) {</span>
-<span class="nc" id="L1354">                    float f1 = ((Float) t1);</span>
-<span class="nc" id="L1355">                    float f2 = ((Float) t2);</span>
-<span class="nc" id="L1356">                    return (T) Float.valueOf((f1 + f2) / 2.0f);</span>
+<span class="pc bpc" id="L1353" title="1 of 4 branches missed.">                if (t1 instanceof Float &amp;&amp; t2 instanceof Float) {</span>
+<span class="fc" id="L1354">                    float f1 = ((Float) t1);</span>
+<span class="fc" id="L1355">                    float f2 = ((Float) t2);</span>
+<span class="fc" id="L1356">                    return (T) Float.valueOf((f1 + f2) / 2.0f);</span>
                 }
-<span class="pc bpc" id="L1358" title="3 of 4 branches missed.">                if (t1 instanceof Double &amp;&amp; t2 instanceof Double) {</span>
-<span class="nc" id="L1359">                    double d1 = ((Double) t1);</span>
-<span class="nc" id="L1360">                    double d2 = ((Double) t2);</span>
-<span class="nc" id="L1361">                    return (T) Double.valueOf((d1 + d2) / 2.0);</span>
+<span class="pc bpc" id="L1358" title="1 of 4 branches missed.">                if (t1 instanceof Double &amp;&amp; t2 instanceof Double) {</span>
+<span class="fc" id="L1359">                    double d1 = ((Double) t1);</span>
+<span class="fc" id="L1360">                    double d2 = ((Double) t2);</span>
+<span class="fc" id="L1361">                    return (T) Double.valueOf((d1 + d2) / 2.0);</span>
                 }
 
                 // for other case, average returns 1st parameter

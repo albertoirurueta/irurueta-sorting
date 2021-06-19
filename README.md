@@ -1,7 +1,7 @@
 # irurueta-sorting
 Utility classes to sort numbers
 
-[![Build Status](https://travis-ci.org/albertoirurueta/irurueta-sorting.svg?branch=master)](https://travis-ci.org/albertoirurueta/irurueta-sorting)
+[![Build Status](https://travis-ci.com/albertoirurueta/irurueta-sorting.svg?branch=master)](https://travis-ci.com/albertoirurueta/irurueta-sorting)
 
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=albertoirurueta_irurueta-sorting&metric=bugs)](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)

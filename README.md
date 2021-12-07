@@ -20,3 +20,17 @@ Utility classes to sort numbers
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=albertoirurueta_irurueta-sorting&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)
 
 [Maven Site Report](http://albertoirurueta.github.io/irurueta-numerical)
+
+## Usage
+
+Add the following dependency to your project:
+
+Latest release:
+```
+<dependency>
+    <groupId>com.irurueta</groupId>
+    <artifactId>irurueta-sorting</artifactId>
+    <version>1.0.0</version>
+    <scope>compile</scope>
+</dependency>
+```

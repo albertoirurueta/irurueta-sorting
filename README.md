@@ -1,8 +1,8 @@
 # irurueta-sorting
 Utility classes to sort numbers
 
-[![Build Status](https://travis-ci.com/albertoirurueta/irurueta-sorting.svg?branch=master)](https://travis-ci.com/albertoirurueta/irurueta-sorting)
-
+[![Build Status](https://github.com/albertoirurueta/irurueta-sorting/actions/workflows/master.yml/badge.svg)](https://github.com/albertoirurueta/irurueta-sorting/actions)
+[![Build Status](https://github.com/albertoirurueta/irurueta-sorting/actions/workflows/develop.yml/badge.svg)](https://github.com/albertoirurueta/irurueta-sorting/actions)
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=albertoirurueta_irurueta-sorting&metric=bugs)](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=albertoirurueta_irurueta-sorting&metric=code_smells)](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)
@@ -30,7 +30,7 @@ Latest release:
 <dependency>
     <groupId>com.irurueta</groupId>
     <artifactId>irurueta-sorting</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -40,7 +40,7 @@ Latest snapshot:
 <dependency>
     <groupId>com.irurueta</groupId>
     <artifactId>irurueta-sorting</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```

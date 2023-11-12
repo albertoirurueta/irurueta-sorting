@@ -106,7 +106,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -243,7 +243,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -385,7 +385,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -520,7 +520,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -652,7 +652,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -787,7 +787,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -919,7 +919,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -1054,7 +1054,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -1186,7 +1186,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);
@@ -1321,7 +1321,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
                 l = istack[jstack--];
             } else {
                 // Choose median of left, center, and right elements as
-                // partitioning element a. Also rearrange so that a(l) <= a(l+1)
+                // partitioning element "a". Also rearrange so that a(l) <= a(l+1)
                 // <= a(ir)
                 k = (l + ir) >> 1;
                 swap(array, k + fromIndex, l + 1 + fromIndex);

@@ -147,7 +147,7 @@ public class SystemSorterTest {
     }
 
     @Test
-    public void testSortDoubles() throws SortingException {
+    public void testSortDoubles() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -245,7 +245,7 @@ public class SystemSorterTest {
     }
 
     @Test
-    public void testSortFloats() throws SortingException {
+    public void testSortFloats() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -345,7 +345,7 @@ public class SystemSorterTest {
     }
 
     @Test
-    public void testSortInts() throws SortingException {
+    public void testSortInts() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -443,7 +443,7 @@ public class SystemSorterTest {
     }
 
     @Test
-    public void testSortLongs() throws SortingException {
+    public void testSortLongs() {
         for (int t = 0; t < TIMES; t++) {
             final UniformRandomizer randomizer = new UniformRandomizer(new Random());
 
@@ -541,6 +541,6 @@ public class SystemSorterTest {
     @Test
     public void testGetMethod() {
         final SystemSorter<?> sorter = new SystemSorter<>();
-        assertEquals(sorter.getMethod(), SortingMethod.SYSTEM_SORTING_METHOD);
+        assertEquals(SortingMethod.SYSTEM_SORTING_METHOD, sorter.getMethod());
     }
 }

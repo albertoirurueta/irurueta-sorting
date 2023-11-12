@@ -548,7 +548,7 @@ public class StraightInsertionSorterTest {
     @Test
     public void testGetMethod() {
         final StraightInsertionSorter<?> sorter = new StraightInsertionSorter<>();
-        assertEquals(sorter.getMethod(),
-                SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD);
+        assertEquals(SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD,
+                sorter.getMethod());
     }
 }

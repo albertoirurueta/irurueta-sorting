@@ -1501,7 +1501,7 @@ public abstract class Sorter<T> {
         if ((length % 2) == 0) {
             // for even length
 
-            // value2 is the previous ordered element of v, which is the maximum
+            // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
             value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
@@ -1564,7 +1564,7 @@ public abstract class Sorter<T> {
         if ((length % 2) == 0) {
             // for even length
 
-            // value2 is the previous ordered element of v, which is the maximum
+            // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
             value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
@@ -1627,7 +1627,7 @@ public abstract class Sorter<T> {
         if ((length % 2) == 0) {
             // for even length
 
-            // value2 is the previous ordered element of v, which is the maximum
+            // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
             value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
@@ -1690,7 +1690,7 @@ public abstract class Sorter<T> {
         if ((length % 2) == 0) {
             // for even length
 
-            // value2 is the previous ordered element of v, which is the maximum
+            // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
             value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
@@ -1753,7 +1753,7 @@ public abstract class Sorter<T> {
         if ((length % 2) == 0) {
             // for even length
 
-            // value2 is the previous ordered element of v, which is the maximum
+            // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
             value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {

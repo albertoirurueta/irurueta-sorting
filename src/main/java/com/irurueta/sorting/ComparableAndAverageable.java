@@ -24,7 +24,7 @@ public interface ComparableAndAverageable<T> extends Comparable<T> {
 
     /**
      * Averages current instance with another instance. (i.e. if both objects
-     * where Doubles, then the result would be equal to 0.5 * (obj1 + obj2).
+     * where Doubles, then the result would be equal to 0.5 * (obj1 + obj2)).
      *
      * @param other Other instance to be averaged with.
      * @return An instance representing the average of both instances.

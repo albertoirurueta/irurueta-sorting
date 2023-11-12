@@ -16,7 +16,7 @@
 package com.irurueta.sorting;
 
 import com.irurueta.statistics.UniformRandomizer;
-import org.junit.*;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -543,7 +543,7 @@ public class QuicksortSorterTest {
     @Test
     public void testGetMethod() {
         final QuicksortSorter<?> sorter = new QuicksortSorter<>();
-        assertEquals(sorter.getMethod(),
-                SortingMethod.QUICKSORT_SORTING_METHOD);
+        assertEquals(SortingMethod.QUICKSORT_SORTING_METHOD,
+                sorter.getMethod());
     }
 }

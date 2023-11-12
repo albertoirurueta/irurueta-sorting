@@ -16,9 +16,13 @@
 package com.irurueta.sorting;
 
 import com.irurueta.statistics.UniformRandomizer;
-import org.junit.*;
+import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Objects;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -40,35 +44,35 @@ public class SorterTest {
         // create without parameters
         sorter = Sorter.create();
         assertNotNull(sorter);
-        assertEquals(sorter.getMethod(), Sorter.DEFAULT_SORTING_METHOD);
+        assertEquals(Sorter.DEFAULT_SORTING_METHOD, sorter.getMethod());
 
         // create with sorting method
         sorter = Sorter.create(SortingMethod.HEAPSORT_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(sorter.getMethod(),
-                SortingMethod.HEAPSORT_SORTING_METHOD);
+        assertEquals(SortingMethod.HEAPSORT_SORTING_METHOD,
+                sorter.getMethod());
         assertTrue(sorter instanceof HeapsortSorter);
 
         sorter = Sorter.create(SortingMethod.QUICKSORT_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(sorter.getMethod(),
-                SortingMethod.QUICKSORT_SORTING_METHOD);
+        assertEquals(SortingMethod.QUICKSORT_SORTING_METHOD,
+                sorter.getMethod());
         assertTrue(sorter instanceof QuicksortSorter);
 
         sorter = Sorter.create(SortingMethod.SHELL_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(sorter.getMethod(),
-                SortingMethod.SHELL_SORTING_METHOD);
+        assertEquals(SortingMethod.SHELL_SORTING_METHOD,
+                sorter.getMethod());
 
         sorter = Sorter.create(SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(sorter.getMethod(),
-                SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD);
+        assertEquals(SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD,
+                sorter.getMethod());
 
         sorter = Sorter.create(SortingMethod.SYSTEM_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(sorter.getMethod(),
-                SortingMethod.SYSTEM_SORTING_METHOD);
+        assertEquals(SortingMethod.SYSTEM_SORTING_METHOD,
+                sorter.getMethod());
     }
 
     @Test

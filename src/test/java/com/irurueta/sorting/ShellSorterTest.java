@@ -543,6 +543,6 @@ public class ShellSorterTest {
     @Test
     public void testGetMethod() {
         final ShellSorter<?> sorter = new ShellSorter<>();
-        assertEquals(sorter.getMethod(), SortingMethod.SHELL_SORTING_METHOD);
+        assertEquals(SortingMethod.SHELL_SORTING_METHOD, sorter.getMethod());
     }
 }

@@ -545,6 +545,6 @@ public class HeapsortSorterTest {
     @Test
     public void testGetMethod() {
         final HeapsortSorter<?> sorter = new HeapsortSorter<>();
-        assertEquals(sorter.getMethod(), SortingMethod.HEAPSORT_SORTING_METHOD);
+        assertEquals(SortingMethod.HEAPSORT_SORTING_METHOD, sorter.getMethod());
     }
 }

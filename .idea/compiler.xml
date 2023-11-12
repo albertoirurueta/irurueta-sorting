@@ -19,8 +19,5 @@
         <module name="irurueta-sorting" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="irurueta-sorting" target="1.7" />
-    </bytecodeTargetLevel>
   </component>
 </project>

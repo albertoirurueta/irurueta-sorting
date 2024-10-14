@@ -29,8 +29,7 @@ public abstract class Sorter<T> {
     /**
      * Default method to be used for sorting if none is provided.
      */
-    public static final SortingMethod DEFAULT_SORTING_METHOD =
-            SortingMethod.SYSTEM_SORTING_METHOD;
+    public static final SortingMethod DEFAULT_SORTING_METHOD = SortingMethod.SYSTEM_SORTING_METHOD;
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -50,8 +49,8 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public abstract void sort(final T[] array, final int fromIndex, final int toIndex,
-                              final Comparator<T> comparator) throws SortingException;
+    public abstract void sort(final T[] array, final int fromIndex, final int toIndex, final Comparator<T> comparator)
+            throws SortingException;
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -123,8 +122,8 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public abstract int[] sortWithIndices(final double[] array, final int fromIndex,
-                                          final int toIndex) throws SortingException;
+    public abstract int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -142,8 +141,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public abstract void sort(final float[] array, final int fromIndex, final int toIndex)
-            throws SortingException;
+    public abstract void sort(final float[] array, final int fromIndex, final int toIndex) throws SortingException;
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -168,8 +166,8 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public abstract int[] sortWithIndices(final float[] array, final int fromIndex,
-                                          final int toIndex) throws SortingException;
+    public abstract int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -187,8 +185,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public abstract void sort(final int[] array, final int fromIndex, final int toIndex)
-            throws SortingException;
+    public abstract void sort(final int[] array, final int fromIndex, final int toIndex) throws SortingException;
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -213,8 +210,8 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public abstract int[] sortWithIndices(final int[] array, final int fromIndex,
-                                          final int toIndex) throws SortingException;
+    public abstract int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -232,8 +229,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public abstract void sort(final long[] array, final int fromIndex, final int toIndex)
-            throws SortingException;
+    public abstract void sort(final long[] array, final int fromIndex, final int toIndex) throws SortingException;
 
     /**
      * Sorts provided array in ascending order so that {@code
@@ -258,8 +254,8 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public abstract int[] sortWithIndices(final long[] array, final int fromIndex,
-                                          final int toIndex) throws SortingException;
+    public abstract int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
 
     /**
      * Sorts provided array of {@link Comparable} in ascending order so that
@@ -278,16 +274,10 @@ public abstract class Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @SuppressWarnings("unchecked")
-    public void sort(final Comparable<T>[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
-        sort((T[]) array, fromIndex, toIndex, new Comparator<T>() {
-
-            @Override
-            public int compare(final T t1, final T t2) {
-                final Comparable<T> t1b = (Comparable<T>) t1;
-                return t1b.compareTo(t2);
-            }
-
+    public void sort(final Comparable<T>[] array, final int fromIndex, final int toIndex) throws SortingException {
+        sort((T[]) array, fromIndex, toIndex, (t1, t2) -> {
+            final var t1b = (Comparable<T>) t1;
+            return t1b.compareTo(t2);
         });
     }
 
@@ -322,8 +312,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public void sort(final T[] array, final Comparator<T> comparator)
-            throws SortingException {
+    public void sort(final T[] array, final Comparator<T> comparator) throws SortingException {
         sort(array, 0, array.length, comparator);
     }
 
@@ -341,8 +330,7 @@ public abstract class Sorter<T> {
      * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or
      *                                        {@code toIndex > array.length}.
      */
-    public void sort(final double[] array)
-            throws SortingException {
+    public void sort(final double[] array) throws SortingException {
         sort(array, 0, array.length);
     }
 
@@ -425,14 +413,11 @@ public abstract class Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @SuppressWarnings("unchecked")
-    public int[] sortWithIndices(final Comparable<T>[] array, final int fromIndex,
-                                 final int toIndex) throws SortingException {
-        return sortWithIndices((T[]) array, fromIndex, toIndex, new Comparator<T>() {
-            @Override
-            public int compare(final T t1, final T t2) {
-                final Comparable<T> t1b = (Comparable<T>) t1;
-                return t1b.compareTo(t2);
-            }
+    public int[] sortWithIndices(final Comparable<T>[] array, final int fromIndex, final int toIndex)
+            throws SortingException {
+        return sortWithIndices((T[]) array, fromIndex, toIndex, (t1, t2) -> {
+            final var t1b = (Comparable<T>) t1;
+            return t1b.compareTo(t2);
         });
     }
 
@@ -474,8 +459,7 @@ public abstract class Sorter<T> {
      * sorted.
      * @throws SortingException If for some reason sorting fails.
      */
-    public int[] sortWithIndices(final T[] array, final Comparator<T> comparator)
-            throws SortingException {
+    public int[] sortWithIndices(final T[] array, final Comparator<T> comparator) throws SortingException {
         return sortWithIndices(array, 0, array.length, comparator);
     }
 
@@ -618,12 +602,9 @@ public abstract class Sorter<T> {
      */
     @SuppressWarnings("unchecked")
     public T select(final int k, final Comparable<T>[] array, final int fromIndex, final int toIndex) {
-        return select(k, (T[]) array, fromIndex, toIndex, new Comparator<T>() {
-            @Override
-            public int compare(final T t1, final T t2) {
-                final Comparable<T> t1b = (Comparable<T>) t1;
-                return t1b.compareTo(t2);
-            }
+        return select(k, (T[]) array, fromIndex, toIndex, (t1, t2) -> {
+            final var t1b = (Comparable<T>) t1;
+            return t1b.compareTo(t2);
         });
     }
 
@@ -807,7 +788,7 @@ public abstract class Sorter<T> {
         int j;
         int l;
         int mid;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -817,24 +798,20 @@ public abstract class Sorter<T> {
         ir = n - 1;
         for (; ; ) {
             if (ir <= l + 1) {
-                if (ir == l + 1 && comparator.compare(array[ir + fromIndex],
-                        array[l + fromIndex]) < 0) {
+                if (ir == l + 1 && comparator.compare(array[ir + fromIndex], array[l + fromIndex]) < 0) {
                     swap(array, l + fromIndex, ir + fromIndex);
                 }
                 return array[k + fromIndex];
             } else {
                 mid = (l + ir) >> 1;
                 swap(array, mid + fromIndex, l + 1 + fromIndex);
-                if (comparator.compare(array[l + fromIndex],
-                        array[ir + fromIndex]) > 0) {
+                if (comparator.compare(array[l + fromIndex], array[ir + fromIndex]) > 0) {
                     swap(array, l + fromIndex, ir + fromIndex);
                 }
-                if (comparator.compare(array[l + 1 + fromIndex],
-                        array[ir + fromIndex]) > 0) {
+                if (comparator.compare(array[l + 1 + fromIndex], array[ir + fromIndex]) > 0) {
                     swap(array, l + 1 + fromIndex, ir + fromIndex);
                 }
-                if (comparator.compare(array[l + fromIndex],
-                        array[l + 1 + fromIndex]) > 0) {
+                if (comparator.compare(array[l + fromIndex], array[l + 1 + fromIndex]) > 0) {
                     swap(array, l + fromIndex, l + 1 + fromIndex);
                 }
                 i = l + 1;
@@ -912,7 +889,7 @@ public abstract class Sorter<T> {
         int j;
         int l;
         int mid;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -1013,7 +990,7 @@ public abstract class Sorter<T> {
         int j;
         int l;
         int mid;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -1114,7 +1091,7 @@ public abstract class Sorter<T> {
         int j;
         int l;
         int mid;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -1215,7 +1192,7 @@ public abstract class Sorter<T> {
         int j;
         int l;
         int mid;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
         if (k >= n) {
             throw new IllegalArgumentException();
         }
@@ -1312,52 +1289,37 @@ public abstract class Sorter<T> {
     @SuppressWarnings("unchecked")
     public T median(final Comparable<T>[] array, final int fromIndex, final int toIndex) {
 
-        return median((T[]) array, fromIndex, toIndex, new ComparatorAndAverager<T>() {
+        return median((T[]) array, fromIndex, toIndex, new ComparatorAndAverager<>() {
             @Override
             public int compare(final T t1, final T t2) {
-                final Comparable<T> t1b = (Comparable<T>) t1;
+                final var t1b = (Comparable<T>) t1;
                 return t1b.compareTo(t2);
             }
 
             @Override
             public T average(final T t1, final T t2) {
-                if (t1 instanceof ComparableAndAverageable &&
-                        t2 instanceof ComparableAndAverageable) {
+                if (t1 instanceof ComparableAndAverageable && t2 instanceof ComparableAndAverageable) {
                     return ((ComparableAndAverageable<T>) t1).averageWith(t2);
                 }
-                if (t1 instanceof Byte && t2 instanceof Byte) {
-                    byte b1 = ((Byte) t1);
-                    byte b2 = ((Byte) t2);
+                if (t1 instanceof Byte b1 && t2 instanceof Byte b2) {
                     return (T) Byte.valueOf((byte) ((b1 + b2) / 2));
                 }
-                if (t1 instanceof Character && t2 instanceof Character) {
-                    char c1 = ((Character) t1);
-                    char c2 = ((Character) t2);
+                if (t1 instanceof Character c1 && t2 instanceof Character c2) {
                     return (T) Character.valueOf((char) ((c1 + c2) / 2));
                 }
-                if (t1 instanceof Short && t2 instanceof Short) {
-                    short c1 = ((Short) t1);
-                    short c2 = ((Short) t2);
+                if (t1 instanceof Short c1 && t2 instanceof Short c2) {
                     return (T) Short.valueOf((short) ((c1 + c2) / 2));
                 }
-                if (t1 instanceof Integer && t2 instanceof Integer) {
-                    int i1 = ((Integer) t1);
-                    int i2 = ((Integer) t2);
+                if (t1 instanceof Integer i1 && t2 instanceof Integer i2) {
                     return (T) Integer.valueOf((i1 + i2) / 2);
                 }
-                if (t1 instanceof Long && t2 instanceof Long) {
-                    long l1 = ((Long) t1);
-                    long l2 = ((Long) t2);
+                if (t1 instanceof Long l1 && t2 instanceof Long l2) {
                     return (T) Long.valueOf((l1 + l2) / 2);
                 }
-                if (t1 instanceof Float && t2 instanceof Float) {
-                    float f1 = ((Float) t1);
-                    float f2 = ((Float) t2);
+                if (t1 instanceof Float f1 && t2 instanceof Float f2) {
                     return (T) Float.valueOf((f1 + f2) / 2.0f);
                 }
-                if (t1 instanceof Double && t2 instanceof Double) {
-                    double d1 = ((Double) t1);
-                    double d2 = ((Double) t2);
+                if (t1 instanceof Double d1 && t2 instanceof Double d2) {
                     return (T) Double.valueOf((d1 + d2) / 2.0);
                 }
 
@@ -1484,28 +1446,23 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int length = toIndex - fromIndex;
+        final var length = toIndex - fromIndex;
+        final var pos1 = length / 2;
 
-        final T value1;
-        T value2;
-        T value3;
-        final int pos1;
-
-        pos1 = length / 2;
         // select pos1 ordered element of v and modifies v so that
         // v(0) ... v(pos1 - 1) < value1 < v(pos1 + 1) ... v(length - 1)
         // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
         // and v(pos1) ... v(length - 1) are unordered elements greater than
         // value1
-        value1 = select(pos1, array, fromIndex, toIndex, comparator);
+        final var value1 = select(pos1, array, fromIndex, toIndex, comparator);
         if ((length % 2) == 0) {
             // for even length
 
             // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
-            value2 = array[fromIndex];
+            var value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
-                value3 = array[i + fromIndex];
+                final var value3 = array[i + fromIndex];
                 if (comparator.compare(value3, value2) > 0) {
                     value2 = value3;
                 }
@@ -1547,28 +1504,23 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int length = toIndex - fromIndex;
+        final var length = toIndex - fromIndex;
+        final var pos1 = length / 2;
 
-        final double value1;
-        double value2;
-        double value3;
-        final int pos1;
-
-        pos1 = length / 2;
         // select pos1 ordered element of v and modifies v so that
         // v(0) ... v(pos1 - 1) < value1 < v(pos1 + 1) ... v(length - 1)
         // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
         // and v(pos1) ... v(length - 1) are unordered elements greater than
         // value1
-        value1 = select(pos1, array, fromIndex, toIndex);
+        final var value1 = select(pos1, array, fromIndex, toIndex);
         if ((length % 2) == 0) {
             // for even length
 
             // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
-            value2 = array[fromIndex];
+            var value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
-                value3 = array[i + fromIndex];
+                final var value3 = array[i + fromIndex];
                 if (value3 > value2) {
                     value2 = value3;
                 }
@@ -1610,28 +1562,23 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int length = toIndex - fromIndex;
+        final var length = toIndex - fromIndex;
+        final var pos1 = length / 2;
 
-        final float value1;
-        float value2;
-        float value3;
-        final int pos1;
-
-        pos1 = length / 2;
         // select pos1 ordered element of v and modifies v so that
         // v(0) ... v(pos1 - 1) < value1 < v(pos1 + 1) ... v(length - 1)
         // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
         // and v(pos1) ... v(length - 1) are unordered elements greater than
         // value1
-        value1 = select(pos1, array, fromIndex, toIndex);
+        final var value1 = select(pos1, array, fromIndex, toIndex);
         if ((length % 2) == 0) {
             // for even length
 
             // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
-            value2 = array[fromIndex];
+            var value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
-                value3 = array[i + fromIndex];
+                final var value3 = array[i + fromIndex];
                 if (value3 > value2) {
                     value2 = value3;
                 }
@@ -1673,28 +1620,23 @@ public abstract class Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int length = toIndex - fromIndex;
+        final var length = toIndex - fromIndex;
+        final var pos1 = length / 2;
 
-        final int value1;
-        int value2;
-        int value3;
-        final int pos1;
-
-        pos1 = length / 2;
         // select pos1 ordered element of v and modifies v so that
         // v(0) ... v(pos1 - 1) < value1 < v(pos1 + 1) ... v(length - 1)
         // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
         // and v(pos1) ... v(length - 1) are unordered elements greater than
         // value1
-        value1 = select(pos1, array, fromIndex, toIndex);
+        final var value1 = select(pos1, array, fromIndex, toIndex);
         if ((length % 2) == 0) {
             // for even length
 
             // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
-            value2 = array[fromIndex];
+            var value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
-                value3 = array[i + fromIndex];
+                final var value3 = array[i + fromIndex];
                 if (value3 > value2) {
                     value2 = value3;
                 }
@@ -1737,27 +1679,22 @@ public abstract class Sorter<T> {
         }
 
         final int length = toIndex - fromIndex;
+        final var pos1 = length / 2;
 
-        final long value1;
-        long value2;
-        long value3;
-        final int pos1;
-
-        pos1 = length / 2;
         // select pos1 ordered element of v and modifies v so that
         // v(0) ... v(pos1 - 1) < value1 < v(pos1 + 1) ... v(length - 1)
         // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
         // and v(pos1) ... v(length - 1) are unordered elements greater than
         // value1
-        value1 = select(pos1, array, fromIndex, toIndex);
+        final var value1 = select(pos1, array, fromIndex, toIndex);
         if ((length % 2) == 0) {
             // for even length
 
             // value2 is the previously ordered element of v, which is the maximum
             // element within v(0) ... v(pos1 - 1)
-            value2 = array[fromIndex];
+            var value2 = array[fromIndex];
             for (int i = 1; i < pos1; i++) {
-                value3 = array[i + fromIndex];
+                final var value3 = array[i + fromIndex];
                 if (value3 > value2) {
                     value2 = value3;
                 }
@@ -1793,19 +1730,13 @@ public abstract class Sorter<T> {
      * @return A sorter instance.
      */
     public static <T> Sorter<T> create(final SortingMethod method) {
-        switch (method) {
-            case STRAIGHT_INSERTION_SORTING_METHOD:
-                return new StraightInsertionSorter<>();
-            case SHELL_SORTING_METHOD:
-                return new ShellSorter<>();
-            case HEAPSORT_SORTING_METHOD:
-                return new HeapsortSorter<>();
-            case QUICKSORT_SORTING_METHOD:
-                return new QuicksortSorter<>();
-            case SYSTEM_SORTING_METHOD:
-            default:
-                return new SystemSorter<>();
-        }
+        return switch (method) {
+            case STRAIGHT_INSERTION_SORTING_METHOD -> new StraightInsertionSorter<>();
+            case SHELL_SORTING_METHOD -> new ShellSorter<>();
+            case HEAPSORT_SORTING_METHOD -> new HeapsortSorter<>();
+            case QUICKSORT_SORTING_METHOD -> new QuicksortSorter<>();
+            default -> new SystemSorter<>();
+        };
     }
 
     /**
@@ -1816,7 +1747,7 @@ public abstract class Sorter<T> {
      * @return Array with indices in natural order.
      */
     protected int[] getInitialIndicesVector(final int length) {
-        final int[] out = new int[length];
+        final var out = new int[length];
 
         for (int i = 0; i < length; i++) {
             out[i] = i;
@@ -1833,7 +1764,7 @@ public abstract class Sorter<T> {
      * @param posB Location to be swapped.
      */
     protected void swap(final T[] arr, final int posA, final int posB) {
-        final T value = arr[posA];
+        final var value = arr[posA];
         arr[posA] = arr[posB];
         arr[posB] = value;
     }
@@ -1846,7 +1777,7 @@ public abstract class Sorter<T> {
      * @param posB Location to be swapped.
      */
     protected void swap(final double[] arr, final int posA, final int posB) {
-        final double value = arr[posA];
+        final var value = arr[posA];
         arr[posA] = arr[posB];
         arr[posB] = value;
     }
@@ -1859,7 +1790,7 @@ public abstract class Sorter<T> {
      * @param posB Location to be swapped.
      */
     protected void swap(final float[] arr, final int posA, final int posB) {
-        final float value = arr[posA];
+        final var value = arr[posA];
         arr[posA] = arr[posB];
         arr[posB] = value;
     }
@@ -1872,7 +1803,7 @@ public abstract class Sorter<T> {
      * @param posB Location to be swapped.
      */
     protected void swap(final int[] arr, final int posA, final int posB) {
-        final int value = arr[posA];
+        final var value = arr[posA];
         arr[posA] = arr[posB];
         arr[posB] = value;
     }
@@ -1885,7 +1816,7 @@ public abstract class Sorter<T> {
      * @param posB Location to be swapped.
      */
     protected void swap(final long[] arr, final int posA, final int posB) {
-        final long value = arr[posA];
+        final var value = arr[posA];
         arr[posA] = arr[posB];
         arr[posB] = value;
     }

@@ -50,8 +50,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final T[] array, final int fromIndex, final int toIndex,
-                     final Comparator<T> comparator) {
+    public void sort(final T[] array, final int fromIndex, final int toIndex, final Comparator<T> comparator) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -64,7 +63,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, comparator, fromIndex);
@@ -110,23 +109,21 @@ public class HeapsortSorter<T> extends Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int[] indices = getInitialIndicesVector(array.length);
+        final var indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
-            siftDownWithIndices(array, indices, i, n - 1, comparator,
-                    fromIndex);
+            siftDownWithIndices(array, indices, i, n - 1, comparator, fromIndex);
         }
         for (i = n - 1; i > 0; i--) {
             swap(array, fromIndex, i + fromIndex);
             swapIndices(indices, fromIndex, i + fromIndex);
-            siftDownWithIndices(array, indices, 0, i - 1, comparator,
-                    fromIndex);
+            siftDownWithIndices(array, indices, 0, i - 1, comparator, fromIndex);
         }
 
         return indices;
@@ -171,7 +168,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, fromIndex);
@@ -220,7 +217,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, fromIndex);
@@ -263,7 +260,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, fromIndex);
@@ -306,13 +303,13 @@ public class HeapsortSorter<T> extends Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int[] indices = getInitialIndicesVector(array.length);
+        final var indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, fromIndex);
@@ -355,7 +352,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, fromIndex);
@@ -404,7 +401,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, fromIndex);
@@ -447,7 +444,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDown(array, i, n - 1, fromIndex);
@@ -490,13 +487,13 @@ public class HeapsortSorter<T> extends Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int[] indices = getInitialIndicesVector(array.length);
+        final var indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
 
         int i;
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         for (i = n / 2 - 1; i >= 0; i--) {
             siftDownWithIndices(array, indices, i, n - 1, fromIndex);
@@ -519,16 +516,14 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param comparator a comparator.
      * @param fromIndex  initial position.
      */
-    private void siftDown(final T[] ra, final int l, final int r, final Comparator<T> comparator,
-                          final int fromIndex) {
+    private void siftDown(final T[] ra, final int l, final int r, final Comparator<T> comparator, final int fromIndex) {
         int j;
         int jold;
-        final T a = ra[l + fromIndex];
+        final var a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
-            if (j < r && comparator.compare(ra[j + fromIndex],
-                    ra[j + 1 + fromIndex]) < 0) {
+            if (j < r && comparator.compare(ra[j + fromIndex], ra[j + 1 + fromIndex]) < 0) {
                 j++;
             }
             if (comparator.compare(a, ra[j + fromIndex]) >= 0) {
@@ -556,13 +551,12 @@ public class HeapsortSorter<T> extends Sorter<T> {
                                      final Comparator<T> comparator, final int fromIndex) {
         int j;
         int jold;
-        final T a = ra[l + fromIndex];
-        final int b = rb[l + fromIndex];
+        final var a = ra[l + fromIndex];
+        final var b = rb[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
-            if (j < r && comparator.compare(ra[j + fromIndex],
-                    ra[j + 1 + fromIndex]) < 0) {
+            if (j < r && comparator.compare(ra[j + fromIndex], ra[j + 1 + fromIndex]) < 0) {
                 j++;
             }
             if (comparator.compare(a, ra[j + fromIndex]) >= 0) {
@@ -585,7 +579,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param posB    Location to be swapped.
      */
     private void swapIndices(final int[] indices, final int posA, final int posB) {
-        final int value = indices[posA];
+        final var value = indices[posA];
         indices[posA] = indices[posB];
         indices[posB] = value;
     }
@@ -601,7 +595,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
     private void siftDown(final double[] ra, final int l, final int r, final int fromIndex) {
         int j;
         int jold;
-        final double a = ra[l + fromIndex];
+        final var a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -628,12 +622,11 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param r         r value.
      * @param fromIndex initial position.
      */
-    private void siftDownWithIndices(final double[] ra, final int[] rb, final int l, final int r,
-                                     final int fromIndex) {
+    private void siftDownWithIndices(final double[] ra, final int[] rb, final int l, final int r, final int fromIndex) {
         int j;
         int jold;
-        final double a = ra[l + fromIndex];
-        final int b = rb[l + fromIndex];
+        final var a = ra[l + fromIndex];
+        final var b = rb[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -663,7 +656,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
     private void siftDown(final float[] ra, final int l, final int r, final int fromIndex) {
         int j;
         int jold;
-        final float a = ra[l + fromIndex];
+        final var a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -690,12 +683,11 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param r         r value.
      * @param fromIndex initial position.
      */
-    private void siftDownWithIndices(final float[] ra, final int[] rb, final int l, final int r,
-                                     final int fromIndex) {
+    private void siftDownWithIndices(final float[] ra, final int[] rb, final int l, final int r, final int fromIndex) {
         int j;
         int jold;
-        final float a = ra[l + fromIndex];
-        final int b = rb[l + fromIndex];
+        final var a = ra[l + fromIndex];
+        final var b = rb[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -725,7 +717,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
     private void siftDown(final int[] ra, final int l, final int r, final int fromIndex) {
         int j;
         int jold;
-        final int a = ra[l + fromIndex];
+        final var a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -752,12 +744,11 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param r         r value.
      * @param fromIndex initial position.
      */
-    private void siftDownWithIndices(final int[] ra, final int[] rb, final int l, final int r,
-                                     final int fromIndex) {
+    private void siftDownWithIndices(final int[] ra, final int[] rb, final int l, final int r, final int fromIndex) {
         int j;
         int jold;
-        final int a = ra[l + fromIndex];
-        final int b = rb[l + fromIndex];
+        final var a = ra[l + fromIndex];
+        final var b = rb[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -787,7 +778,7 @@ public class HeapsortSorter<T> extends Sorter<T> {
     private void siftDown(long[] ra, int l, int r, int fromIndex) {
         int j;
         int jold;
-        long a = ra[l + fromIndex];
+        final var a = ra[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {
@@ -814,12 +805,11 @@ public class HeapsortSorter<T> extends Sorter<T> {
      * @param r         r value.
      * @param fromIndex initial value.
      */
-    private void siftDownWithIndices(final long[] ra, final int[] rb, final int l, final int r,
-                                     final int fromIndex) {
+    private void siftDownWithIndices(final long[] ra, final int[] rb, final int l, final int r, final int fromIndex) {
         int j;
         int jold;
-        final long a = ra[l + fromIndex];
-        final int b = rb[l + fromIndex];
+        final var a = ra[l + fromIndex];
+        final var b = rb[l + fromIndex];
         jold = l;
         j = 2 * l + 1;
         while (j <= r) {

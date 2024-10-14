@@ -16,16 +16,14 @@
 package com.irurueta.sorting;
 
 import com.irurueta.statistics.UniformRandomizer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SystemSorterTest {
+class SystemSorterTest {
 
     private static final int MIN_LENGTH = 10;
     private static final int MAX_LENGTH = 100;
@@ -36,89 +34,65 @@ public class SystemSorterTest {
     private static final int TIMES = 50;
 
     @Test
-    public void testSortWithComparator() throws SortingException {
+    void testSortWithComparator() {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final SystemSorter<Date> sorter = new SystemSorter<>();
-            sorter.sort(array, fromIndex, toIndex, new Comparator<Date>() {
-
-                @Override
-                public int compare(final Date value1, final Date value2) {
-                    return value1.compareTo(value2);
-                }
-            });
+            final var sorter = new SystemSorter<Date>();
+            sorter.sort(array, fromIndex, toIndex, Date::compareTo);
 
             // check that array is now sorted in ascending order
-            Date prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesAndComparator() throws SortingException {
+    void testSortWithIndicesAndComparator() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final SystemSorter<Date> sorter = new SystemSorter<>();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex,
-                    new Comparator<Date>() {
-
-                        @Override
-                        public int compare(final Date value1, final Date value2) {
-                            return value1.compareTo(value2);
-                        }
-                    });
+            final var sorter = new SystemSorter<Date>();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex,
+                    Date::compareTo);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            Date prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 assertEquals(array2[indices[i]], array[i]);
@@ -126,97 +100,75 @@ public class SystemSorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortDoubles() {
+    void testSortDoubles() {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final SystemSorter<Double> sorter = new SystemSorter<>();
+            final var sorter = new SystemSorter<Double>();
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            double prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesDoubles() throws SortingException {
+    void testSortWithIndicesDoubles() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final SystemSorter<Double> sorter = new SystemSorter<>();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+            final var sorter = new SystemSorter<Double>();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            double prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i], 0.0);
@@ -224,99 +176,75 @@ public class SystemSorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortFloats() {
+    void testSortFloats() {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
-                array[i] = randomizer.nextFloat((float) MIN_VALUE,
-                        (float) MAX_VALUE);
+                array[i] = randomizer.nextFloat((float) MIN_VALUE, (float) MAX_VALUE);
             }
 
-            final SystemSorter<Float> sorter = new SystemSorter<>();
+            final var sorter = new SystemSorter<Float>();
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            float prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesFloats() throws SortingException {
+    void testSortWithIndicesFloats() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
-                array[i] = randomizer.nextFloat((float) MIN_VALUE,
-                        (float) MAX_VALUE);
+                array[i] = randomizer.nextFloat((float) MIN_VALUE, (float) MAX_VALUE);
             }
 
-            final float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final SystemSorter<Float> sorter = new SystemSorter<>();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+            final var sorter = new SystemSorter<Float>();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            float prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i], 0.0);
@@ -324,97 +252,75 @@ public class SystemSorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortInts() {
+    void testSortInts() {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final SystemSorter<Integer> sorter = new SystemSorter<>();
+            final var sorter = new SystemSorter<Integer>();
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            int prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesInts() throws SortingException {
+    void testSortWithIndicesInts() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final int[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final SystemSorter<Integer> sorter = new SystemSorter<>();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+            final var sorter = new SystemSorter<Integer>();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            int prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i]);
@@ -422,96 +328,74 @@ public class SystemSorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortLongs() {
+    void testSortLongs() {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final SystemSorter<Long> sorter = new SystemSorter<>();
+            final var sorter = new SystemSorter<Long>();
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            long prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesLongs() throws SortingException {
-        final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+    void testSortWithIndicesLongs() throws SortingException {
+        final var randomizer = new UniformRandomizer();
 
-        final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-        final int fromIndex = randomizer.nextInt(0, length - 2);
-        final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+        final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+        final var fromIndex = randomizer.nextInt(0, length - 2);
+        final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-        final long[] array = new long[length];
+        final var array = new long[length];
 
         // set random values into array
         for (int i = 0; i < length; i++) {
             array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
         }
 
-        final long[] array2 = Arrays.copyOf(array, length);
+        final var array2 = Arrays.copyOf(array, length);
 
-        final SystemSorter<Long> sorter = new SystemSorter<>();
-        final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+        final var sorter = new SystemSorter<Long>();
+        final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
         // check that array is now sorted in ascending order and that indices
         // correspond to sorted vector
-        long prevValue = array[fromIndex];
+        var prevValue = array[fromIndex];
         for (int i = fromIndex + 1; i < toIndex; i++) {
             assertTrue(prevValue <= array[i]);
             assertEquals(array2[indices[i]], array[i]);
@@ -519,28 +403,17 @@ public class SystemSorterTest {
         }
 
         // Force IllegalArgumentException
-        try {
-            sorter.sortWithIndices(array, toIndex, fromIndex);
-            fail("IllegalArgumentException expected but not thrown");
-        } catch (final IllegalArgumentException ignore) {
-        }
+        assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
         // Force ArrayIndexOutOfBoundsException
-        try {
-            sorter.sortWithIndices(array, -1, toIndex);
-            fail("ArrayIndexOutOfBoundsException expected but not thrown");
-        } catch (final ArrayIndexOutOfBoundsException ignore) {
-        }
-        try {
-            sorter.sortWithIndices(array, fromIndex, length + 1);
-            fail("ArrayIndexOutOfBoundsException expected but not thrown");
-        } catch (final ArrayIndexOutOfBoundsException ignore) {
-        }
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sortWithIndices(array, -1, toIndex));
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> sorter.sortWithIndices(array, fromIndex, length + 1));
     }
 
     @Test
-    public void testGetMethod() {
-        final SystemSorter<?> sorter = new SystemSorter<>();
+    void testGetMethod() {
+        final var sorter = new SystemSorter<>();
         assertEquals(SortingMethod.SYSTEM_SORTING_METHOD, sorter.getMethod());
     }
 }

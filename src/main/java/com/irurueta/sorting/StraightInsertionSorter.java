@@ -50,8 +50,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final T[] array, final int fromIndex, final int toIndex,
-                     final Comparator<T> comparator) {
+    public void sort(final T[] array, final int fromIndex, final int toIndex, final Comparator<T> comparator) {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -461,7 +460,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int[] indices = getInitialIndicesVector(array.length);
+        final var indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }
@@ -572,7 +571,7 @@ public class StraightInsertionSorter<T> extends Sorter<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        final int[] indices = getInitialIndicesVector(array.length);
+        final var indices = getInitialIndicesVector(array.length);
         if (fromIndex == toIndex) {
             return indices;
         }

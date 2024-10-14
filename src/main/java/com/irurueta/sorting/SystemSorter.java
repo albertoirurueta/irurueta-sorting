@@ -52,8 +52,7 @@ public class SystemSorter<T> extends QuicksortSorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final T[] array, final int fromIndex, final int toIndex,
-                     final Comparator<T> comparator) {
+    public void sort(final T[] array, final int fromIndex, final int toIndex, final Comparator<T> comparator) {
         Arrays.sort(array, fromIndex, toIndex, comparator);
     }
 

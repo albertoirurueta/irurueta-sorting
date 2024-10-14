@@ -60,8 +60,8 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final T[] array, final int fromIndex, final int toIndex,
-                     final Comparator<T> comparator) throws SortingException {
+    public void sort(final T[] array, final int fromIndex, final int toIndex, final Comparator<T> comparator)
+            throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -73,16 +73,16 @@ public class QuicksortSorter<T> extends Sorter<T> {
             return;
         }
 
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         int i;
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         T a;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -212,11 +212,11 @@ public class QuicksortSorter<T> extends Sorter<T> {
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         T a;
         int b;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -339,8 +339,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final double[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public void sort(final double[] array, final int fromIndex, final int toIndex) throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -358,10 +357,10 @@ public class QuicksortSorter<T> extends Sorter<T> {
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         double a;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -468,8 +467,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex) throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -489,11 +487,11 @@ public class QuicksortSorter<T> extends Sorter<T> {
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         double a;
         int b;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -606,8 +604,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final float[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public void sort(final float[] array, final int fromIndex, final int toIndex) throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -619,16 +616,16 @@ public class QuicksortSorter<T> extends Sorter<T> {
             return;
         }
 
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         int i;
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         float a;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -735,8 +732,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex) throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -750,17 +746,17 @@ public class QuicksortSorter<T> extends Sorter<T> {
             return indices;
         }
 
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         int i;
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         float a;
         int b;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -873,8 +869,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final int[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public void sort(final int[] array, final int fromIndex, final int toIndex) throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -886,16 +881,16 @@ public class QuicksortSorter<T> extends Sorter<T> {
             return;
         }
 
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         int i;
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         int a;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -1002,8 +997,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex) throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1017,17 +1011,17 @@ public class QuicksortSorter<T> extends Sorter<T> {
             return indices;
         }
 
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         int i;
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         int a;
         int b;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -1140,8 +1134,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public void sort(final long[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public void sort(final long[] array, final int fromIndex, final int toIndex) throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1153,16 +1146,16 @@ public class QuicksortSorter<T> extends Sorter<T> {
             return;
         }
 
-        final int n = toIndex - fromIndex;
+        final var n = toIndex - fromIndex;
 
         int i;
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         long a;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -1269,8 +1262,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      *                                        {@code toIndex > array.length}.
      */
     @Override
-    public int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex)
-            throws SortingException {
+    public int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex) throws SortingException {
 
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException();
@@ -1290,11 +1282,11 @@ public class QuicksortSorter<T> extends Sorter<T> {
         int j;
         int ir;
         int k;
-        int jstack = -1;
-        int l = 0;
+        var jstack = -1;
+        var l = 0;
         long a;
         int b;
-        final int[] istack = new int[NSTACK];
+        final var istack = new int[NSTACK];
         ir = n - 1;
 
         for (; ; ) {
@@ -1398,7 +1390,7 @@ public class QuicksortSorter<T> extends Sorter<T> {
      * @param posB    Location to be swapped.
      */
     private void swapIndices(final int[] indices, final int posA, final int posB) {
-        final int value = indices[posA];
+        final var value = indices[posA];
         indices[posA] = indices[posB];
         indices[posB] = value;
     }

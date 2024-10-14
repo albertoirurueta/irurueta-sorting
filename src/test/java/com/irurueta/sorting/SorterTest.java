@@ -16,17 +16,15 @@
 package com.irurueta.sorting;
 
 import com.irurueta.statistics.UniformRandomizer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SorterTest {
+class SorterTest {
 
     private static final int MIN_LENGTH = 10;
     private static final int MAX_LENGTH = 100;
@@ -37,7 +35,7 @@ public class SorterTest {
     private static final int TIMES = 50;
 
     @Test
-    public void testCreate() {
+    void testCreate() {
 
         Sorter<?> sorter;
 
@@ -49,116 +47,86 @@ public class SorterTest {
         // create with sorting method
         sorter = Sorter.create(SortingMethod.HEAPSORT_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(SortingMethod.HEAPSORT_SORTING_METHOD,
-                sorter.getMethod());
-        assertTrue(sorter instanceof HeapsortSorter);
+        assertEquals(SortingMethod.HEAPSORT_SORTING_METHOD, sorter.getMethod());
+        assertInstanceOf(HeapsortSorter.class, sorter);
 
         sorter = Sorter.create(SortingMethod.QUICKSORT_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(SortingMethod.QUICKSORT_SORTING_METHOD,
-                sorter.getMethod());
-        assertTrue(sorter instanceof QuicksortSorter);
+        assertEquals(SortingMethod.QUICKSORT_SORTING_METHOD, sorter.getMethod());
+        assertInstanceOf(QuicksortSorter.class, sorter);
 
         sorter = Sorter.create(SortingMethod.SHELL_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(SortingMethod.SHELL_SORTING_METHOD,
-                sorter.getMethod());
+        assertEquals(SortingMethod.SHELL_SORTING_METHOD, sorter.getMethod());
 
         sorter = Sorter.create(SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD,
-                sorter.getMethod());
+        assertEquals(SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD, sorter.getMethod());
 
         sorter = Sorter.create(SortingMethod.SYSTEM_SORTING_METHOD);
         assertNotNull(sorter);
-        assertEquals(SortingMethod.SYSTEM_SORTING_METHOD,
-                sorter.getMethod());
+        assertEquals(SortingMethod.SYSTEM_SORTING_METHOD, sorter.getMethod());
     }
 
     @Test
-    public void testSortWithComparator() throws SortingException {
+    void testSortWithComparator() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Sorter<Date> sorter = Sorter.create();
-            sorter.sort(array, fromIndex, toIndex, new Comparator<Date>() {
-
-                @Override
-                public int compare(final Date value1, final Date value2) {
-                    return value1.compareTo(value2);
-                }
-            });
+            final var sorter = Sorter.<Date>create();
+            sorter.sort(array, fromIndex, toIndex, Date::compareTo);
 
             // check that array is now sorted in ascending order
-            Date prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesAndComparator() throws SortingException {
+    void testSortWithIndicesAndComparator() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex,
-                    new Comparator<Date>() {
-
-                        @Override
-                        public int compare(final Date value1, final Date value2) {
-                            return value1.compareTo(value2);
-                        }
-                    });
+            final var sorter = Sorter.<Date>create();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex, Date::compareTo);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            Date prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 assertEquals(array2[indices[i]], array[i]);
@@ -166,97 +134,75 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortDoubles() throws SortingException {
+    void testSortDoubles() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            double prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesDoubles() throws SortingException {
+    void testSortWithIndicesDoubles() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+            final var sorter = Sorter.<Double>create();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            double prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i], 0.0);
@@ -264,99 +210,75 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortFloats() throws SortingException {
+    void testSortFloats() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
-                array[i] = randomizer.nextFloat((float) MIN_VALUE,
-                        (float) MAX_VALUE);
+                array[i] = randomizer.nextFloat((float) MIN_VALUE, (float) MAX_VALUE);
             }
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            float prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesFloats() throws SortingException {
+    void testSortWithIndicesFloats() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
-                array[i] = randomizer.nextFloat((float) MIN_VALUE,
-                        (float) MAX_VALUE);
+                array[i] = randomizer.nextFloat((float) MIN_VALUE, (float) MAX_VALUE);
             }
 
-            final float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+            final var sorter = Sorter.<Float>create();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            float prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i], 0.0);
@@ -364,97 +286,75 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortInts() throws SortingException {
+    void testSortInts() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            int prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesInts() throws SortingException {
+    void testSortWithIndicesInts() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final int[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+            final var sorter = Sorter.<Integer>create();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            int prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i]);
@@ -462,97 +362,75 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortLongs() throws SortingException {
+    void testSortLongs() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            long prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesLongs() throws SortingException {
+    void testSortWithIndicesLongs() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+            final var sorter = Sorter.<Long>create();
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order and that indices
             // correspond to sorted vector
-            long prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i]);
@@ -560,94 +438,72 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortComparablesWithinRange() throws SortingException {
+    void testSortComparablesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             sorter.sort(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            Date prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 prevValue = array[i];
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sort(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sort(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sort(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sort(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.sort(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortComparables() throws SortingException {
+    void testSortComparables() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             sorter.sort(array);
 
             // check that array is now sorted in ascending order
-            Date prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 prevValue = array[i];
@@ -656,31 +512,25 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWholeArray() throws SortingException {
+    void testSortWholeArray() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
-            sorter.sort(array, new Comparator<Date>() {
-
-                @Override
-                public int compare(final Date obj1, final Date obj2) {
-                    return obj1.compareTo(obj2);
-                }
-            });
+            sorter.sort(array, Date::compareTo);
 
             // check that array is now sorted in ascending order
-            Date prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 prevValue = array[i];
@@ -689,25 +539,25 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWholeArrayOfDoubles() throws SortingException {
+    void testSortWholeArrayOfDoubles() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
             sorter.sort(array);
 
             // check that array is now sorted in ascending order
-            double prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
@@ -716,25 +566,25 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWholeArrayOfFloats() throws SortingException {
+    void testSortWholeArrayOfFloats() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
             }
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
             sorter.sort(array);
 
             // check that array is now sorted in ascending order
-            float prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
@@ -743,25 +593,25 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWholeArrayOfInts() throws SortingException {
+    void testSortWholeArrayOfInts() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
             sorter.sort(array);
 
             // check that array is now sorted in ascending order
-            int prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
@@ -770,25 +620,25 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWholeArrayOfLongs() throws SortingException {
+    void testSortWholeArrayOfLongs() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
             sorter.sort(array);
 
             // check that array is now sorted in ascending order
-            long prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue <= array[i]);
                 prevValue = array[i];
@@ -797,30 +647,29 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWithIndicesComparablesWithinRange()
-            throws SortingException {
+    void testSortWithIndicesComparablesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
-            final int[] indices = sorter.sortWithIndices(array, fromIndex, toIndex);
+            final var indices = sorter.sortWithIndices(array, fromIndex, toIndex);
 
             // check that array is now sorted in ascending order
-            Date prevValue = array[fromIndex];
+            var prevValue = array[fromIndex];
             for (int i = fromIndex + 1; i < toIndex; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 assertEquals(array2[indices[i]], array[i]);
@@ -828,48 +677,38 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.sortWithIndices(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.sortWithIndices(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.sortWithIndices(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.sortWithIndices(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.sortWithIndices(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSortWithIndicesComparables() throws SortingException {
+    void testSortWithIndicesComparables() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
-            final int[] indices = sorter.sortWithIndices(array);
+            final var indices = sorter.sortWithIndices(array);
 
             // check that array is now sorted in ascending order
-            Date prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 assertEquals(array2[indices[i]], array[i]);
@@ -879,34 +718,27 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWithIndicesWholeArray() throws SortingException {
+    void testSortWithIndicesWholeArray() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
-            final int[] indices = sorter.sortWithIndices(array,
-                    new Comparator<Date>() {
-
-                        @Override
-                        public int compare(final Date obj1, final Date obj2) {
-                            return obj1.compareTo(obj2);
-                        }
-                    });
+            final var indices = sorter.sortWithIndices(array, Date::compareTo);
 
             // check that array is now sorted in ascending order
-            Date prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue.compareTo(array[i]) <= 0);
                 assertEquals(array2[indices[i]], array[i]);
@@ -916,28 +748,27 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWithIndicesWholeArrayOfDoubles()
-            throws SortingException {
+    void testSortWithIndicesWholeArrayOfDoubles() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
-            final int[] indices = sorter.sortWithIndices(array);
+            final var indices = sorter.sortWithIndices(array);
 
             // check that array is now sorted in ascending order
-            double prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i], 0.0);
@@ -947,28 +778,27 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWithIndicesWholeArrayOfFloats()
-            throws SortingException {
+    void testSortWithIndicesWholeArrayOfFloats() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
             }
 
-            final float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
-            final int[] indices = sorter.sortWithIndices(array);
+            final var indices = sorter.sortWithIndices(array);
 
             // check that array is now sorted in ascending order
-            float prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i], 0.0);
@@ -978,24 +808,24 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWithIndicesWholeArrayOfInts() throws SortingException {
+    void testSortWithIndicesWholeArrayOfInts() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final int[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
-            final int[] indices = sorter.sortWithIndices(array);
+            final var indices = sorter.sortWithIndices(array);
 
             // check that array is now sorted in ascending order
             int prevValue = array[0];
@@ -1008,27 +838,27 @@ public class SorterTest {
     }
 
     @Test
-    public void testSortWithIndicesWholeArrayOfLongs() throws SortingException {
+    void testSortWithIndicesWholeArrayOfLongs() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
-            final int[] indices = sorter.sortWithIndices(array);
+            final var indices = sorter.sortWithIndices(array);
 
             // check that array is now sorted in ascending order
-            long prevValue = array[0];
+            var prevValue = array[0];
             for (int i = 1; i < length; i++) {
                 assertTrue(prevValue <= array[i]);
                 assertEquals(array2[indices[i]], array[i]);
@@ -1038,29 +868,29 @@ public class SorterTest {
     }
 
     @Test
-    public void testSelectComparables() throws SortingException {
+    void testSelectComparables() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int pos = randomizer.nextInt(0, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var pos = randomizer.nextInt(0, length);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array);
 
             // select value at pos
-            final Date selected = sorter.select(pos, array2);
+            final var selected = sorter.select(pos, array2);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos]);
@@ -1078,40 +908,36 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(length, array);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.select(length, array));
         }
     }
 
     @Test
-    public void testSelectComparablesWithinRange() throws SortingException {
+    void testSelectComparablesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int pos = randomizer.nextInt(0, toIndex - fromIndex);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var pos = randomizer.nextInt(0, toIndex - fromIndex);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
 
             // select value at pos
-            final Date selected = sorter.select(pos, array2, fromIndex, toIndex);
+            final var selected = sorter.select(pos, array2, fromIndex, toIndex);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos + fromIndex]);
@@ -1129,63 +955,42 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex + 1, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(toIndex - fromIndex, array, toIndex, fromIndex));
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(pos, array, fromIndex + 1, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.select(pos, array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.select(pos, array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.select(pos, array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSelectWithComparator() throws SortingException {
+    void testSelectWithComparator() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int pos = randomizer.nextInt(0, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var pos = randomizer.nextInt(0, length);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array);
 
             // select value at pos
-            final Date selected = sorter.select(pos, array2,
-                    new Comparator<Date>() {
-
-                        @Override
-                        public int compare(final Date obj1, final Date obj2) {
-                            return obj1.compareTo(obj2);
-                        }
-
-                    });
+            final var selected = sorter.select(pos, array2, Date::compareTo);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos]);
@@ -1203,45 +1008,34 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(length, array, new Comparator<Date>() {
-
-                    @Override
-                    public int compare(final Date obj1, final Date obj2) {
-                        return obj1.compareTo(obj2);
-                    }
-
-                });
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.select(length, array, Date::compareTo));
         }
     }
 
     @Test
-    public void testSelectDoubles() throws SortingException {
+    void testSelectDoubles() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int pos = randomizer.nextInt(0, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var pos = randomizer.nextInt(0, length);
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
             // sort original array
             sorter.sort(array);
 
             // select value at pos
-            final double selected = sorter.select(pos, array2);
+            final var selected = sorter.select(pos, array2);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos], 0.0);
@@ -1259,38 +1053,34 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(length, array);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.select(length, array));
         }
     }
 
     @Test
-    public void testSelectFloats() throws SortingException {
+    void testSelectFloats() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int pos = randomizer.nextInt(0, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var pos = randomizer.nextInt(0, length);
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
             }
 
-            final float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
             // sort original array
             sorter.sort(array);
 
             // select value at pos
-            final float selected = sorter.select(pos, array2);
+            final var selected = sorter.select(pos, array2);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos], 0.0);
@@ -1308,38 +1098,34 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(length, array);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.select(length, array));
         }
     }
 
     @Test
-    public void testSelectInts() throws SortingException {
+    void testSelectInts() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int pos = randomizer.nextInt(0, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var pos = randomizer.nextInt(0, length);
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final int[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
             // sort original array
             sorter.sort(array);
 
             // select value at pos
-            final int selected = sorter.select(pos, array2);
+            final var selected = sorter.select(pos, array2);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos]);
@@ -1357,38 +1143,34 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(length, array);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.select(length, array));
         }
     }
 
     @Test
-    public void testSelectLongs() throws SortingException {
+    void testSelectLongs() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int pos = randomizer.nextInt(0, length);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var pos = randomizer.nextInt(0, length);
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
             // sort original array
             sorter.sort(array);
 
             // select value at pos
-            final long selected = sorter.select(pos, array2);
+            final var selected = sorter.select(pos, array2);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos]);
@@ -1406,47 +1188,36 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(length, array);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.select(length, array));
         }
     }
 
     @Test
-    public void testSelectWithComparatorWithinRange() throws SortingException {
+    void testSelectWithComparatorWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int pos = randomizer.nextInt(0, toIndex - fromIndex);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var pos = randomizer.nextInt(0, toIndex - fromIndex);
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
 
             // select value at pos
-            final Date selected = sorter.select(pos, array2, fromIndex, toIndex,
-                    new Comparator<Date>() {
-
-                        @Override
-                        public int compare(final Date obj1, final Date obj2) {
-                            return obj1.compareTo(obj2);
-                        }
-                    });
+            final var selected = sorter.select(pos, array2, fromIndex, toIndex, Date::compareTo);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos + fromIndex]);
@@ -1464,89 +1235,45 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex,
-                        new Comparator<Date>() {
-
-                            @Override
-                            public int compare(final Date obj1, final Date obj2) {
-                                return obj1.compareTo(obj2);
-                            }
-
-                        });
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex + 1, fromIndex,
-                        new Comparator<Date>() {
-
-                            @Override
-                            public int compare(final Date obj1, final Date obj2) {
-                                return obj1.compareTo(obj2);
-                            }
-
-                        });
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(toIndex - fromIndex, array, toIndex, fromIndex, Date::compareTo));
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(pos, array, fromIndex + 1, fromIndex, Date::compareTo));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.select(pos, array, -1, toIndex,
-                        new Comparator<Date>() {
-
-                            @Override
-                            public int compare(final Date obj1, final Date obj2) {
-                                return obj1.compareTo(obj2);
-                            }
-
-                        });
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex, length + 1,
-                        new Comparator<Date>() {
-
-                            @Override
-                            public int compare(final Date obj1, final Date obj2) {
-                                return obj1.compareTo(obj2);
-                            }
-
-                        });
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.select(pos, array, -1, toIndex, Date::compareTo));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.select(pos, array, fromIndex, length + 1, Date::compareTo));
         }
     }
 
     @Test
-    public void testSelectDoublesWithinRange() throws SortingException {
+    void testSelectDoublesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int pos = randomizer.nextInt(0, toIndex - fromIndex);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var pos = randomizer.nextInt(0, toIndex - fromIndex);
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
 
             // select value at pos
-            final double selected = sorter.select(pos, array2, fromIndex, toIndex);
+            final var selected = sorter.select(pos, array2, fromIndex, toIndex);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos + fromIndex], 0.0);
@@ -1564,57 +1291,44 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex + 1, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(toIndex - fromIndex, array, toIndex, fromIndex));
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(pos, array, fromIndex + 1, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.select(pos, array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.select(pos, array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.select(pos, array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSelectFloatsWithinRange() throws SortingException {
+    void testSelectFloatsWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int pos = randomizer.nextInt(0, toIndex - fromIndex);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var pos = randomizer.nextInt(0, toIndex - fromIndex);
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
             }
 
-            final float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
 
             // select value at pos
-            final float selected = sorter.select(pos, array2, fromIndex, toIndex);
+            final var selected = sorter.select(pos, array2, fromIndex, toIndex);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos + fromIndex], 0.0);
@@ -1632,57 +1346,44 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex + 1, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(toIndex - fromIndex, array, toIndex, fromIndex));
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(pos, array, fromIndex + 1, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.select(pos, array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.select(pos, array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.select(pos, array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSelectIntsWithinRange() throws SortingException {
+    void testSelectIntsWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int pos = randomizer.nextInt(0, toIndex - fromIndex);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var pos = randomizer.nextInt(0, toIndex - fromIndex);
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final int[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
 
             // select value at pos
-            final int selected = sorter.select(pos, array2, fromIndex, toIndex);
+            final var selected = sorter.select(pos, array2, fromIndex, toIndex);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos + fromIndex], 0.0);
@@ -1700,57 +1401,44 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex + 1, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(toIndex - fromIndex, array, toIndex, fromIndex));
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(pos, array, fromIndex + 1, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.select(pos, array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.select(pos, array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.select(pos, array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testSelectLongWithinRange() throws SortingException {
+    void testSelectLongWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int pos = randomizer.nextInt(0, toIndex - fromIndex);
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var pos = randomizer.nextInt(0, toIndex - fromIndex);
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
 
             // select value at pos
-            final long selected = sorter.select(pos, array2, fromIndex, toIndex);
+            final var selected = sorter.select(pos, array2, fromIndex, toIndex);
 
             // check that selected value corresponds to sorted value at pos
             assertEquals(selected, array[pos + fromIndex], 0.0);
@@ -1768,51 +1456,38 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.select(toIndex - fromIndex, array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex + 1, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(toIndex - fromIndex, array, toIndex, fromIndex));
+            assertThrows(IllegalArgumentException.class,
+                    () -> sorter.select(pos, array, fromIndex + 1, fromIndex));
 
             //Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.select(pos, array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.select(pos, array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.select(pos, array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.select(pos, array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testMedianComparablesOddLength() throws SortingException {
+    void testMedianComparablesOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array);
@@ -1820,7 +1495,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Date median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -1839,31 +1514,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Date otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianComparablesEvenLength() throws SortingException {
+    void testMedianComparablesEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array);
@@ -1871,7 +1546,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Date median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -1890,31 +1565,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Date otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianComparablesWithinRange() throws SortingException {
+    void testMedianComparablesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int n = toIndex - fromIndex;
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var n = toIndex - fromIndex;
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
@@ -1943,46 +1618,35 @@ public class SorterTest {
             }
 
             // Force IllegalArgumentException
-            try {
-                sorter.median(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.median(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.median(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.median(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.median(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.median(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testMedianWithComparatorOddLength() throws SortingException {
+    void testMedianWithComparatorOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array);
@@ -1990,8 +1654,8 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Object median = sorter.median(array2,
-                    new ComparatorAndAverager<Date>() {
+            final var median = sorter.median(array2,
+                    new ComparatorAndAverager<>() {
 
                         @Override
                         public int compare(final Date obj1, final Date obj2) {
@@ -2022,33 +1686,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final Date otherMedian;
-            otherMedian = array[length / 2];
-
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianWithComparatorEvenLength() throws SortingException {
+    void testMedianWithComparatorEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array);
@@ -2056,8 +1718,8 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Object median = sorter.median(array2,
-                    new ComparatorAndAverager<Date>() {
+            final var median = sorter.median(array2,
+                    new ComparatorAndAverager<>() {
 
                         @Override
                         public int compare(final Date obj1, final Date obj2) {
@@ -2088,33 +1750,33 @@ public class SorterTest {
             }
 
             // Check median value for even length
-            final Date otherMedian = new Date((long) (0.5 * (array[(length / 2) - 1].getTime() +
-                    array[length / 2].getTime())));
+            final Date otherMedian = new Date((long) (0.5 * (array[(length / 2) - 1].getTime()
+                    + array[length / 2].getTime())));
 
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianWithComparatorWithinRange() throws SortingException {
+    void testMedianWithComparatorWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int n = toIndex - fromIndex;
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var n = toIndex - fromIndex;
 
-            final Date[] array = new Date[length];
+            final var array = new Date[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE));
             }
 
-            final Date[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Date> sorter = Sorter.create();
+            final var sorter = Sorter.<Date>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
@@ -2123,8 +1785,8 @@ public class SorterTest {
             // element at length / 2 + fromIndex and elements greater than
             // element at length / 2 + fromIndex because selection is done at
             // length / 2 + fromIndex
-            final Object median = sorter.median(array2, fromIndex, toIndex,
-                    new ComparatorAndAverager<Date>() {
+            final var median = sorter.median(array2, fromIndex, toIndex,
+                    new ComparatorAndAverager<>() {
 
                         @Override
                         public int compare(final Date obj1, final Date obj2) {
@@ -2160,8 +1822,8 @@ public class SorterTest {
             final Date otherMedian;
             if ((n % 2) == 0) {
                 // even length
-                otherMedian = new Date((long) (0.5 * (array[(n / 2 + fromIndex) - 1].getTime() +
-                        array[n / 2 + fromIndex].getTime())));
+                otherMedian = new Date((long) (0.5 * (array[(n / 2 + fromIndex) - 1].getTime()
+                        + array[n / 2 + fromIndex].getTime())));
             } else {
                 otherMedian = array[n / 2 + fromIndex];
             }
@@ -2169,46 +1831,35 @@ public class SorterTest {
             assertEquals(otherMedian, median);
 
             // Force IllegalArgumentException
-            try {
-                sorter.median(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.median(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.median(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.median(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.median(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.median(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testMedianDoublesOddLength() throws SortingException {
+    void testMedianDoublesOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
             // sort original array
             sorter.sort(array);
@@ -2216,7 +1867,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final double median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2235,33 +1886,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final double otherMedian;
-            otherMedian = array[length / 2];
-
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median, 0.0);
         }
     }
 
     @Test
-    public void testMedianDoublesEvenLength() throws SortingException {
+    void testMedianDoublesEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
             // sort original array
             sorter.sort(array);
@@ -2269,7 +1918,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final double median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2288,33 +1937,31 @@ public class SorterTest {
             }
 
             // Check median value even length
-            final double otherMedian = 0.5 * (array[(length / 2) - 1] +
-                    array[length / 2]);
-
+            final var otherMedian = 0.5 * (array[(length / 2) - 1] + array[length / 2]);
             assertEquals(otherMedian, median, 0.0);
         }
     }
 
     @Test
-    public void testMedianDoublesWithinRange() throws SortingException {
+    void testMedianDoublesWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int n = toIndex - fromIndex;
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var n = toIndex - fromIndex;
 
-            final double[] array = new double[length];
+            final var array = new double[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextDouble(MIN_VALUE, MAX_VALUE);
             }
 
-            final double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
@@ -2323,13 +1970,12 @@ public class SorterTest {
             // element at length / 2 + fromIndex and elements greater than
             // element at length / 2 + fromIndex because selection is done at
             // length / 2 + fromIndex
-            final double median = sorter.median(array2, fromIndex, toIndex);
+            final var median = sorter.median(array2, fromIndex, toIndex);
 
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
-            assertEquals(array[n / 2 + fromIndex],
-                    array2[n / 2 + fromIndex], 0.0);
+            assertEquals(array[n / 2 + fromIndex], array2[n / 2 + fromIndex], 0.0);
 
 
             // check that elements in array2[0] ... array2[pos - 1] are lower
@@ -2357,46 +2003,35 @@ public class SorterTest {
             assertEquals(otherMedian, median, 0.0);
 
             // Force IllegalArgumentException
-            try {
-                sorter.median(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.median(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.median(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.median(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.median(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.median(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testMedianFloatsOddLength() throws SortingException {
+    void testMedianFloatsOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
             }
 
-            final float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
             // sort original array
             sorter.sort(array);
@@ -2404,7 +2039,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final float median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2423,33 +2058,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final float otherMedian;
-            otherMedian = array[length / 2];
-
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median, 0.0);
         }
     }
 
     @Test
-    public void testMedianFloatsEvenLength() throws SortingException {
+    void testMedianFloatsEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
             }
 
-            final float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
             // sort original array
             sorter.sort(array);
@@ -2457,7 +2090,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final float median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2476,33 +2109,31 @@ public class SorterTest {
             }
 
             // Check median value even length
-            final float otherMedian = 0.5f * (array[(length / 2) - 1] +
-                    array[length / 2]);
-
+            final var otherMedian = 0.5f * (array[(length / 2) - 1] + array[length / 2]);
             assertEquals(otherMedian, median, 0.0);
         }
     }
 
     @Test
-    public void testMedianFloatsWithinRange() throws SortingException {
+    void testMedianFloatsWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int n = toIndex - fromIndex;
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var n = toIndex - fromIndex;
 
-            final float[] array = new float[length];
+            final var array = new float[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextFloat(MIN_VALUE, MAX_VALUE);
             }
 
-            final float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
@@ -2511,13 +2142,12 @@ public class SorterTest {
             // element at length / 2 + fromIndex and elements greater than
             // element at length / 2 + fromIndex because selection is done at
             // length / 2 + fromIndex
-            final float median = sorter.median(array2, fromIndex, toIndex);
+            final var median = sorter.median(array2, fromIndex, toIndex);
 
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
-            assertEquals(array[n / 2 + fromIndex],
-                    array2[n / 2 + fromIndex], 0.0);
+            assertEquals(array[n / 2 + fromIndex], array2[n / 2 + fromIndex], 0.0);
 
 
             // check that elements in array2[0] ... array2[pos - 1] are lower
@@ -2536,8 +2166,7 @@ public class SorterTest {
             final float otherMedian;
             if ((n % 2) == 0) {
                 // even length
-                otherMedian = 0.5f * (array[(n / 2 + fromIndex) - 1] +
-                        array[n / 2 + fromIndex]);
+                otherMedian = 0.5f * (array[(n / 2 + fromIndex) - 1] + array[n / 2 + fromIndex]);
             } else {
                 otherMedian = array[n / 2 + fromIndex];
             }
@@ -2545,46 +2174,35 @@ public class SorterTest {
             assertEquals(otherMedian, median, 0.0);
 
             // Force IllegalArgumentException
-            try {
-                sorter.median(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.median(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.median(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.median(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.median(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.median(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testMedianIntsOddLength() throws SortingException {
+    void testMedianIntsOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final int[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
             // sort original array
             sorter.sort(array);
@@ -2592,7 +2210,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final int median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2611,33 +2229,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final int otherMedian;
-            otherMedian = array[length / 2];
-
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianIntsEvenLength() throws SortingException {
+    void testMedianIntsEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final int[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
             // sort original array
             sorter.sort(array);
@@ -2645,7 +2261,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final int median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2664,33 +2280,32 @@ public class SorterTest {
             }
 
             // Check median value even length
-            final int otherMedian = (int) (0.5 * (array[(length / 2) - 1] +
-                    array[length / 2]));
+            final int otherMedian = (int) (0.5 * (array[(length / 2) - 1] + array[length / 2]));
 
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianIntsWithinRange() throws SortingException {
+    void testMedianIntsWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int n = toIndex - fromIndex;
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var n = toIndex - fromIndex;
 
-            final int[] array = new int[length];
+            final var array = new int[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final int[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
@@ -2699,13 +2314,12 @@ public class SorterTest {
             // element at length / 2 + fromIndex and elements greater than
             // element at length / 2 + fromIndex because selection is done at
             // length / 2 + fromIndex
-            final int median = sorter.median(array2, fromIndex, toIndex);
+            final var median = sorter.median(array2, fromIndex, toIndex);
 
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
-            assertEquals(array[n / 2 + fromIndex],
-                    array2[n / 2 + fromIndex], 0.0);
+            assertEquals(array[n / 2 + fromIndex], array2[n / 2 + fromIndex], 0.0);
 
 
             // check that elements in array2[0] ... array2[pos - 1] are lower
@@ -2724,8 +2338,7 @@ public class SorterTest {
             final int otherMedian;
             if ((n % 2) == 0) {
                 // even length
-                otherMedian = (int) (0.5 * (array[(n / 2 + fromIndex) - 1] +
-                        array[n / 2 + fromIndex]));
+                otherMedian = (int) (0.5 * (array[(n / 2 + fromIndex) - 1] + array[n / 2 + fromIndex]));
             } else {
                 otherMedian = array[n / 2 + fromIndex];
             }
@@ -2733,46 +2346,35 @@ public class SorterTest {
             assertEquals(otherMedian, median);
 
             // Force IllegalArgumentException
-            try {
-                sorter.median(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.median(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.median(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.median(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.median(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.median(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testMedianLongsOddLength() throws SortingException {
+    void testMedianLongsOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
             // sort original array
             sorter.sort(array);
@@ -2780,7 +2382,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final long median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2799,33 +2401,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final long otherMedian;
-            otherMedian = array[length / 2];
-
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianLongsEvenLength() throws SortingException {
+    void testMedianLongsEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
             // sort original array
             sorter.sort(array);
@@ -2833,7 +2433,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final long median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2852,33 +2452,32 @@ public class SorterTest {
             }
 
             // Check median value even length
-            final long otherMedian = (long) (0.5 * (array[(length / 2) - 1] +
-                    array[length / 2]));
+            final var otherMedian = (long) (0.5 * (array[(length / 2) - 1] + array[length / 2]));
 
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianLongsWithinRange() throws SortingException {
+    void testMedianLongsWithinRange() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            final int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
-            final int fromIndex = randomizer.nextInt(0, length - 2);
-            final int toIndex = randomizer.nextInt(fromIndex + 1, length);
-            final int n = toIndex - fromIndex;
+            final var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            final var fromIndex = randomizer.nextInt(0, length - 2);
+            final var toIndex = randomizer.nextInt(fromIndex + 1, length);
+            final var n = toIndex - fromIndex;
 
-            final long[] array = new long[length];
+            final var array = new long[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextLong(MIN_VALUE, MAX_VALUE);
             }
 
-            final long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
             // sort original array
             sorter.sort(array, fromIndex, toIndex);
@@ -2887,13 +2486,12 @@ public class SorterTest {
             // element at length / 2 + fromIndex and elements greater than
             // element at length / 2 + fromIndex because selection is done at
             // length / 2 + fromIndex
-            final long median = sorter.median(array2, fromIndex, toIndex);
+            final var median = sorter.median(array2, fromIndex, toIndex);
 
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
-            assertEquals(array[n / 2 + fromIndex],
-                    array2[n / 2 + fromIndex], 0.0);
+            assertEquals(array[n / 2 + fromIndex], array2[n / 2 + fromIndex], 0.0);
 
 
             // check that elements in array2[0] ... array2[pos - 1] are lower
@@ -2912,8 +2510,7 @@ public class SorterTest {
             final long otherMedian;
             if ((n % 2) == 0) {
                 // even length
-                otherMedian = (long) (0.5 * (array[(n / 2 + fromIndex) - 1] +
-                        array[n / 2 + fromIndex]));
+                otherMedian = (long) (0.5 * (array[(n / 2 + fromIndex) - 1] + array[n / 2 + fromIndex]));
             } else {
                 otherMedian = array[n / 2 + fromIndex];
             }
@@ -2921,46 +2518,35 @@ public class SorterTest {
             assertEquals(otherMedian, median);
 
             // Force IllegalArgumentException
-            try {
-                sorter.median(array, toIndex, fromIndex);
-                fail("IllegalArgumentException expected but not thrown");
-            } catch (final IllegalArgumentException ignore) {
-            }
+            assertThrows(IllegalArgumentException.class, () -> sorter.median(array, toIndex, fromIndex));
 
             // Force ArrayIndexOutOfBoundsException
-            try {
-                sorter.median(array, -1, toIndex);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
-            try {
-                sorter.median(array, fromIndex, length + 1);
-                fail("ArrayIndexOutOfBoundsException expected but not thrown");
-            } catch (final ArrayIndexOutOfBoundsException ignore) {
-            }
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> sorter.median(array, -1, toIndex));
+            assertThrows(ArrayIndexOutOfBoundsException.class,
+                    () -> sorter.median(array, fromIndex, length + 1));
         }
     }
 
     @Test
-    public void testMedianComparableAndAverageablesOddLength() throws SortingException {
+    void testMedianComparableAndAverageablesOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final AverageableDate[] array = new AverageableDate[length];
+            final var array = new AverageableDate[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new AverageableDate(new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE)));
             }
 
-            final AverageableDate[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<AverageableDate> sorter = Sorter.create();
+            final var sorter = Sorter.<AverageableDate>create();
 
             // sort original array
             sorter.sort(array);
@@ -2968,7 +2554,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final AverageableDate median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -2987,31 +2573,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final AverageableDate otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianComparableAndAverageablesEvenLength() throws SortingException {
+    void testMedianComparableAndAverageablesEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final AverageableDate[] array = new AverageableDate[length];
+            final var array = new AverageableDate[length];
 
             // set random values into array of comparables
             for (int i = 0; i < length; i++) {
                 array[i] = new AverageableDate(new Date(randomizer.nextLong(MIN_VALUE, MAX_VALUE)));
             }
 
-            final AverageableDate[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<AverageableDate> sorter = Sorter.create();
+            final var sorter = Sorter.<AverageableDate>create();
 
             // sort original array
             sorter.sort(array);
@@ -3019,7 +2605,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final AverageableDate median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3038,31 +2624,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final AverageableDate otherMedian = array[length / 2 - 1].averageWith(array[length / 2]);
+            final var otherMedian = array[length / 2 - 1].averageWith(array[length / 2]);
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianBytesOddLength() throws SortingException {
+    void testMedianBytesOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Byte[] array = new Byte[length];
+            final var array = new Byte[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (byte) randomizer.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
             }
 
-            final Byte[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Byte> sorter = Sorter.create();
+            final var sorter = Sorter.<Byte>create();
 
             // sort original array
             sorter.sort(array);
@@ -3070,7 +2656,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Byte median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3089,31 +2675,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Byte otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianBytesEvenLength() throws SortingException {
+    void testMedianBytesEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Byte[] array = new Byte[length];
+            final var array = new Byte[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (byte) randomizer.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
             }
 
-            final Byte[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Byte> sorter = Sorter.create();
+            final var sorter = Sorter.<Byte>create();
 
             // sort original array
             sorter.sort(array);
@@ -3121,7 +2707,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Byte median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3140,31 +2726,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final Byte otherMedian = (byte) ((array[length / 2 - 1] + array[length / 2]) / 2);
+            final var otherMedian = (byte) ((array[length / 2 - 1] + array[length / 2]) / 2);
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianCharactersOddLength() throws SortingException {
+    void testMedianCharactersOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Character[] array = new Character[length];
+            final var array = new Character[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (char) randomizer.nextInt(Character.MIN_VALUE, Character.MAX_VALUE);
             }
 
-            final Character[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Character> sorter = Sorter.create();
+            final var sorter = Sorter.<Character>create();
 
             // sort original array
             sorter.sort(array);
@@ -3172,7 +2758,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Character median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3191,31 +2777,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Character otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianCharactersEvenLength() throws SortingException {
+    void testMedianCharactersEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Character[] array = new Character[length];
+            final var array = new Character[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (char) randomizer.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
             }
 
-            final Character[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Character> sorter = Sorter.create();
+            final var sorter = Sorter.<Character>create();
 
             // sort original array
             sorter.sort(array);
@@ -3223,7 +2809,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Character median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3242,31 +2828,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final Character otherMedian = (char) ((array[length / 2 - 1] + array[length / 2]) / 2);
+            final var otherMedian = (char) ((array[length / 2 - 1] + array[length / 2]) / 2);
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianShortsOddLength() throws SortingException {
+    void testMedianShortsOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Short[] array = new Short[length];
+            final var array = new Short[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (short) randomizer.nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
             }
 
-            final Short[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Short> sorter = Sorter.create();
+            final var sorter = Sorter.<Short>create();
 
             // sort original array
             sorter.sort(array);
@@ -3274,7 +2860,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Short median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3293,31 +2879,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Short otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianShortsEvenLength() throws SortingException {
+    void testMedianShortsEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Short[] array = new Short[length];
+            final var array = new Short[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (short) randomizer.nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
             }
 
-            final Short[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Short> sorter = Sorter.create();
+            final var sorter = Sorter.<Short>create();
 
             // sort original array
             sorter.sort(array);
@@ -3325,7 +2911,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Short median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3344,31 +2930,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final Short otherMedian = (short) ((array[length / 2 - 1] + array[length / 2]) / 2);
+            final var otherMedian = (short) ((array[length / 2 - 1] + array[length / 2]) / 2);
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianIntegersOddLength() throws SortingException {
+    void testMedianIntegersOddLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Integer[] array = new Integer[length];
+            final var array = new Integer[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Integer[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
             // sort original array
             sorter.sort(array);
@@ -3376,7 +2962,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Integer median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3395,31 +2981,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Integer otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianIntegersEvenLength() throws SortingException {
+    void testMedianIntegersEvenLength() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Integer[] array = new Integer[length];
+            final var array = new Integer[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Integer[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Integer> sorter = Sorter.create();
+            final var sorter = Sorter.<Integer>create();
 
             // sort original array
             sorter.sort(array);
@@ -3427,7 +3013,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Integer median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3446,31 +3032,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final Integer otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
+            final var otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianLongsOddLength2() throws SortingException {
+    void testMedianLongsOddLength2() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Long[] array = new Long[length];
+            final var array = new Long[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (long) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
             // sort original array
             sorter.sort(array);
@@ -3478,7 +3064,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Long median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3497,31 +3083,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Long otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianLongsEvenLength2() throws SortingException {
+    void testMedianLongsEvenLength2() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Long[] array = new Long[length];
+            final var array = new Long[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (long) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Long[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Long> sorter = Sorter.create();
+            final var sorter = Sorter.<Long>create();
 
             // sort original array
             sorter.sort(array);
@@ -3529,7 +3115,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Long median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3548,31 +3134,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final Long otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
+            final var otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianFloatsOddLength2() throws SortingException {
+    void testMedianFloatsOddLength2() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Float[] array = new Float[length];
+            final var array = new Float[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (float) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
             // sort original array
             sorter.sort(array);
@@ -3580,7 +3166,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Float median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3599,31 +3185,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Float otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianFloatsEvenLength2() throws SortingException {
+    void testMedianFloatsEvenLength2() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Float[] array = new Float[length];
+            final var array = new Float[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (float) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Float[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Float> sorter = Sorter.create();
+            final var sorter = Sorter.<Float>create();
 
             // sort original array
             sorter.sort(array);
@@ -3631,7 +3217,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Float median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3650,31 +3236,31 @@ public class SorterTest {
             }
 
             // Check median value
-            final Float otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
+            final var otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianDoublesOddLength2() throws SortingException {
+    void testMedianDoublesOddLength2() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 == 0) {
                 length++;
             }
 
-            final Double[] array = new Double[length];
+            final var array = new Double[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (double) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
             // sort original array
             sorter.sort(array);
@@ -3682,7 +3268,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Double median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3701,31 +3287,31 @@ public class SorterTest {
             }
 
             // Check that median value
-            final Double otherMedian = array[length / 2];
+            final var otherMedian = array[length / 2];
             assertEquals(otherMedian, median);
         }
     }
 
     @Test
-    public void testMedianDoublesEvenLength2() throws SortingException {
+    void testMedianDoublesEvenLength2() throws SortingException {
         for (int t = 0; t < TIMES; t++) {
-            final UniformRandomizer randomizer = new UniformRandomizer(new Random());
+            final var randomizer = new UniformRandomizer();
 
-            int length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = randomizer.nextInt(MIN_LENGTH, MAX_LENGTH);
             if (length % 2 != 0) {
                 length++;
             }
 
-            final Double[] array = new Double[length];
+            final var array = new Double[length];
 
             // set random values into array of bytes
             for (int i = 0; i < length; i++) {
                 array[i] = (double) randomizer.nextInt(MIN_VALUE, MAX_VALUE);
             }
 
-            final Double[] array2 = Arrays.copyOf(array, length);
+            final var array2 = Arrays.copyOf(array, length);
 
-            final Sorter<Double> sorter = Sorter.create();
+            final var sorter = Sorter.<Double>create();
 
             // sort original array
             sorter.sort(array);
@@ -3733,7 +3319,7 @@ public class SorterTest {
             // after median computation array2 will contain elements smaller than
             // element at length / 2 and elements greater than element at
             // length / 2 because selection is done at length / 2
-            final Double median = sorter.median(array2);
+            final var median = sorter.median(array2);
 
             // for that reason element at length / 2 is the same on sorted and
             // selected arrays
@@ -3752,7 +3338,7 @@ public class SorterTest {
             }
 
             // Check median value
-            final Double otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
+            final var otherMedian = ((array[length / 2 - 1] + array[length / 2]) / 2);
             assertEquals(otherMedian, median);
         }
     }
@@ -3777,8 +3363,13 @@ public class SorterTest {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             AverageableDate that = (AverageableDate) o;
             return date.equals(that.date);
         }

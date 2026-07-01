@@ -1,0 +1,5 @@
+name: irurueta-sorting
+version: 1.4.0
+title: Irurueta Sorting
+nav:
+  - modules/ROOT/nav.adoc

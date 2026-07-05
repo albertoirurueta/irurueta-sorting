@@ -1,0 +1,89 @@
+= Heapsort
+:description: HeapsortSorter implements the Heapsort algorithm from Numerical Recipes chapter 8.3.
+:stem: latexmath
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+`HeapsortSorter` sorts an array using Heapsort, a true in-place sort that requires no auxiliary
+storage. Heapsort first rearranges the array into a "heap": a binary tree, stored contiguously in
+the array, in which every element is greater than or equal to its two children. Once the array
+forms a heap, the largest element sits at the root; it is swapped to the end of the array (its
+final sorted position), and the remaining heap is repaired ("sifted down") so that its new root is
+again the largest remaining element. Repeating this pull-and-repair step from the last element back
+to the first sorts the whole array.
+
+== The heap property
+
+A set of N numbers stem:[a_j], stem:[j = 0, \ldots, N-1], is said to form a heap if it satisfies
+the relation (eq. 8.3.1):
+
+[stem]
+++++
+a_{\lfloor (j-1)/2 \rfloor} \geq a_j \qquad \text{for } 0 \leq \left\lfloor \frac{j-1}{2} \right\rfloor < j < N
+++++
+
+Viewing the array as a binary tree, with element 0 at the root and each element stem:[j] having
+children at positions stem:[2j+1] and stem:[2j+2], this says that every "supervisor" is greater
+than or equal to its two "supervisees", all the way down the hierarchy. The diagram below
+reproduces Figure 8.3.1 from Numerical Recipes: a heap of 12 elements. Elements connected by a
+downward path are ordered with respect to one another, but there is no guaranteed ordering between
+elements that are only related laterally (for example, stem:[a_3] and stem:[a_4]).
+
+[mermaid]
+....
+graph TD
+    a0 --> a1
+    a0 --> a2
+    a1 --> a3
+    a1 --> a4
+    a2 --> a5
+    a2 --> a6
+    a3 --> a7
+    a3 --> a8
+    a4 --> a9
+    a4 --> a10
+    a5 --> a11
+....
+
+`HeapsortSorter` builds this structure with a "sift-down" pass over the second half of the array
+(the internal, non-leaf nodes), then repeatedly swaps the root with the last unsorted element and
+sifts the new root down, shrinking the heap by one element each time.
+
+Heapsort is an N log~2~ N algorithm both on average and in the worst case, unlike
+xref:quicksort.adoc[Quicksort], whose worst case is O(N^2^). In practice, Heapsort is slower than
+Quicksort by a roughly constant factor, so `Sorter.DEFAULT_SORTING_METHOD` favors Quicksort-based
+sorting; `HeapsortSorter` remains a good choice when a guaranteed worst-case running time or
+sorting fully in place matters more than average-case speed.
+
+`HeapsortSorter` is not stable: elements that compare as equal may be reordered relative to each
+other.
+
+== Usage
+
+[source,java]
+----
+import com.irurueta.sorting.HeapsortSorter;
+
+HeapsortSorter<Double> sorter = new HeapsortSorter<>();
+
+double[] values = {5.0, 3.0, 8.0, 1.0, 9.0};
+sorter.sort(values);
+----
+
+It can also be selected dynamically through the `Sorter` factory:
+
+[source,java]
+----
+import com.irurueta.sorting.Sorter;
+import com.irurueta.sorting.SortingMethod;
+
+Sorter<Double> sorter = Sorter.create(SortingMethod.HEAPSORT_SORTING_METHOD);
+----
+
+Like every `Sorter`, it also supports `sortWithIndices`, `select` and `median`, as described in
+xref:usage.adoc[Usage].
+
+== Reference
+
+This class is based on the algorithm described in xref:reference.adoc[Numerical Recipes, 3rd
+Edition, section 8.3, "Heapsort"].

@@ -1,0 +1,69 @@
+= Shell sort
+:description: ShellSorter implements Shell's diminishing increment method from Numerical Recipes chapter 8.1.
+:stem: latexmath
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+`ShellSorter` sorts an array using Shell's method, a "diminishing increment sort" and a powerful
+variant of xref:straight-insertion-sort.adoc[straight insertion]. Rather than comparing only
+adjacent elements, it first sorts, by straight insertion, sub-arrays made of elements that are far
+apart (separated by some increment), then repeats the process with progressively smaller
+increments, until a final pass with increment 1 completes an ordinary straight insertion. The
+earlier passes let elements travel long distances toward their final position cheaply, so that the
+last, most expensive pass rarely has to move an element more than a few places.
+
+== Increment sequence
+
+The spacings between the elements compared on each pass are called the increments. Numerical
+Recipes notes that the naive sequence 8, 4, 2, 1 (halving each time) performs poorly, especially
+when N is a power of two, and recommends instead the sequence (eq. 8.1.1):
+
+[stem]
+++++
+\ldots, \frac{3^k - 1}{2}, \ldots, 40,\ 13,\ 4,\ 1
+++++
+
+which is generated from the largest term down to 1 by the recurrence (eq. 8.1.2):
+
+[stem]
+++++
+i_0 = 1, \qquad i_{k+1} = 3 i_k + 1, \qquad k = 0, 1, \ldots
+++++
+
+`ShellSorter` builds the sequence by repeatedly applying this recurrence upward until the increment
+exceeds the array length, then walks it back down, sorting sub-arrays with straight insertion at
+each increment until it reaches 1. For a worst-case ordering of the input, the number of operations
+with this sequence is of order N^1.5^; for randomly ordered data it is closer to N^1.25^, at least
+for N below a few tens of thousands. This makes `ShellSorter` competitive with
+xref:quicksort.adoc[Quicksort] for N roughly below 50, while remaining almost as simple to
+implement as straight insertion.
+
+== Usage
+
+[source,java]
+----
+import com.irurueta.sorting.ShellSorter;
+
+ShellSorter<Double> sorter = new ShellSorter<>();
+
+double[] values = {5.0, 3.0, 8.0, 1.0, 9.0};
+sorter.sort(values);
+----
+
+It can also be selected dynamically through the `Sorter` factory:
+
+[source,java]
+----
+import com.irurueta.sorting.Sorter;
+import com.irurueta.sorting.SortingMethod;
+
+Sorter<Double> sorter = Sorter.create(SortingMethod.SHELL_SORTING_METHOD);
+----
+
+Like every `Sorter`, it also supports `sortWithIndices`, `select` and `median`, as described in
+xref:usage.adoc[Usage].
+
+== Reference
+
+This class is based on the algorithm described in xref:reference.adoc[Numerical Recipes, 3rd
+Edition, section 8.1.1, "Shell's Method"].

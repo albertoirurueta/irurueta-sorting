@@ -1,1 +1,53 @@
 = Irurueta Sorting
+:description: Utility classes to sort and select elements in Java arrays using several classic algorithms.
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+Irurueta Sorting is a lightweight Java library that sorts arrays of primitives (`double`, `float`,
+`int`, `long`) and of generic objects (`Comparable` or ordered through a `Comparator`), and that
+selects the k-th smallest element or the median of an array without fully sorting it.
+
+## Core Components
+
+The library organizes its public API around a single abstraction:
+
+**`Sorter<T>`**: The abstract base class defines the operations offered by the library: `sort`,
+`sortWithIndices`, `select` and `median`. It also acts as a factory, through the static
+`Sorter.create()` and `Sorter.create(SortingMethod)` methods, for the concrete algorithm
+implementations.
+
+**Algorithm implementations**: Each of these classes extends `Sorter<T>` and implements one
+specific sorting algorithm:
+
+- `StraightInsertionSorter` sorts using the straight insertion method, adequate for small arrays.
+- `ShellSorter` sorts using Shell's diminishing increment method, a fast improvement over straight
+  insertion for medium-sized arrays.
+- `QuicksortSorter` sorts using the Quicksort algorithm, the fastest general-purpose method for
+  large arrays.
+- `HeapsortSorter` sorts using the Heapsort algorithm, an in-place alternative to Quicksort with a
+  guaranteed worst-case running time.
+- `SystemSorter` delegates to the sorting algorithms bundled with the Java SDK (`java.util.Arrays`),
+  trading the ability to retrieve sorted indices for the SDK's own performance characteristics.
+
+**`SortingMethod`**: Enumerates the available algorithms so that a `Sorter` can be selected and
+instantiated dynamically through `Sorter.create(SortingMethod)`.
+
+## Practical Applications
+
+Besides plain sorting, the library supports:
+
+- Sorting one array while producing an index table so that other arrays or collections can be
+  reordered consistently (`sortWithIndices`).
+- Selecting the k-th smallest element of an array in linear time, without sorting the whole array
+  (`select`).
+- Computing the median of an array, including generic types through the `ComparatorAndAverager`
+  and `ComparableAndAverageable` interfaces, which describe how to average two elements together
+  (`median`).
+
+## Getting Started
+
+Users should begin with the xref:installation.adoc[installation guide], continue with
+xref:usage.adoc[usage] for a tour of the API, and then read about the individual
+xref:straight-insertion-sort.adoc[straight insertion], xref:shell-sort.adoc[Shell],
+xref:quicksort.adoc[Quicksort] and xref:heapsort.adoc[Heapsort] algorithms, as well as
+xref:selection.adoc[selection and median] computation.

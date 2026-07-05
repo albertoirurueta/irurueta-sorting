@@ -1,2 +1,10 @@
-* xref:index.adoc[]
-* xref:reference.adoc[]
+* xref:index.adoc[Overview]
+* xref:installation.adoc[Installation]
+* xref:usage.adoc[Usage]
+* Algorithms
+** xref:straight-insertion-sort.adoc[Straight insertion sort]
+** xref:shell-sort.adoc[Shell sort]
+** xref:quicksort.adoc[Quicksort]
+** xref:heapsort.adoc[Heapsort]
+** xref:selection.adoc[Selection and median]
+* xref:reference.adoc[Reference]

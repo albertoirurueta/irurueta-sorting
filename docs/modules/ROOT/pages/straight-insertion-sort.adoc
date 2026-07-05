@@ -1,0 +1,47 @@
+= Straight insertion sort
+:description: StraightInsertionSorter implements the straight insertion algorithm from Numerical Recipes chapter 8.1.
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+`StraightInsertionSorter` sorts an array by straight insertion, the technique used by card players
+to sort a hand of cards: pick out the second card and put it in order with respect to the first;
+then pick out the third card and insert it among the first two; and so on until the last card has
+been inserted.
+
+Because it compares and shifts elements one at a time, straight insertion is an O(N^2^) algorithm.
+It is nevertheless useful for small arrays (roughly N < 20), where its low overhead per element
+makes it faster in practice than asymptotically better algorithms such as
+xref:quicksort.adoc[Quicksort] or xref:heapsort.adoc[Heapsort]. For larger arrays,
+xref:shell-sort.adoc[Shell sort] is a simple extension of the same idea that scales much better.
+
+`StraightInsertionSorter` is stable: elements that compare as equal keep their relative order.
+
+== Usage
+
+[source,java]
+----
+import com.irurueta.sorting.StraightInsertionSorter;
+
+StraightInsertionSorter<Double> sorter = new StraightInsertionSorter<>();
+
+double[] values = {5.0, 3.0, 8.0, 1.0, 9.0};
+sorter.sort(values);
+----
+
+It can also be selected dynamically through the `Sorter` factory:
+
+[source,java]
+----
+import com.irurueta.sorting.Sorter;
+import com.irurueta.sorting.SortingMethod;
+
+Sorter<Double> sorter = Sorter.create(SortingMethod.STRAIGHT_INSERTION_SORTING_METHOD);
+----
+
+Like every `Sorter`, it also supports `sortWithIndices`, `select` and `median`, as described in
+xref:usage.adoc[Usage].
+
+== Reference
+
+This class is based on the algorithm described in xref:reference.adoc[Numerical Recipes, 3rd
+Edition, section 8.1, "Straight Insertion and Shell's Method"].

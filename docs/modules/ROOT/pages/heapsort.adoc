@@ -24,26 +24,13 @@ a_{\lfloor (j-1)/2 \rfloor} \geq a_j \qquad \text{for } 0 \leq \left\lfloor \fra
 
 Viewing the array as a binary tree, with element 0 at the root and each element stem:[j] having
 children at positions stem:[2j+1] and stem:[2j+2], this says that every "supervisor" is greater
-than or equal to its two "supervisees", all the way down the hierarchy. The diagram below
+than or equal to its two "supervisees", all the way down the hierarchy. The illustration below
 reproduces Figure 8.3.1 from Numerical Recipes: a heap of 12 elements. Elements connected by a
 downward path are ordered with respect to one another, but there is no guaranteed ordering between
-elements that are only related laterally (for example, stem:[a_3] and stem:[a_4]).
+elements that are only related laterally (for example, stem:[a_3] and stem:[a_4]); the dashed lines
+stand for further, unlabeled descendants continuing the same way.
 
-[mermaid]
-....
-graph TD
-    a0 --> a1
-    a0 --> a2
-    a1 --> a3
-    a1 --> a4
-    a2 --> a5
-    a2 --> a6
-    a3 --> a7
-    a3 --> a8
-    a4 --> a9
-    a4 --> a10
-    a5 --> a11
-....
+image::heap-tree.svg[Tree diagram of a 12-element heap,720]
 
 `HeapsortSorter` builds this structure with a "sift-down" pass over the second half of the array
 (the internal, non-leaf nodes), then repeatedly swaps the root with the last unsorted element and

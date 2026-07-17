@@ -23,6 +23,14 @@ selected value, every element before it is smaller (in arbitrary order), and eve
 is greater (also in arbitrary order). Make a copy of the array first if it must remain unmodified,
 or if `select` will be called several times with different values of `k` on the same logical data.
 
+The diagram below calls `select(2, arr)` on the same array and pivot used in the
+xref:quicksort.adoc[Quicksort] example, `{5, 3, 8, 1, 9, 2, 7}`. Partitioning is identical to
+Quicksort, but once the pivot's final position is known, `select` keeps narrowing only the
+partition that can contain the k-th element and discards the other one outright, which is what
+gives it expected O(N) running time instead of O(N log N).
+
+image::selection-partition.svg[select partitioning the array 5 3 8 1 9 2 7 and discarding one side,760]
+
 [source,java]
 ----
 Sorter<Double> sorter = Sorter.create();

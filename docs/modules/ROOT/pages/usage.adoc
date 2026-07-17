@@ -77,6 +77,11 @@ for (int i = 0; i < indices.length; i++) {
 // sortedLabels is now {"one", "three", "five", "eight"}
 ----
 
+The index table returned above, and its inverse the rank table (the numerical rank of each element
+of the original, unsorted array), are illustrated below for this same `values` array:
+
+image::index-rank-table.svg[Original array with its index table, rank table and sorted array,760]
+
 == Select the k-th smallest element
 
 `select` returns the k-th smallest element (`k` starting at 0) without fully sorting the array,

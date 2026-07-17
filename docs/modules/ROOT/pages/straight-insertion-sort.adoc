@@ -16,6 +16,14 @@ xref:shell-sort.adoc[Shell sort] is a simple extension of the same idea that sca
 
 `StraightInsertionSorter` is stable: elements that compare as equal keep their relative order.
 
+== Example
+
+The diagram below traces `StraightInsertionSorter` over the array `{5, 3, 8, 1, 9}` used in the
+usage example below. Each row is the array state after pass `j`; the element just picked out and
+inserted is highlighted, and the growing sorted prefix is outlined.
+
+image::insertion-sort-steps.svg[Straight insertion sort passes over the array 5 3 8 1 9,720]
+
 == Usage
 
 [source,java]

@@ -20,6 +20,15 @@ extremely unlikely case that it overflows.
 `QuicksortSorter` is not stable: elements that compare as equal may be reordered relative to each
 other.
 
+== Example
+
+The diagram below partitions the array `{5, 3, 8, 1, 9, 2, 7}`. The pivot is the median of the
+first, middle and last elements; after partitioning it sits in its final sorted position, with every
+smaller element to its left and every larger element to its right. Quicksort then recurses into
+*both* partitions independently.
+
+image::quicksort-partition.svg[Quicksort partitioning the array 5 3 8 1 9 2 7 around a median-of-three pivot,760]
+
 == Usage
 
 [source,java]

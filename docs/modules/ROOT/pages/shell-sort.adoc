@@ -38,6 +38,16 @@ for N below a few tens of thousands. This makes `ShellSorter` competitive with
 xref:quicksort.adoc[Quicksort] for N roughly below 50, while remaining almost as simple to
 implement as straight insertion.
 
+== Example
+
+For an array of 10 elements, the recurrence above yields the increments 4 and then 1. The diagram
+below sorts the reverse-ordered array `{10, 9, 8, ..., 1}`: the first pass sorts, by straight
+insertion, the four interleaved subsequences of elements 4 apart (shown in matching colors); the
+final pass, an ordinary straight insertion, only has to move each element a short distance because
+of the earlier pass.
+
+image::shell-sort-increments.svg[Shell sort passes with increments 4 and 1 over a reverse-ordered array,760]
+
 == Usage
 
 [source,java]

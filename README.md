@@ -46,7 +46,7 @@ graph LR
 ## 🚦 Project status
 
 - Current release version: `1.4.0`
-- Java target: Java 17
+- Java target: Java 21
 - Build system: Maven
 - License: Apache License 2.0
 - Quality checks: GitHub Actions, JaCoCo, Surefire, and SonarCloud

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-`irurueta-sorting` is a small, dependency-free Java 17 library (Maven, `com.irurueta:irurueta-sorting`) that sorts and
+`irurueta-sorting` is a small, dependency-free Java 21 library (Maven, `com.irurueta:irurueta-sorting`) that sorts and
 selects elements in `double[]`, `float[]`, `int[]`, `long[]`, and object arrays (via `Comparable`/`Comparator`). All
 public source lives under `src/main/java/com/irurueta/sorting`, and every class has a mirroring test class under
 `src/test/java/com/irurueta/sorting`.

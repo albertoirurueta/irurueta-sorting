@@ -1,0 +1,1824 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Sorter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.irurueta:irurueta-sorting</a> &gt; <a href="index.source.html" class="el_package">com.irurueta.sorting</a> &gt; <span class="el_source">Sorter.java</span></div><h1>Sorter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2012 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.irurueta.sorting;
+
+import java.util.Comparator;
+
+/**
+ * Sorts instances of type T in provided arrays using any of the
+ * available methods.
+ *
+ * @param &lt;T&gt; Type of instances being sorted.
+ */
+@SuppressWarnings({&quot;WeakerAccess&quot;, &quot;Duplicates&quot;})
+<span class="fc" id="L27">public abstract class Sorter&lt;T&gt; {</span>
+
+    /**
+     * Default method to be used for sorting if none is provided.
+     */
+<span class="fc" id="L32">    public static final SortingMethod DEFAULT_SORTING_METHOD = SortingMethod.SYSTEM_SORTING_METHOD;</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract void sort(final T[] array, final int fromIndex, final int toIndex, final Comparator&lt;T&gt; comparator)
+            throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract int[] sortWithIndices(final T[] array, final int fromIndex, final int toIndex,
+                                          final Comparator&lt;T&gt; comparator) throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract void sort(final double[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract void sort(final float[] array, final int fromIndex, final int toIndex) throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract void sort(final int[] array, final int fromIndex, final int toIndex) throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract void sort(final long[] array, final int fromIndex, final int toIndex) throws SortingException;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public abstract int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex)
+            throws SortingException;
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public void sort(final Comparable&lt;T&gt;[] array, final int fromIndex, final int toIndex) throws SortingException {
+<span class="fc" id="L278">        sort((T[]) array, fromIndex, toIndex, (t1, t2) -&gt; {</span>
+<span class="fc" id="L279">            final var t1b = (Comparable&lt;T&gt;) t1;</span>
+<span class="fc" id="L280">            return t1b.compareTo(t2);</span>
+        });
+<span class="fc" id="L282">    }</span>
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @throws SortingException If for some reason sorting fails.
+     */
+    public void sort(final Comparable&lt;T&gt;[] array) throws SortingException {
+<span class="fc" id="L296">        sort(array, 0, array.length);</span>
+<span class="fc" id="L297">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   all elements in array are modified so that they are on ascending
+     *                   order.
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public void sort(final T[] array, final Comparator&lt;T&gt; comparator) throws SortingException {
+<span class="fc" id="L316">        sort(array, 0, array.length, comparator);</span>
+<span class="fc" id="L317">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public void sort(final double[] array) throws SortingException {
+<span class="fc" id="L334">        sort(array, 0, array.length);</span>
+<span class="fc" id="L335">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public void sort(final float[] array) throws SortingException {
+<span class="fc" id="L352">        sort(array, 0, array.length);</span>
+<span class="fc" id="L353">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public void sort(final int[] array) throws SortingException {
+<span class="fc" id="L370">        sort(array, 0, array.length);</span>
+<span class="fc" id="L371">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    public void sort(final long[] array) throws SortingException {
+<span class="fc" id="L388">        sort(array, 0, array.length);</span>
+<span class="fc" id="L389">    }</span>
+
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws SortingException               If for some reason sorting fails.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public int[] sortWithIndices(final Comparable&lt;T&gt;[] array, final int fromIndex, final int toIndex)
+            throws SortingException {
+<span class="fc" id="L418">        return sortWithIndices((T[]) array, fromIndex, toIndex, (t1, t2) -&gt; {</span>
+<span class="fc" id="L419">            final var t1b = (Comparable&lt;T&gt;) t1;</span>
+<span class="fc" id="L420">            return t1b.compareTo(t2);</span>
+        });
+    }
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @return Array containing original location of elements that have been
+     * sorted.
+     * @throws SortingException If for some reason sorting fails.
+     */
+    public int[] sortWithIndices(final Comparable&lt;T&gt;[] array) throws SortingException {
+<span class="fc" id="L441">        return sortWithIndices(array, 0, array.length);</span>
+    }
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   all elements in array are modified so that they are on ascending
+     *                   order.
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @return Array containing original location of elements that have been
+     * sorted.
+     * @throws SortingException If for some reason sorting fails.
+     */
+    public int[] sortWithIndices(final T[] array, final Comparator&lt;T&gt; comparator) throws SortingException {
+<span class="fc" id="L463">        return sortWithIndices(array, 0, array.length, comparator);</span>
+    }
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @return Array containing original location of elements that have been
+     * sorted.
+     * @throws SortingException If for some reason sorting fails.
+     */
+    public int[] sortWithIndices(final double[] array) throws SortingException {
+<span class="fc" id="L483">        return sortWithIndices(array, 0, array.length);</span>
+    }
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @return Array containing original location of elements that have been
+     * sorted.
+     * @throws SortingException If for some reason sorting fails.
+     */
+    public int[] sortWithIndices(final float[] array) throws SortingException {
+<span class="fc" id="L503">        return sortWithIndices(array, 0, array.length);</span>
+    }
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @return Array containing original location of elements that have been
+     * sorted.
+     * @throws SortingException If for some reason sorting fails.
+     */
+    public int[] sortWithIndices(final int[] array) throws SortingException {
+<span class="fc" id="L523">        return sortWithIndices(array, 0, array.length);</span>
+    }
+
+    /**
+     * Sorts provided array of {@link Comparable} in ascending order so that
+     * {@code array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array Array to be sorted. After execution of this method
+     *              all elements in array are modified so that they are on ascending
+     *              order.
+     * @return Array containing original location of elements that have been
+     * sorted.
+     * @throws SortingException If for some reason sorting fails.
+     */
+    public int[] sortWithIndices(final long[] array) throws SortingException {
+<span class="fc" id="L543">        return sortWithIndices(array, 0, array.length);</span>
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array of {@link Comparable}.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[0] ... array[k-1] contains unsorted
+     * elements smaller than sorted element array[k],  and on locations
+     * array[k+1] ... array[length-1] contains unsorted elements greater
+     * than sorted element array[k].
+     *
+     * @param k     Position of sorted element to be retrieved.
+     * @param array Array to be used for retrieving k-th sorted element.
+     *              Provided array is passed by reference and modified upon execution of
+     *              this method so that k-th location contains k-th sorted element, and
+     *              array[0] ... array[k-1] contains unsorted elements smaller than
+     *              sorted element array[k] and array[k+1] ... array[length-1] contains
+     *              elements greater than sorted element array[k]
+     * @return The k-th sorted element in provided array
+     * @throws IllegalArgumentException if k &amp;lt; array.length
+     */
+    public T select(final int k, final Comparable&lt;T&gt;[] array) {
+<span class="fc" id="L569">        return select(k, array, 0, array.length);</span>
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array of {@link Comparable}
+     * starting at fromIndex and finishing at toIndex, elements outside this
+     * range are ignored.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[fromIndex] ... array[k-1 + fromIndex]
+     * contains unsorted elements smaller than sorted element
+     * array[k + fromIndex],  and on locations
+     * array[k+1 + fromIndex] ... array[toIndex-1] contains unsorted
+     * elements greater than sorted element array[k + fromIndex].
+     *
+     * @param k         Position of sorted element to be retrieved.
+     * @param array     Array to be used for retrieving k-th sorted element.
+     *                  Provided array is passed by reference and modified upon execution of
+     *                  this method so that k-th location contains k-th sorted element, and
+     *                  array[fromIndex] ... array[k-1 + fromIndex] contains unsorted
+     *                  elements smaller than sorted element array[k + fromIndex] and
+     *                  array[k+1 + fromIndex] ... array[toIndex-1] contains elements
+     *                  greater than sorted element array[k].
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException       if k &amp;lt; (toIndex - fromIndex) or
+     *                                        fromIndex &amp;lt; toIndex.
+     * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are
+     *                                        outside array boundaries.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public T select(final int k, final Comparable&lt;T&gt;[] array, final int fromIndex, final int toIndex) {
+<span class="fc" id="L605">        return select(k, (T[]) array, fromIndex, toIndex, (t1, t2) -&gt; {</span>
+<span class="fc" id="L606">            final var t1b = (Comparable&lt;T&gt;) t1;</span>
+<span class="fc" id="L607">            return t1b.compareTo(t2);</span>
+        });
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[0] ... array[k-1] contains unsorted
+     * elements smaller than sorted element array[k],  and on locations
+     * array[k+1] ... array[length-1] contains unsorted elements greater
+     * than sorted element array[k].
+     *
+     * @param k          Position of sorted element to be retrieved.
+     * @param array      Array to be used for retrieving k-th sorted element.
+     *                   Provided array is passed by reference and modified upon execution of
+     *                   this method so that k-th location contains k-th sorted element, and
+     *                   array[0] ... array[k-1] contains unsorted elements smaller than
+     *                   sorted element array[k] and array[k+1] ... array[length-1] contains
+     *                   elements greater than sorted element array[k].
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException k &amp;lt; array.length.
+     */
+    public T select(final int k, final T[] array, final Comparator&lt;T&gt; comparator) {
+<span class="fc" id="L636">        return select(k, array, 0, array.length, comparator);</span>
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[0] ... array[k-1] contains unsorted
+     * elements smaller than sorted element array[k],  and on locations
+     * array[k+1] ... array[length-1] contains unsorted elements greater
+     * than sorted element array[k].
+     *
+     * @param k     Position of sorted element to be retrieved.
+     * @param array Array to be used for retrieving k-th sorted element.
+     *              Provided array is passed by reference and modified upon execution of
+     *              this method so that k-th location contains k-th sorted element, and
+     *              array[0] ... array[k-1] contains unsorted elements smaller than
+     *              sorted element array[k] and array[k+1] ... array[length-1] contains
+     *              elements greater than sorted element array[k].
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException k &amp;lt; array.length.
+     */
+    public double select(final int k, final double[] array) {
+<span class="fc" id="L662">        return select(k, array, 0, array.length);</span>
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[0] ... array[k-1] contains unsorted
+     * elements smaller than sorted element array[k],  and on locations
+     * array[k+1] ... array[length-1] contains unsorted elements greater
+     * than sorted element array[k].
+     *
+     * @param k     Position of sorted element to be retrieved.
+     * @param array Array to be used for retrieving k-th sorted element.
+     *              Provided array is passed by reference and modified upon execution of
+     *              this method so that k-th location contains k-th sorted element, and
+     *              array[0] ... array[k-1] contains unsorted elements smaller than
+     *              sorted element array[k] and array[k+1] ... array[length-1] contains
+     *              elements greater than sorted element array[k].
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException k &amp;lt; array.length.
+     */
+    public float select(final int k, final float[] array) {
+<span class="fc" id="L688">        return select(k, array, 0, array.length);</span>
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[0] ... array[k-1] contains unsorted
+     * elements smaller than sorted element array[k],  and on locations
+     * array[k+1] ... array[length-1] contains unsorted elements greater
+     * than sorted element array[k].
+     *
+     * @param k     Position of sorted element to be retrieved.
+     * @param array Array to be used for retrieving k-th sorted element.
+     *              Provided array is passed by reference and modified upon execution of
+     *              this method so that k-th location contains k-th sorted element, and
+     *              array[0] ... array[k-1] contains unsorted elements smaller than
+     *              sorted element array[k] and array[k+1] ... array[length-1] contains
+     *              elements greater than sorted element array[k].
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException k &amp;lt; array.length.
+     */
+    public int select(final int k, final int[] array) {
+<span class="fc" id="L714">        return select(k, array, 0, array.length);</span>
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[0] ... array[k-1] contains unsorted
+     * elements smaller than sorted element array[k],  and on locations
+     * array[k+1] ... array[length-1] contains unsorted elements greater
+     * than sorted element array[k].
+     *
+     * @param k     Position of sorted element to be retrieved.
+     * @param array Array to be used for retrieving k-th sorted element.
+     *              Provided array is passed by reference and modified upon execution of
+     *              this method so that k-th location contains k-th sorted element, and
+     *              array[0] ... array[k-1] contains unsorted elements smaller than
+     *              sorted element array[k] and array[k+1] ... array[length-1] contains
+     *              elements greater than sorted element array[k].
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException k &amp;lt; array.length.
+     */
+    public long select(final int k, final long[] array) {
+<span class="fc" id="L740">        return select(k, array, 0, array.length);</span>
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array of {@link Comparable}
+     * starting at fromIndex and finishing at toIndex, elements outside this
+     * range are ignored.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[fromIndex] ... array[k-1 + fromIndex]
+     * contains unsorted elements smaller than sorted element
+     * array[k + fromIndex],  and on locations
+     * array[k+1 + fromIndex] ... array[toIndex-1] contains unsorted
+     * elements greater than sorted element array[k + fromIndex]
+     *
+     * @param k          Position of sorted element to be retrieved.
+     * @param array      Array to be used for retrieving k-th sorted element.
+     *                   Provided array is passed by reference and modified upon execution of
+     *                   this method so that k-th location contains k-th sorted element, and
+     *                   array[fromIndex] ... array[k-1 + fromIndex] contains unsorted
+     *                   elements smaller than sorted element array[k + fromIndex] and
+     *                   array[k+1 + fromIndex] ... array[toIndex-1] contains elements
+     *                   greater than sorted element array[k].
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException       if k &amp;lt; (toIndex - fromIndex) or
+     *                                        fromIndex &amp;lt; toIndex.
+     * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are
+     *                                        outside array boundaries.
+     */
+    public T select(final int k, final T[] array, final int fromIndex, final int toIndex,
+                    final Comparator&lt;T&gt; comparator) {
+
+<span class="fc bfc" id="L779" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L780">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L782" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L783">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+<span class="fc" id="L791">        final var n = toIndex - fromIndex;</span>
+<span class="fc bfc" id="L792" title="All 2 branches covered.">        if (k &gt;= n) {</span>
+<span class="fc" id="L793">            throw new IllegalArgumentException();</span>
+        }
+
+        T a;
+<span class="fc" id="L797">        l = 0;</span>
+<span class="fc" id="L798">        ir = n - 1;</span>
+        for (; ; ) {
+<span class="fc bfc" id="L800" title="All 2 branches covered.">            if (ir &lt;= l + 1) {</span>
+<span class="fc bfc" id="L801" title="All 4 branches covered.">                if (ir == l + 1 &amp;&amp; comparator.compare(array[ir + fromIndex], array[l + fromIndex]) &lt; 0) {</span>
+<span class="fc" id="L802">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc" id="L804">                return array[k + fromIndex];</span>
+            } else {
+<span class="fc" id="L806">                mid = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L807">                swap(array, mid + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc bfc" id="L808" title="All 2 branches covered.">                if (comparator.compare(array[l + fromIndex], array[ir + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L809">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L811" title="All 2 branches covered.">                if (comparator.compare(array[l + 1 + fromIndex], array[ir + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L812">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L814" title="All 2 branches covered.">                if (comparator.compare(array[l + fromIndex], array[l + 1 + fromIndex]) &gt; 0) {</span>
+<span class="fc" id="L815">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                }
+<span class="fc" id="L817">                i = l + 1;</span>
+<span class="fc" id="L818">                j = ir;</span>
+<span class="fc" id="L819">                a = array[l + 1 + fromIndex];</span>
+                for (; ; ) {
+                    do {
+<span class="fc" id="L822">                        i++;</span>
+<span class="fc bfc" id="L823" title="All 2 branches covered.">                    } while (comparator.compare(array[i + fromIndex], a) &lt; 0);</span>
+
+                    do {
+<span class="fc" id="L826">                        j--;</span>
+<span class="fc bfc" id="L827" title="All 2 branches covered.">                    } while (comparator.compare(array[j + fromIndex], a) &gt; 0);</span>
+
+<span class="fc bfc" id="L829" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L830">                        break;</span>
+                    }
+
+<span class="fc" id="L833">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                }
+<span class="fc" id="L835">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L836">                array[j + fromIndex] = a;</span>
+<span class="fc bfc" id="L837" title="All 2 branches covered.">                if (j &gt;= k) {</span>
+<span class="fc" id="L838">                    ir = j - 1;</span>
+                }
+<span class="fc bfc" id="L840" title="All 2 branches covered.">                if (j &lt;= k) {</span>
+<span class="fc" id="L841">                    l = i;</span>
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array of {@link Comparable}
+     * starting at fromIndex and finishing at toIndex, elements outside this
+     * range are ignored.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[fromIndex] ... array[k-1 + fromIndex]
+     * contains unsorted elements smaller than sorted element
+     * array[k + fromIndex],  and on locations
+     * array[k+1 + fromIndex] ... array[toIndex-1] contains unsorted
+     * elements greater than sorted element array[k + fromIndex].
+     *
+     * @param k         Position of sorted element to be retrieved.
+     * @param array     Array to be used for retrieving k-th sorted element.
+     *                  Provided array is passed by reference and modified upon execution of
+     *                  this method so that k-th location contains k-th sorted element, and
+     *                  array[fromIndex] ... array[k-1 + fromIndex] contains unsorted
+     *                  elements smaller than sorted element array[k + fromIndex] and
+     *                  array[k+1 + fromIndex] ... array[toIndex-1] contains elements
+     *                  greater than sorted element array[k].
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException       if k &amp;lt; (toIndex - fromIndex) or
+     *                                        fromIndex &amp;lt; toIndex.
+     * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are
+     *                                        outside array boundaries.
+     */
+    public double select(final int k, final double[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L880" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L881">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L883" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L884">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+<span class="fc" id="L892">        final var n = toIndex - fromIndex;</span>
+<span class="fc bfc" id="L893" title="All 2 branches covered.">        if (k &gt;= n) {</span>
+<span class="fc" id="L894">            throw new IllegalArgumentException();</span>
+        }
+
+        double a;
+<span class="fc" id="L898">        l = 0;</span>
+<span class="fc" id="L899">        ir = n - 1;</span>
+        for (; ; ) {
+<span class="fc bfc" id="L901" title="All 2 branches covered.">            if (ir &lt;= l + 1) {</span>
+<span class="fc bfc" id="L902" title="All 4 branches covered.">                if (ir == l + 1 &amp;&amp; array[ir + fromIndex] &lt; array[l + fromIndex]) {</span>
+<span class="fc" id="L903">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc" id="L905">                return array[k + fromIndex];</span>
+            } else {
+<span class="fc" id="L907">                mid = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L908">                swap(array, mid + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc bfc" id="L909" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L910">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L912" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L913">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L915" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L916">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                }
+<span class="fc" id="L918">                i = l + 1;</span>
+<span class="fc" id="L919">                j = ir;</span>
+<span class="fc" id="L920">                a = array[l + 1 + fromIndex];</span>
+                for (; ; ) {
+                    do {
+<span class="fc" id="L923">                        i++;</span>
+<span class="fc bfc" id="L924" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+
+                    do {
+<span class="fc" id="L927">                        j--;</span>
+<span class="fc bfc" id="L928" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+
+<span class="fc bfc" id="L930" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L931">                        break;</span>
+                    }
+
+<span class="fc" id="L934">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                }
+<span class="fc" id="L936">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L937">                array[j + fromIndex] = a;</span>
+<span class="fc bfc" id="L938" title="All 2 branches covered.">                if (j &gt;= k) {</span>
+<span class="fc" id="L939">                    ir = j - 1;</span>
+                }
+<span class="fc bfc" id="L941" title="All 2 branches covered.">                if (j &lt;= k) {</span>
+<span class="fc" id="L942">                    l = i;</span>
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array of {@link Comparable}
+     * starting at fromIndex and finishing at toIndex, elements outside this
+     * range are ignored.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[fromIndex] ... array[k-1 + fromIndex]
+     * contains unsorted elements smaller than sorted element
+     * array[k + fromIndex],  and on locations
+     * array[k+1 + fromIndex] ... array[toIndex-1] contains unsorted
+     * elements greater than sorted element array[k + fromIndex].
+     *
+     * @param k         Position of sorted element to be retrieved.
+     * @param array     Array to be used for retrieving k-th sorted element.
+     *                  Provided array is passed by reference and modified upon execution of
+     *                  this method so that k-th location contains k-th sorted element, and
+     *                  array[fromIndex] ... array[k-1 + fromIndex] contains unsorted
+     *                  elements smaller than sorted element array[k + fromIndex] and
+     *                  array[k+1 + fromIndex] ... array[toIndex-1] contains elements
+     *                  greater than sorted element array[k].
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException       if k &amp;lt; (toIndex - fromIndex) or
+     *                                        fromIndex &amp;lt; toIndex.
+     * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are
+     *                                        outside array boundaries.
+     */
+    public float select(final int k, final float[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L981" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L982">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L984" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L985">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+<span class="fc" id="L993">        final var n = toIndex - fromIndex;</span>
+<span class="fc bfc" id="L994" title="All 2 branches covered.">        if (k &gt;= n) {</span>
+<span class="fc" id="L995">            throw new IllegalArgumentException();</span>
+        }
+
+        float a;
+<span class="fc" id="L999">        l = 0;</span>
+<span class="fc" id="L1000">        ir = n - 1;</span>
+        for (; ; ) {
+<span class="fc bfc" id="L1002" title="All 2 branches covered.">            if (ir &lt;= l + 1) {</span>
+<span class="fc bfc" id="L1003" title="All 4 branches covered.">                if (ir == l + 1 &amp;&amp; array[ir + fromIndex] &lt; array[l + fromIndex]) {</span>
+<span class="fc" id="L1004">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc" id="L1006">                return array[k + fromIndex];</span>
+            } else {
+<span class="fc" id="L1008">                mid = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L1009">                swap(array, mid + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc bfc" id="L1010" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1011">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L1013" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1014">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L1016" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L1017">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                }
+<span class="fc" id="L1019">                i = l + 1;</span>
+<span class="fc" id="L1020">                j = ir;</span>
+<span class="fc" id="L1021">                a = array[l + 1 + fromIndex];</span>
+                for (; ; ) {
+                    do {
+<span class="fc" id="L1024">                        i++;</span>
+<span class="fc bfc" id="L1025" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+
+                    do {
+<span class="fc" id="L1028">                        j--;</span>
+<span class="fc bfc" id="L1029" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+
+<span class="fc bfc" id="L1031" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L1032">                        break;</span>
+                    }
+
+<span class="fc" id="L1035">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                }
+<span class="fc" id="L1037">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L1038">                array[j + fromIndex] = a;</span>
+<span class="fc bfc" id="L1039" title="All 2 branches covered.">                if (j &gt;= k) {</span>
+<span class="fc" id="L1040">                    ir = j - 1;</span>
+                }
+<span class="fc bfc" id="L1042" title="All 2 branches covered.">                if (j &lt;= k) {</span>
+<span class="fc" id="L1043">                    l = i;</span>
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array of {@link Comparable}
+     * starting at fromIndex and finishing at toIndex, elements outside this
+     * range are ignored.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[fromIndex] ... array[k-1 + fromIndex]
+     * contains unsorted elements smaller than sorted element
+     * array[k + fromIndex],  and on locations
+     * array[k+1 + fromIndex] ... array[toIndex-1] contains unsorted
+     * elements greater than sorted element array[k + fromIndex].
+     *
+     * @param k         Position of sorted element to be retrieved.
+     * @param array     Array to be used for retrieving k-th sorted element.
+     *                  Provided array is passed by reference and modified upon execution of
+     *                  this method so that k-th location contains k-th sorted element, and
+     *                  array[fromIndex] ... array[k-1 + fromIndex] contains unsorted
+     *                  elements smaller than sorted element array[k + fromIndex] and
+     *                  array[k+1 + fromIndex] ... array[toIndex-1] contains elements
+     *                  greater than sorted element array[k].
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException       if k &amp;lt; (toIndex - fromIndex) or
+     *                                        fromIndex &amp;lt; toIndex.
+     * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are
+     *                                        outside array boundaries.
+     */
+    public int select(final int k, final int[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L1082" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1083">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1085" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1086">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+<span class="fc" id="L1094">        final var n = toIndex - fromIndex;</span>
+<span class="fc bfc" id="L1095" title="All 2 branches covered.">        if (k &gt;= n) {</span>
+<span class="fc" id="L1096">            throw new IllegalArgumentException();</span>
+        }
+
+        int a;
+<span class="fc" id="L1100">        l = 0;</span>
+<span class="fc" id="L1101">        ir = n - 1;</span>
+        for (; ; ) {
+<span class="fc bfc" id="L1103" title="All 2 branches covered.">            if (ir &lt;= l + 1) {</span>
+<span class="fc bfc" id="L1104" title="All 4 branches covered.">                if (ir == l + 1 &amp;&amp; array[ir + fromIndex] &lt; array[l + fromIndex]) {</span>
+<span class="fc" id="L1105">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc" id="L1107">                return array[k + fromIndex];</span>
+            } else {
+<span class="fc" id="L1109">                mid = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L1110">                swap(array, mid + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc bfc" id="L1111" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1112">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L1114" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1115">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L1117" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L1118">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                }
+<span class="fc" id="L1120">                i = l + 1;</span>
+<span class="fc" id="L1121">                j = ir;</span>
+<span class="fc" id="L1122">                a = array[l + 1 + fromIndex];</span>
+                for (; ; ) {
+                    do {
+<span class="fc" id="L1125">                        i++;</span>
+<span class="fc bfc" id="L1126" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+
+                    do {
+<span class="fc" id="L1129">                        j--;</span>
+<span class="fc bfc" id="L1130" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+
+<span class="fc bfc" id="L1132" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L1133">                        break;</span>
+                    }
+
+<span class="fc" id="L1136">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                }
+<span class="fc" id="L1138">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L1139">                array[j + fromIndex] = a;</span>
+<span class="fc bfc" id="L1140" title="All 2 branches covered.">                if (j &gt;= k) {</span>
+<span class="fc" id="L1141">                    ir = j - 1;</span>
+                }
+<span class="fc bfc" id="L1143" title="All 2 branches covered.">                if (j &lt;= k) {</span>
+<span class="fc" id="L1144">                    l = i;</span>
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the k-th sorted element in provided array of {@link Comparable}
+     * starting at fromIndex and finishing at toIndex, elements outside this
+     * range are ignored.
+     * Selecting an element is usually faster than sorting the whole
+     * array, and for that reason, when only a few sorted elements are
+     * required, this method should be used instead of sort.
+     * Because array is passed by reference, after executing this method
+     * array is modified so that in k location it contains the k-th sorted
+     * elements and on locations array[fromIndex] ... array[k-1 + fromIndex]
+     * contains unsorted elements smaller than sorted element
+     * array[k + fromIndex],  and on locations
+     * array[k+1 + fromIndex] ... array[toIndex-1] contains unsorted
+     * elements greater than sorted element array[k + fromIndex].
+     *
+     * @param k         Position of sorted element to be retrieved.
+     * @param array     Array to be used for retrieving k-th sorted element.
+     *                  Provided array is passed by reference and modified upon execution of
+     *                  this method so that k-th location contains k-th sorted element, and
+     *                  array[fromIndex] ... array[k-1 + fromIndex] contains unsorted
+     *                  elements smaller than sorted element array[k + fromIndex] and
+     *                  array[k+1 + fromIndex] ... array[toIndex-1] contains elements
+     *                  greater than sorted element array[k].
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return The k-th sorted element in provided array.
+     * @throws IllegalArgumentException       if k &amp;lt; (toIndex - fromIndex) or
+     *                                        fromIndex &amp;lt; toIndex.
+     * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are
+     *                                        outside array boundaries.
+     */
+    public long select(final int k, final long[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L1183" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1184">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1186" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1187">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+        int i;
+        int ir;
+        int j;
+        int l;
+        int mid;
+<span class="fc" id="L1195">        final var n = toIndex - fromIndex;</span>
+<span class="fc bfc" id="L1196" title="All 2 branches covered.">        if (k &gt;= n) {</span>
+<span class="fc" id="L1197">            throw new IllegalArgumentException();</span>
+        }
+
+        long a;
+<span class="fc" id="L1201">        l = 0;</span>
+<span class="fc" id="L1202">        ir = n - 1;</span>
+        for (; ; ) {
+<span class="fc bfc" id="L1204" title="All 2 branches covered.">            if (ir &lt;= l + 1) {</span>
+<span class="fc bfc" id="L1205" title="All 4 branches covered.">                if (ir == l + 1 &amp;&amp; array[ir + fromIndex] &lt; array[l + fromIndex]) {</span>
+<span class="fc" id="L1206">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc" id="L1208">                return array[k + fromIndex];</span>
+            } else {
+<span class="fc" id="L1210">                mid = (l + ir) &gt;&gt; 1;</span>
+<span class="fc" id="L1211">                swap(array, mid + fromIndex, l + 1 + fromIndex);</span>
+<span class="fc bfc" id="L1212" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1213">                    swap(array, l + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L1215" title="All 2 branches covered.">                if (array[l + 1 + fromIndex] &gt; array[ir + fromIndex]) {</span>
+<span class="fc" id="L1216">                    swap(array, l + 1 + fromIndex, ir + fromIndex);</span>
+                }
+<span class="fc bfc" id="L1218" title="All 2 branches covered.">                if (array[l + fromIndex] &gt; array[l + 1 + fromIndex]) {</span>
+<span class="fc" id="L1219">                    swap(array, l + fromIndex, l + 1 + fromIndex);</span>
+                }
+<span class="fc" id="L1221">                i = l + 1;</span>
+<span class="fc" id="L1222">                j = ir;</span>
+<span class="fc" id="L1223">                a = array[l + 1 + fromIndex];</span>
+                for (; ; ) {
+                    do {
+<span class="fc" id="L1226">                        i++;</span>
+<span class="fc bfc" id="L1227" title="All 2 branches covered.">                    } while (array[i + fromIndex] &lt; a);</span>
+
+                    do {
+<span class="fc" id="L1230">                        j--;</span>
+<span class="fc bfc" id="L1231" title="All 2 branches covered.">                    } while (array[j + fromIndex] &gt; a);</span>
+
+<span class="fc bfc" id="L1233" title="All 2 branches covered.">                    if (j &lt; i) {</span>
+<span class="fc" id="L1234">                        break;</span>
+                    }
+
+<span class="fc" id="L1237">                    swap(array, i + fromIndex, j + fromIndex);</span>
+                }
+<span class="fc" id="L1239">                array[l + 1 + fromIndex] = array[j + fromIndex];</span>
+<span class="fc" id="L1240">                array[j + fromIndex] = a;</span>
+<span class="fc bfc" id="L1241" title="All 2 branches covered.">                if (j &gt;= k) {</span>
+<span class="fc" id="L1242">                    ir = j - 1;</span>
+                }
+<span class="fc bfc" id="L1244" title="All 2 branches covered.">                if (j &lt;= k) {</span>
+<span class="fc" id="L1245">                    l = i;</span>
+                }
+            }
+        }
+    }
+
+    /**
+     * Computes median of provided array
+     * Median is computed by selecting the length / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location length / 2, smaller unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[length / 2 + 1] ... array[length - 1].
+     *
+     * @param array Array to be used for computation of median. This array
+     *              is modified after execution of this method.
+     * @return Median of provided array.
+     */
+    public T median(final Comparable&lt;T&gt;[] array) {
+<span class="fc" id="L1264">        return median(array, 0, array.length);</span>
+    }
+
+    /**
+     * Computes median of provided array of {@link Comparable}
+     * Median is computed by selecting the
+     * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
+     * smaller unsorted elements at array[fromIndex] ...
+     * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
+     * unsorted elements at
+     * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
+     * array[toIndex - 1].
+     *
+     * @param array     Array to be used for computation of median. This array
+     *                  is modified after execution of this method.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Median of provided array.
+     * @throws IllegalArgumentException       if k &amp;lt; (toIndex - fromIndex) or
+     *                                        fromIndex &amp;lt; toIndex.
+     * @throws ArrayIndexOutOfBoundsException if fromIndex or toIndex are
+     *                                        outside array boundaries.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public T median(final Comparable&lt;T&gt;[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc" id="L1292">        return median((T[]) array, fromIndex, toIndex, new ComparatorAndAverager&lt;&gt;() {</span>
+            @Override
+            public int compare(final T t1, final T t2) {
+<span class="fc" id="L1295">                final var t1b = (Comparable&lt;T&gt;) t1;</span>
+<span class="fc" id="L1296">                return t1b.compareTo(t2);</span>
+            }
+
+            @Override
+            public T average(final T t1, final T t2) {
+<span class="pc bpc" id="L1301" title="1 of 4 branches missed.">                if (t1 instanceof ComparableAndAverageable &amp;&amp; t2 instanceof ComparableAndAverageable) {</span>
+<span class="fc" id="L1302">                    return ((ComparableAndAverageable&lt;T&gt;) t1).averageWith(t2);</span>
+                }
+<span class="pc bpc" id="L1304" title="1 of 4 branches missed.">                if (t1 instanceof Byte b1 &amp;&amp; t2 instanceof Byte b2) {</span>
+<span class="fc" id="L1305">                    return (T) Byte.valueOf((byte) ((b1 + b2) / 2));</span>
+                }
+<span class="pc bpc" id="L1307" title="1 of 4 branches missed.">                if (t1 instanceof Character c1 &amp;&amp; t2 instanceof Character c2) {</span>
+<span class="fc" id="L1308">                    return (T) Character.valueOf((char) ((c1 + c2) / 2));</span>
+                }
+<span class="pc bpc" id="L1310" title="1 of 4 branches missed.">                if (t1 instanceof Short c1 &amp;&amp; t2 instanceof Short c2) {</span>
+<span class="fc" id="L1311">                    return (T) Short.valueOf((short) ((c1 + c2) / 2));</span>
+                }
+<span class="pc bpc" id="L1313" title="1 of 4 branches missed.">                if (t1 instanceof Integer i1 &amp;&amp; t2 instanceof Integer i2) {</span>
+<span class="fc" id="L1314">                    return (T) Integer.valueOf((i1 + i2) / 2);</span>
+                }
+<span class="pc bpc" id="L1316" title="1 of 4 branches missed.">                if (t1 instanceof Long l1 &amp;&amp; t2 instanceof Long l2) {</span>
+<span class="fc" id="L1317">                    return (T) Long.valueOf((l1 + l2) / 2);</span>
+                }
+<span class="pc bpc" id="L1319" title="1 of 4 branches missed.">                if (t1 instanceof Float f1 &amp;&amp; t2 instanceof Float f2) {</span>
+<span class="fc" id="L1320">                    return (T) Float.valueOf((f1 + f2) / 2.0f);</span>
+                }
+<span class="pc bpc" id="L1322" title="1 of 4 branches missed.">                if (t1 instanceof Double d1 &amp;&amp; t2 instanceof Double d2) {</span>
+<span class="fc" id="L1323">                    return (T) Double.valueOf((d1 + d2) / 2.0);</span>
+                }
+
+                // for other case, average returns 1st parameter
+<span class="fc" id="L1327">                return t1;</span>
+            }
+        });
+    }
+
+    /**
+     * Computes median of provided array
+     * Median is computed by selecting the length / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location length / 2, smaller unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[length / 2 + 1] ... array[length - 1].
+     *
+     * @param array      Array to be used for computation of median. This array
+     *                   is modified after execution of this method.
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one and also is capable of computing the average
+     *                   between two T instances.
+     * @return Median of provided array.
+     */
+    public T median(final T[] array, final ComparatorAndAverager&lt;T&gt; comparator) {
+<span class="fc" id="L1348">        return median(array, 0, array.length, comparator);</span>
+    }
+
+    /**
+     * Computes median of provided array
+     * Median is computed by selecting the length / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location length / 2, smaller unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[length / 2 + 1] ... array[length - 1].
+     *
+     * @param array Array to be used for computation of median. This array
+     *              is modified after execution of this method.
+     * @return Median of provided array.
+     */
+    public double median(final double[] array) {
+<span class="fc" id="L1364">        return median(array, 0, array.length);</span>
+    }
+
+    /**
+     * Computes median of provided array.
+     * Median is computed by selecting the length / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location length / 2, smaller unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[length / 2 + 1] ... array[length - 1].
+     *
+     * @param array Array to be used for computation of median. This array
+     *              is modified after execution of this method.
+     * @return Median of provided array.
+     */
+    public float median(final float[] array) {
+<span class="fc" id="L1380">        return median(array, 0, array.length);</span>
+    }
+
+    /**
+     * Computes median of provided array.
+     * Median is computed by selecting the length / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location length / 2, smaller unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[length / 2 + 1] ... array[length - 1].
+     *
+     * @param array Array to be used for computation of median. This array
+     *              is modified after execution of this method.
+     * @return Median of provided array.
+     */
+    public int median(final int[] array) {
+<span class="fc" id="L1396">        return median(array, 0, array.length);</span>
+    }
+
+    /**
+     * Computes median of provided array.
+     * Median is computed by selecting the length / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location length / 2, smaller unsorted elements at
+     * array[0] ... array[length / 2 - 1], and greater unsorted elements at
+     * array[length / 2 + 1] ... array[length - 1].
+     *
+     * @param array Array to be used for computation of median. This array
+     *              is modified after execution of this method.
+     * @return Median of provided array.
+     */
+    public long median(final long[] array) {
+<span class="fc" id="L1412">        return median(array, 0, array.length);</span>
+    }
+
+
+    /**
+     * Computes median of provided array.
+     * Median is computed by selecting the
+     * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
+     * smaller unsorted elements at array[fromIndex] ...
+     * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
+     * unsorted elements at
+     * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
+     * array[toIndex - 1].
+     *
+     * @param array      Array to be used for computation of median. This array
+     *                   is modified after execution of this method.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one and also is capable of computing the average
+     *                   between two T instances.
+     * @return Median of provided array.
+     * @throws IllegalArgumentException       if fromIndex is greater than toIndex.
+     * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
+     */
+    public T median(final T[] array, final int fromIndex, final int toIndex,
+                    final ComparatorAndAverager&lt;T&gt; comparator) {
+
+<span class="fc bfc" id="L1442" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1443">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1445" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1446">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L1449">        final var length = toIndex - fromIndex;</span>
+<span class="fc" id="L1450">        final var pos1 = length / 2;</span>
+
+        // select pos1 ordered element of v and modifies v so that
+        // v(0) ... v(pos1 - 1) &lt; value1 &lt; v(pos1 + 1) ... v(length - 1)
+        // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
+        // and v(pos1) ... v(length - 1) are unordered elements greater than
+        // value1
+<span class="fc" id="L1457">        final var value1 = select(pos1, array, fromIndex, toIndex, comparator);</span>
+<span class="fc bfc" id="L1458" title="All 2 branches covered.">        if ((length % 2) == 0) {</span>
+            // for even length
+
+            // value2 is the previously ordered element of v, which is the maximum
+            // element within v(0) ... v(pos1 - 1)
+<span class="fc" id="L1463">            var value2 = array[fromIndex];</span>
+<span class="fc bfc" id="L1464" title="All 2 branches covered.">            for (int i = 1; i &lt; pos1; i++) {</span>
+<span class="fc" id="L1465">                final var value3 = array[i + fromIndex];</span>
+<span class="fc bfc" id="L1466" title="All 2 branches covered.">                if (comparator.compare(value3, value2) &gt; 0) {</span>
+<span class="fc" id="L1467">                    value2 = value3;</span>
+                }
+            }
+
+<span class="fc" id="L1471">            return comparator.average(value1, value2);</span>
+        } else {
+            // for odd length
+<span class="fc" id="L1474">            return value1;</span>
+        }
+    }
+
+    /**
+     * Computes median of provided array.
+     * Median is computed by selecting the
+     * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
+     * smaller unsorted elements at array[fromIndex] ...
+     * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
+     * unsorted elements at
+     * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
+     * array[toIndex - 1].
+     *
+     * @param array     Array to be used for computation of median. This array
+     *                  is modified after execution of this method.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Median of provided array.
+     * @throws IllegalArgumentException       if fromIndex is greater than toIndex.
+     * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
+     */
+    public double median(final double[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L1500" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1501">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1503" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1504">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L1507">        final var length = toIndex - fromIndex;</span>
+<span class="fc" id="L1508">        final var pos1 = length / 2;</span>
+
+        // select pos1 ordered element of v and modifies v so that
+        // v(0) ... v(pos1 - 1) &lt; value1 &lt; v(pos1 + 1) ... v(length - 1)
+        // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
+        // and v(pos1) ... v(length - 1) are unordered elements greater than
+        // value1
+<span class="fc" id="L1515">        final var value1 = select(pos1, array, fromIndex, toIndex);</span>
+<span class="fc bfc" id="L1516" title="All 2 branches covered.">        if ((length % 2) == 0) {</span>
+            // for even length
+
+            // value2 is the previously ordered element of v, which is the maximum
+            // element within v(0) ... v(pos1 - 1)
+<span class="fc" id="L1521">            var value2 = array[fromIndex];</span>
+<span class="fc bfc" id="L1522" title="All 2 branches covered.">            for (int i = 1; i &lt; pos1; i++) {</span>
+<span class="fc" id="L1523">                final var value3 = array[i + fromIndex];</span>
+<span class="fc bfc" id="L1524" title="All 2 branches covered.">                if (value3 &gt; value2) {</span>
+<span class="fc" id="L1525">                    value2 = value3;</span>
+                }
+            }
+
+<span class="fc" id="L1529">            return 0.5 * (value1 + value2);</span>
+        } else {
+            // for odd length
+<span class="fc" id="L1532">            return value1;</span>
+        }
+    }
+
+    /**
+     * Computes median of provided array.
+     * Median is computed by selecting the
+     * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
+     * smaller unsorted elements at array[fromIndex] ...
+     * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
+     * unsorted elements at
+     * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
+     * array[toIndex - 1].
+     *
+     * @param array     Array to be used for computation of median. This array
+     *                  is modified after execution of this method.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Median of provided array.
+     * @throws IllegalArgumentException       if fromIndex is greater than toIndex.
+     * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
+     */
+    public float median(final float[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L1558" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1559">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1561" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1562">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L1565">        final var length = toIndex - fromIndex;</span>
+<span class="fc" id="L1566">        final var pos1 = length / 2;</span>
+
+        // select pos1 ordered element of v and modifies v so that
+        // v(0) ... v(pos1 - 1) &lt; value1 &lt; v(pos1 + 1) ... v(length - 1)
+        // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
+        // and v(pos1) ... v(length - 1) are unordered elements greater than
+        // value1
+<span class="fc" id="L1573">        final var value1 = select(pos1, array, fromIndex, toIndex);</span>
+<span class="fc bfc" id="L1574" title="All 2 branches covered.">        if ((length % 2) == 0) {</span>
+            // for even length
+
+            // value2 is the previously ordered element of v, which is the maximum
+            // element within v(0) ... v(pos1 - 1)
+<span class="fc" id="L1579">            var value2 = array[fromIndex];</span>
+<span class="fc bfc" id="L1580" title="All 2 branches covered.">            for (int i = 1; i &lt; pos1; i++) {</span>
+<span class="fc" id="L1581">                final var value3 = array[i + fromIndex];</span>
+<span class="fc bfc" id="L1582" title="All 2 branches covered.">                if (value3 &gt; value2) {</span>
+<span class="fc" id="L1583">                    value2 = value3;</span>
+                }
+            }
+
+<span class="fc" id="L1587">            return 0.5f * (value1 + value2);</span>
+        } else {
+            // for odd length
+<span class="fc" id="L1590">            return value1;</span>
+        }
+    }
+
+    /**
+     * Computes median of provided array.
+     * Median is computed by selecting the
+     * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
+     * smaller unsorted elements at array[fromIndex] ...
+     * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
+     * unsorted elements at
+     * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
+     * array[toIndex - 1].
+     *
+     * @param array     Array to be used for computation of median. This array
+     *                  is modified after execution of this method.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Median of provided array.
+     * @throws IllegalArgumentException       if fromIndex is greater than toIndex.
+     * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
+     */
+    public int median(final int[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L1616" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1617">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1619" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1620">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L1623">        final var length = toIndex - fromIndex;</span>
+<span class="fc" id="L1624">        final var pos1 = length / 2;</span>
+
+        // select pos1 ordered element of v and modifies v so that
+        // v(0) ... v(pos1 - 1) &lt; value1 &lt; v(pos1 + 1) ... v(length - 1)
+        // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
+        // and v(pos1) ... v(length - 1) are unordered elements greater than
+        // value1
+<span class="fc" id="L1631">        final var value1 = select(pos1, array, fromIndex, toIndex);</span>
+<span class="fc bfc" id="L1632" title="All 2 branches covered.">        if ((length % 2) == 0) {</span>
+            // for even length
+
+            // value2 is the previously ordered element of v, which is the maximum
+            // element within v(0) ... v(pos1 - 1)
+<span class="fc" id="L1637">            var value2 = array[fromIndex];</span>
+<span class="fc bfc" id="L1638" title="All 2 branches covered.">            for (int i = 1; i &lt; pos1; i++) {</span>
+<span class="fc" id="L1639">                final var value3 = array[i + fromIndex];</span>
+<span class="fc bfc" id="L1640" title="All 2 branches covered.">                if (value3 &gt; value2) {</span>
+<span class="fc" id="L1641">                    value2 = value3;</span>
+                }
+            }
+
+<span class="fc" id="L1645">            return (int) (0.5 * ((double) value1 + (double) value2));</span>
+        } else {
+            // for odd length
+<span class="fc" id="L1648">            return value1;</span>
+        }
+    }
+
+    /**
+     * Computes median of provided array.
+     * Median is computed by selecting the
+     * ((toIndex - fromIndex) + fromIndex) / 2 element, hence
+     * provided array is modified upon execution of this method containing
+     * sorted element at location ((toIndex - fromIndex) + fromIndex)  / 2,
+     * smaller unsorted elements at array[fromIndex] ...
+     * array[((toIndex - fromIndex) + fromIndex) / 2 - 1], and greater
+     * unsorted elements at
+     * array[((toIndex - fromIndex) + fromIndex) / 2 + 1] ...
+     * array[toIndex - 1].
+     *
+     * @param array     Array to be used for computation of median. This array
+     *                  is modified after execution of this method.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Median of provided array.
+     * @throws IllegalArgumentException       if fromIndex is greater than toIndex.
+     * @throws ArrayIndexOutOfBoundsException if either fromIndex or toIndex are out of bounds.
+     */
+    public long median(final long[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L1674" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L1675">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L1677" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L1678">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L1681">        final int length = toIndex - fromIndex;</span>
+<span class="fc" id="L1682">        final var pos1 = length / 2;</span>
+
+        // select pos1 ordered element of v and modifies v so that
+        // v(0) ... v(pos1 - 1) &lt; value1 &lt; v(pos1 + 1) ... v(length - 1)
+        // where v(0) ... v(pos1 - 1) are unordered elements lower than value1
+        // and v(pos1) ... v(length - 1) are unordered elements greater than
+        // value1
+<span class="fc" id="L1689">        final var value1 = select(pos1, array, fromIndex, toIndex);</span>
+<span class="fc bfc" id="L1690" title="All 2 branches covered.">        if ((length % 2) == 0) {</span>
+            // for even length
+
+            // value2 is the previously ordered element of v, which is the maximum
+            // element within v(0) ... v(pos1 - 1)
+<span class="fc" id="L1695">            var value2 = array[fromIndex];</span>
+<span class="fc bfc" id="L1696" title="All 2 branches covered.">            for (int i = 1; i &lt; pos1; i++) {</span>
+<span class="fc" id="L1697">                final var value3 = array[i + fromIndex];</span>
+<span class="fc bfc" id="L1698" title="All 2 branches covered.">                if (value3 &gt; value2) {</span>
+<span class="fc" id="L1699">                    value2 = value3;</span>
+                }
+            }
+
+<span class="fc" id="L1703">            return (long) (0.5 * ((double) value1 + (double) value2));</span>
+        } else {
+            // for odd length
+<span class="fc" id="L1706">            return value1;</span>
+        }
+    }
+
+    /**
+     * Returns sorting method of an implementation of this class.
+     *
+     * @return Sorting method.
+     */
+    public abstract SortingMethod getMethod();
+
+    /**
+     * Creates a Sorter instance using DEFAULT_SORTING_METHOD.
+     *
+     * @return A sorter instance.
+     */
+    public static &lt;T&gt; Sorter&lt;T&gt; create() {
+<span class="fc" id="L1723">        return create(DEFAULT_SORTING_METHOD);</span>
+    }
+
+    /**
+     * Creates a Sorter instance using provided sorting method.
+     *
+     * @param method Method to be used for sorting.
+     * @return A sorter instance.
+     */
+    public static &lt;T&gt; Sorter&lt;T&gt; create(final SortingMethod method) {
+<span class="fc bfc" id="L1733" title="All 5 branches covered.">        return switch (method) {</span>
+<span class="fc" id="L1734">            case STRAIGHT_INSERTION_SORTING_METHOD -&gt; new StraightInsertionSorter&lt;&gt;();</span>
+<span class="fc" id="L1735">            case SHELL_SORTING_METHOD -&gt; new ShellSorter&lt;&gt;();</span>
+<span class="fc" id="L1736">            case HEAPSORT_SORTING_METHOD -&gt; new HeapsortSorter&lt;&gt;();</span>
+<span class="fc" id="L1737">            case QUICKSORT_SORTING_METHOD -&gt; new QuicksortSorter&lt;&gt;();</span>
+<span class="fc" id="L1738">            default -&gt; new SystemSorter&lt;&gt;();</span>
+        };
+    }
+
+    /**
+     * Returns a new array containing original indices ordered from 0
+     * to length-1.
+     *
+     * @param length length of returned array.
+     * @return Array with indices in natural order.
+     */
+    protected int[] getInitialIndicesVector(final int length) {
+<span class="fc" id="L1750">        final var out = new int[length];</span>
+
+<span class="fc bfc" id="L1752" title="All 2 branches covered.">        for (int i = 0; i &lt; length; i++) {</span>
+<span class="fc" id="L1753">            out[i] = i;</span>
+        }
+
+<span class="fc" id="L1756">        return out;</span>
+    }
+
+    /**
+     * Swaps values in array at locations posA and posB.
+     *
+     * @param arr  array where values are swapped.
+     * @param posA Location to be swapped.
+     * @param posB Location to be swapped.
+     */
+    protected void swap(final T[] arr, final int posA, final int posB) {
+<span class="fc" id="L1767">        final var value = arr[posA];</span>
+<span class="fc" id="L1768">        arr[posA] = arr[posB];</span>
+<span class="fc" id="L1769">        arr[posB] = value;</span>
+<span class="fc" id="L1770">    }</span>
+
+    /**
+     * Swaps values in array at locations posA and posB.
+     *
+     * @param arr  array where values are swapped.
+     * @param posA Location to be swapped.
+     * @param posB Location to be swapped.
+     */
+    protected void swap(final double[] arr, final int posA, final int posB) {
+<span class="fc" id="L1780">        final var value = arr[posA];</span>
+<span class="fc" id="L1781">        arr[posA] = arr[posB];</span>
+<span class="fc" id="L1782">        arr[posB] = value;</span>
+<span class="fc" id="L1783">    }</span>
+
+    /**
+     * Swaps values in array at locations posA and posB.
+     *
+     * @param arr  array where values are swapped.
+     * @param posA Location to be swapped.
+     * @param posB Location to be swapped.
+     */
+    protected void swap(final float[] arr, final int posA, final int posB) {
+<span class="fc" id="L1793">        final var value = arr[posA];</span>
+<span class="fc" id="L1794">        arr[posA] = arr[posB];</span>
+<span class="fc" id="L1795">        arr[posB] = value;</span>
+<span class="fc" id="L1796">    }</span>
+
+    /**
+     * Swaps values in array at locations posA and posB.
+     *
+     * @param arr  array where values are swapped.
+     * @param posA Location to be swapped.
+     * @param posB Location to be swapped.
+     */
+    protected void swap(final int[] arr, final int posA, final int posB) {
+<span class="fc" id="L1806">        final var value = arr[posA];</span>
+<span class="fc" id="L1807">        arr[posA] = arr[posB];</span>
+<span class="fc" id="L1808">        arr[posB] = value;</span>
+<span class="fc" id="L1809">    }</span>
+
+    /**
+     * Swaps values in array at locations posA and posB.
+     *
+     * @param arr  array where values are swapped.
+     * @param posA Location to be swapped.
+     * @param posB Location to be swapped.
+     */
+    protected void swap(final long[] arr, final int posA, final int posB) {
+<span class="fc" id="L1819">        final var value = arr[posA];</span>
+<span class="fc" id="L1820">        arr[posA] = arr[posB];</span>
+<span class="fc" id="L1821">        arr[posB] = value;</span>
+<span class="fc" id="L1822">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShellSorter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.irurueta:irurueta-sorting</a> &gt; <a href="index.source.html" class="el_package">com.irurueta.sorting</a> &gt; <span class="el_source">ShellSorter.java</span></div><h1>ShellSorter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2012 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.irurueta.sorting;
+
+import java.util.Comparator;
+
+/**
+ * Sorts instances of type T in provided arrays using Shell method.
+ *
+ * @param &lt;T&gt; Type of instances being sorted.
+ *            &lt;p&gt;
+ *            This class is based on algorithm found at
+ *            Numerical Recipes. 3rd Edition. Cambridge Press. Chapter 8. p. 422
+ *            Knuth. D.E. 1997, Sorting and Searching, 3rd ed., vol. 3 of The Art of
+ *            Computer Programming (Reading, MA: Addison-Wesley)
+ *            Sedgewick, R. 1998. Algorithms in C, 3rd ed. (Reading, MA: Addison-
+ *            Wesley), Chapter 11.
+ */
+@SuppressWarnings(&quot;Duplicates&quot;)
+<span class="fc" id="L33">public class ShellSorter&lt;T&gt; extends Sorter&lt;T&gt; {</span>
+
+    /**
+     * Constant defining increment factor to be used internally.
+     */
+    private static final int INCREMENT_FACTOR = 3;
+
+    /**
+     * Constant defining minimum increment before stopping the sorting
+     * process.
+     */
+    private static final int MIN_INCREMENT = 1;
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final T[] array, final int fromIndex, final int toIndex, final Comparator&lt;T&gt; comparator) {
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L67">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L69" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L70">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L73">            return;</span>
+        }
+
+        int j;
+<span class="fc" id="L77">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L78">        final var n = toIndex - fromIndex;</span>
+
+        T v;
+
+        do {
+<span class="fc" id="L83">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L84">            inc++;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L89">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L92">                v = array[i + fromIndex];</span>
+<span class="fc" id="L93">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L96" title="All 2 branches covered.">                while (comparator.compare(array[j - inc + fromIndex], v) &gt; 0) {</span>
+<span class="fc" id="L97">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L98">                    j -= inc;</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L100">                        break;</span>
+                    }
+                }
+<span class="fc" id="L103">                array[j + fromIndex] = v;</span>
+            }
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L106">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final T[] array, final int fromIndex, final int toIndex,
+                                 final Comparator&lt;T&gt; comparator) {
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L137">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L139" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L140">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L143">        final int[] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L145">            return indices;</span>
+        }
+
+        int j;
+        int b;
+<span class="fc" id="L150">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L151">        final var n = toIndex - fromIndex;</span>
+
+        T v;
+
+        do {
+<span class="fc" id="L156">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L157">            inc++;</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L162">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L164" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L165">                v = array[i + fromIndex];</span>
+<span class="fc" id="L166">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L167">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L170" title="All 2 branches covered.">                while (comparator.compare(array[j - inc + fromIndex], v) &gt; 0) {</span>
+<span class="fc" id="L171">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L172">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L173">                    j -= inc;</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L175">                        break;</span>
+                    }
+                }
+<span class="fc" id="L178">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L179">                indices[j + fromIndex] = b;</span>
+            }
+<span class="fc bfc" id="L181" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+
+<span class="fc" id="L183">        return indices;</span>
+    }
+
+    /**
+     * Returns sorting method of this class.
+     *
+     * @return Sorting method.
+     */
+    @Override
+    public SortingMethod getMethod() {
+<span class="fc" id="L193">        return SortingMethod.SHELL_SORTING_METHOD;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final double[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L215">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L217" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L218">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L221">            return;</span>
+        }
+
+        int j;
+<span class="fc" id="L225">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L226">        final var n = toIndex - fromIndex;</span>
+
+        double v;
+
+        do {
+<span class="fc" id="L231">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L232">            inc++;</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L237">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L239" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L240">                v = array[i + fromIndex];</span>
+<span class="fc" id="L241">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L244" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L245">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L246">                    j -= inc;</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L248">                        break;</span>
+                    }
+                }
+<span class="fc" id="L251">                array[j + fromIndex] = v;</span>
+            }
+<span class="fc bfc" id="L253" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L254">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L282">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L284" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L285">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L288">        final int[] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L289" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L290">            return indices;</span>
+        }
+
+        int j;
+        int b;
+<span class="fc" id="L295">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L296">        final var n = toIndex - fromIndex;</span>
+
+        double v;
+
+        do {
+<span class="fc" id="L301">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L302">            inc++;</span>
+<span class="fc bfc" id="L303" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L307">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L309" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L310">                v = array[i + fromIndex];</span>
+<span class="fc" id="L311">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L312">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L315" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L316">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L317">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L318">                    j -= inc;</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L320">                        break;</span>
+                    }
+                }
+<span class="fc" id="L323">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L324">                indices[j + fromIndex] = b;</span>
+            }
+<span class="fc bfc" id="L326" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+
+<span class="fc" id="L328">        return indices;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final float[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L349" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L350">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L352" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L353">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L355" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L356">            return;</span>
+        }
+
+        int j;
+<span class="fc" id="L360">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L361">        final var n = toIndex - fromIndex;</span>
+
+        float v;
+
+        do {
+<span class="fc" id="L366">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L367">            inc++;</span>
+<span class="fc bfc" id="L368" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L372">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L374" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L375">                v = array[i + fromIndex];</span>
+<span class="fc" id="L376">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L379" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L380">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L381">                    j -= inc;</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L383">                        break;</span>
+                    }
+                }
+<span class="fc" id="L386">                array[j + fromIndex] = v;</span>
+            }
+<span class="fc bfc" id="L388" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L389">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L416" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L417">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L419" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L420">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L423">        final var indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L424" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L425">            return indices;</span>
+        }
+
+        int j;
+        int b;
+<span class="fc" id="L430">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L431">        final var n = toIndex - fromIndex;</span>
+
+        float v;
+
+        do {
+<span class="fc" id="L436">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L437">            inc++;</span>
+<span class="fc bfc" id="L438" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L442">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L444" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L445">                v = array[i + fromIndex];</span>
+<span class="fc" id="L446">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L447">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L450" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L451">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L452">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L453">                    j -= inc;</span>
+<span class="fc bfc" id="L454" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L455">                        break;</span>
+                    }
+                }
+<span class="fc" id="L458">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L459">                indices[j + fromIndex] = b;</span>
+            }
+<span class="fc bfc" id="L461" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+
+<span class="fc" id="L463">        return indices;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final int[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L484" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L485">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L487" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L488">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L490" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L491">            return;</span>
+        }
+
+        int j;
+<span class="fc" id="L495">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L496">        final var n = toIndex - fromIndex;</span>
+
+        int v;
+
+        do {
+<span class="fc" id="L501">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L502">            inc++;</span>
+<span class="fc bfc" id="L503" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L507">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L509" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L510">                v = array[i + fromIndex];</span>
+<span class="fc" id="L511">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L514" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L515">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L516">                    j -= inc;</span>
+<span class="fc bfc" id="L517" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L518">                        break;</span>
+                    }
+                }
+<span class="fc" id="L521">                array[j + fromIndex] = v;</span>
+            }
+<span class="fc bfc" id="L523" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L524">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L551" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L552">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L554" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L555">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L558">        final int[] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L559" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L560">            return indices;</span>
+        }
+
+        int j;
+        int b;
+<span class="fc" id="L565">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L566">        final var n = toIndex - fromIndex;</span>
+
+        int v;
+
+        do {
+<span class="fc" id="L571">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L572">            inc++;</span>
+<span class="fc bfc" id="L573" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L577">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L579" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L580">                v = array[i + fromIndex];</span>
+<span class="fc" id="L581">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L582">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L585" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L586">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L587">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L588">                    j -= inc;</span>
+<span class="fc bfc" id="L589" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L590">                        break;</span>
+                    }
+                }
+<span class="fc" id="L593">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L594">                indices[j + fromIndex] = b;</span>
+            }
+<span class="fc bfc" id="L596" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+
+<span class="fc" id="L598">        return indices;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final long[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L619" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L620">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L622" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L623">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L625" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L626">            return;</span>
+        }
+
+        int j;
+<span class="fc" id="L630">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L631">        final var n = toIndex - fromIndex;</span>
+
+        long v;
+
+        do {
+<span class="fc" id="L636">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L637">            inc++;</span>
+<span class="fc bfc" id="L638" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L642">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L644" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L645">                v = array[i + fromIndex];</span>
+<span class="fc" id="L646">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L649" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L650">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L651">                    j -= inc;</span>
+<span class="fc bfc" id="L652" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L653">                        break;</span>
+                    }
+                }
+<span class="fc" id="L656">                array[j + fromIndex] = v;</span>
+            }
+<span class="fc bfc" id="L658" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+<span class="fc" id="L659">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L686" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L687">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L689" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L690">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L693">        final int[] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L694" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L695">            return indices;</span>
+        }
+
+        int j;
+        int b;
+<span class="fc" id="L700">        var inc = MIN_INCREMENT;</span>
+<span class="fc" id="L701">        final var n = toIndex - fromIndex;</span>
+
+        long v;
+
+        do {
+<span class="fc" id="L706">            inc *= INCREMENT_FACTOR;</span>
+<span class="fc" id="L707">            inc++;</span>
+<span class="fc bfc" id="L708" title="All 2 branches covered.">        } while (inc &lt;= n);</span>
+
+        // Loop over the partial sorts
+        do {
+<span class="fc" id="L712">            inc /= INCREMENT_FACTOR;</span>
+            // Outer loop of straight insertion
+<span class="fc bfc" id="L714" title="All 2 branches covered.">            for (int i = inc; i &lt; n; i++) {</span>
+<span class="fc" id="L715">                v = array[i + fromIndex];</span>
+<span class="fc" id="L716">                b = indices[i + fromIndex];</span>
+<span class="fc" id="L717">                j = i;</span>
+
+                // Inner loop of straight insertion
+<span class="fc bfc" id="L720" title="All 2 branches covered.">                while (array[j - inc + fromIndex] &gt; v) {</span>
+<span class="fc" id="L721">                    array[j + fromIndex] = array[j - inc + fromIndex];</span>
+<span class="fc" id="L722">                    indices[j + fromIndex] = indices[j - inc + fromIndex];</span>
+<span class="fc" id="L723">                    j -= inc;</span>
+<span class="fc bfc" id="L724" title="All 2 branches covered.">                    if (j &lt; inc) {</span>
+<span class="fc" id="L725">                        break;</span>
+                    }
+                }
+<span class="fc" id="L728">                array[j + fromIndex] = v;</span>
+<span class="fc" id="L729">                indices[j + fromIndex] = b;</span>
+            }
+<span class="fc bfc" id="L731" title="All 2 branches covered.">        } while (inc &gt; MIN_INCREMENT);</span>
+
+<span class="fc" id="L733">        return indices;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

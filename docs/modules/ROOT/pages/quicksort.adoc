@@ -82,3 +82,32 @@ sorter.sort(values); // delegates to java.util.Arrays.sort
 
 `QuicksortSorter` is based on the algorithm described in xref:reference.adoc[Numerical Recipes,
 3rd Edition, section 8.2, "Quicksort"].
+
+== Related classes
+
+[cols="1,1,1",options="header"]
+|===
+|Class
+|Source
+|Javadoc
+
+|`QuicksortSorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/QuicksortSorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/QuicksortSorter.html[Javadoc]
+
+|`SystemSorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SystemSorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SystemSorter.html[Javadoc]
+
+|`Sorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/Sorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/Sorter.html[Javadoc]
+
+|`SortingMethod`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SortingMethod.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SortingMethod.html[Javadoc]
+
+|`SortingException`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SortingException.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SortingException.html[Javadoc]
+|===

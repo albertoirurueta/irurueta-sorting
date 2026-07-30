@@ -117,3 +117,20 @@ double median = sorter.median(values);
 overflows (see xref:quicksort.adoc[Quicksort]); every method throws `IllegalArgumentException` if
 `fromIndex` is greater than `toIndex`, and `ArrayIndexOutOfBoundsException` if `fromIndex` or
 `toIndex` fall outside the array bounds.
+
+== Related classes
+
+[cols="1,1,1",options="header"]
+|===
+|Class
+|Source
+|Javadoc
+
+|`Sorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/Sorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/Sorter.html[Javadoc]
+
+|`SortingMethod`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SortingMethod.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SortingMethod.html[Javadoc]
+|===

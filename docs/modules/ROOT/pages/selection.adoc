@@ -97,3 +97,24 @@ double median = sorter.median(values, comparatorAndAverager);
 
 `select` and `median` are based on the algorithm described in xref:reference.adoc[Numerical
 Recipes, 3rd Edition, section 8.5, "Selecting the Mth Largest"].
+
+== Related classes
+
+[cols="1,1,1",options="header"]
+|===
+|Class
+|Source
+|Javadoc
+
+|`Sorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/Sorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/Sorter.html[Javadoc]
+
+|`ComparatorAndAverager`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/ComparatorAndAverager.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/ComparatorAndAverager.html[Javadoc]
+
+|`ComparableAndAverageable`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/ComparableAndAverageable.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/ComparableAndAverageable.html[Javadoc]
+|===

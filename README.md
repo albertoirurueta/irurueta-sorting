@@ -57,6 +57,7 @@ graph LR
 - [Javadoc report](https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/index.html)
 - [JaCoCo coverage report](https://albertoirurueta.github.io/irurueta-sorting/mvn-site/jacoco/index.html)
 - [Surefire test report](https://albertoirurueta.github.io/irurueta-sorting/mvn-site/surefire.html)
+- [Maven site report](http://albertoirurueta.github.io/irurueta-sorting/mvn-site)
 - [SonarCloud dashboard](https://sonarcloud.io/dashboard?id=albertoirurueta_irurueta-sorting)
 
 The Antora documentation source lives in [`docs/modules/ROOT`](docs/modules/ROOT).

@@ -22,6 +22,9 @@ These reports are generated during the Maven build and site lifecycle.
 |https://sonarcloud.io/project/overview?id=albertoirurueta_irurueta-sorting[SonarCloud]
 |Project quality dashboard with issue analysis, code quality information, and coverage metrics.
 
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site[Maven Site]
+|Aggregation of project reports.
+
 |https://github.com/albertoirurueta/irurueta-sorting[GitHub repository]
 |Source code repository for the project.
 |===

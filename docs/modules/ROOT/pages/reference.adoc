@@ -1,5 +1,6 @@
 = Reference
 :description: Generated project reports and the bibliography behind the sorting algorithms.
+:keywords: Javadoc, JaCoCo code coverage, Surefire test report, SonarCloud, Maven site, Numerical Recipes bibliography, API reference
 
 These reports are generated during the Maven build and site lifecycle.
 

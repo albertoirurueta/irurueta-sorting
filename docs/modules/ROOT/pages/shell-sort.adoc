@@ -1,5 +1,6 @@
 = Shell sort
 :description: ShellSorter implements Shell's diminishing increment method from Numerical Recipes chapter 8.1.
+:keywords: ShellSorter, Shell's method, diminishing increment sort, increment sequence, straight insertion improvement, Numerical Recipes
 :stem: latexmath
 
 NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.

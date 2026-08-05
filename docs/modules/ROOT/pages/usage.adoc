@@ -1,5 +1,6 @@
 = Usage
 :description: Create a Sorter, sort arrays with or without indices, and select or compute the median of an array.
+:keywords: Sorter.create, sort array Java, sortWithIndices, select k-th smallest, median of array, Comparator sort, Comparable sort, rank table
 
 `Sorter<T>` is the abstract base class for every algorithm in this library. It sorts arrays of
 `double`, `float`, `int` and `long` primitives, as well as arrays of objects that either implement

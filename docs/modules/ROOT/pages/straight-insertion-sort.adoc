@@ -1,5 +1,6 @@
 = Straight insertion sort
 :description: StraightInsertionSorter implements the straight insertion algorithm from Numerical Recipes chapter 8.1.
+:keywords: StraightInsertionSorter, straight insertion sort, stable sort algorithm, small array sorting, O(N^2) sort, Numerical Recipes
 
 NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
 

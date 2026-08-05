@@ -1,5 +1,6 @@
 = Heapsort
 :description: HeapsortSorter implements the Heapsort algorithm from Numerical Recipes chapter 8.3.
+:keywords: HeapsortSorter, Heapsort algorithm, heap property, sift-down, in-place sort, worst-case O(N log N), Numerical Recipes
 :stem: latexmath
 
 NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.

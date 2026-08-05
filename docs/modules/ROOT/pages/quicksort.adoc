@@ -1,5 +1,6 @@
 = Quicksort
 :description: QuicksortSorter implements the Quicksort partition-exchange algorithm from Numerical Recipes chapter 8.2.
+:keywords: QuicksortSorter, Quicksort algorithm, partition-exchange sort, median-of-three pivot, SystemSorter, java.util.Arrays sort, Numerical Recipes
 
 NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
 

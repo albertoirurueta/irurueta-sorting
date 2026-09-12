@@ -1,5 +1,6 @@
 = Installation
 :description: Add irurueta-sorting to a Maven or Gradle project.
+:keywords: Maven dependency, Gradle dependency, Java library installation, irurueta-sorting, com.irurueta, Java 17
 
 Irurueta Sorting is a Maven artifact that can be integrated into Java projects using group id
 `com.irurueta` and artifact id `irurueta-sorting`. The project is built as a Java 17 Maven JAR.
@@ -53,3 +54,24 @@ import com.irurueta.sorting.Sorter;
 import com.irurueta.sorting.SortingMethod;
 import com.irurueta.sorting.SortingException;
 ----
+
+== Related classes
+
+[cols="1,1,1",options="header"]
+|===
+|Class
+|Source
+|Javadoc
+
+|`Sorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/Sorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/Sorter.html[Javadoc]
+
+|`SortingMethod`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SortingMethod.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SortingMethod.html[Javadoc]
+
+|`SortingException`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SortingException.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SortingException.html[Javadoc]
+|===

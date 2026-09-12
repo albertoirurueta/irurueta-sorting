@@ -1,5 +1,6 @@
 = Quicksort
 :description: QuicksortSorter implements the Quicksort partition-exchange algorithm from Numerical Recipes chapter 8.2.
+:keywords: QuicksortSorter, Quicksort algorithm, partition-exchange sort, median-of-three pivot, SystemSorter, java.util.Arrays sort, Numerical Recipes
 
 NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
 
@@ -19,6 +20,15 @@ extremely unlikely case that it overflows.
 
 `QuicksortSorter` is not stable: elements that compare as equal may be reordered relative to each
 other.
+
+== Example
+
+The diagram below partitions the array `{5, 3, 8, 1, 9, 2, 7}`. The pivot is the median of the
+first, middle and last elements; after partitioning it sits in its final sorted position, with every
+smaller element to its left and every larger element to its right. Quicksort then recurses into
+*both* partitions independently.
+
+image::quicksort-partition.svg[Quicksort partitioning the array 5 3 8 1 9 2 7 around a median-of-three pivot,760]
 
 == Usage
 
@@ -73,3 +83,32 @@ sorter.sort(values); // delegates to java.util.Arrays.sort
 
 `QuicksortSorter` is based on the algorithm described in xref:reference.adoc[Numerical Recipes,
 3rd Edition, section 8.2, "Quicksort"].
+
+== Related classes
+
+[cols="1,1,1",options="header"]
+|===
+|Class
+|Source
+|Javadoc
+
+|`QuicksortSorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/QuicksortSorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/QuicksortSorter.html[Javadoc]
+
+|`SystemSorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SystemSorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SystemSorter.html[Javadoc]
+
+|`Sorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/Sorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/Sorter.html[Javadoc]
+
+|`SortingMethod`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SortingMethod.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SortingMethod.html[Javadoc]
+
+|`SortingException`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SortingException.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SortingException.html[Javadoc]
+|===

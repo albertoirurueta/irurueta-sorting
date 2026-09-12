@@ -1,5 +1,6 @@
 = Usage
 :description: Create a Sorter, sort arrays with or without indices, and select or compute the median of an array.
+:keywords: Sorter.create, sort array Java, sortWithIndices, select k-th smallest, median of array, Comparator sort, Comparable sort, rank table
 
 `Sorter<T>` is the abstract base class for every algorithm in this library. It sorts arrays of
 `double`, `float`, `int` and `long` primitives, as well as arrays of objects that either implement
@@ -77,6 +78,11 @@ for (int i = 0; i < indices.length; i++) {
 // sortedLabels is now {"one", "three", "five", "eight"}
 ----
 
+The index table returned above, and its inverse the rank table (the numerical rank of each element
+of the original, unsorted array), are illustrated below for this same `values` array:
+
+image::index-rank-table.svg[Original array with its index table, rank table and sorted array,760]
+
 == Select the k-th smallest element
 
 `select` returns the k-th smallest element (`k` starting at 0) without fully sorting the array,
@@ -112,3 +118,20 @@ double median = sorter.median(values);
 overflows (see xref:quicksort.adoc[Quicksort]); every method throws `IllegalArgumentException` if
 `fromIndex` is greater than `toIndex`, and `ArrayIndexOutOfBoundsException` if `fromIndex` or
 `toIndex` fall outside the array bounds.
+
+== Related classes
+
+[cols="1,1,1",options="header"]
+|===
+|Class
+|Source
+|Javadoc
+
+|`Sorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/Sorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/Sorter.html[Javadoc]
+
+|`SortingMethod`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/SortingMethod.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/SortingMethod.html[Javadoc]
+|===

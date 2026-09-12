@@ -1,5 +1,6 @@
 = Selection and median
 :description: Sorter.select and Sorter.median find order statistics without fully sorting an array, based on Numerical Recipes chapter 8.5.
+:keywords: Sorter.select, Sorter.median, k-th smallest element, order statistics, ComparatorAndAverager, ComparableAndAverageable, linear-time selection, Numerical Recipes
 
 Selection answers a narrower question than sorting: given an array of N elements, what is the k-th
 smallest element (`k` from 0, the smallest, to N-1, the largest)? Computing it does not require the
@@ -22,6 +23,14 @@ O(N log N) for a full sort.
 selected value, every element before it is smaller (in arbitrary order), and every element after it
 is greater (also in arbitrary order). Make a copy of the array first if it must remain unmodified,
 or if `select` will be called several times with different values of `k` on the same logical data.
+
+The diagram below calls `select(2, arr)` on the same array and pivot used in the
+xref:quicksort.adoc[Quicksort] example, `{5, 3, 8, 1, 9, 2, 7}`. Partitioning is identical to
+Quicksort, but once the pivot's final position is known, `select` keeps narrowing only the
+partition that can contain the k-th element and discards the other one outright, which is what
+gives it expected O(N) running time instead of O(N log N).
+
+image::selection-partition.svg[select partitioning the array 5 3 8 1 9 2 7 and discarding one side,760]
 
 [source,java]
 ----
@@ -89,3 +98,24 @@ double median = sorter.median(values, comparatorAndAverager);
 
 `select` and `median` are based on the algorithm described in xref:reference.adoc[Numerical
 Recipes, 3rd Edition, section 8.5, "Selecting the Mth Largest"].
+
+== Related classes
+
+[cols="1,1,1",options="header"]
+|===
+|Class
+|Source
+|Javadoc
+
+|`Sorter`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/Sorter.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/Sorter.html[Javadoc]
+
+|`ComparatorAndAverager`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/ComparatorAndAverager.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/ComparatorAndAverager.html[Javadoc]
+
+|`ComparableAndAverageable`
+|https://github.com/albertoirurueta/irurueta-sorting/blob/master/src/main/java/com/irurueta/sorting/ComparableAndAverageable.java[GitHub]
+|https://albertoirurueta.github.io/irurueta-sorting/mvn-site/apidocs/com/irurueta/sorting/ComparableAndAverageable.html[Javadoc]
+|===

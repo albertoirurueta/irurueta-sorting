@@ -80,6 +80,6 @@ selection, and they are also cited directly in this library's class-level Javado
   straight insertion and Shell's method; Chapter 11 covers Heapsort.
 * Sedgewick, R. 1978, https://sedgewick.io/wp-content/themes/sedgewick/papers/1978Implementing.pdf["Implementing Quicksort Programs"], _Communications of the ACM_, vol. 21,
   pp. 847-857.
-* Press, W.H., Teukolsky, S.A., Vetterling, W.T., and Flannery, B.P. 2007, https://www.cambridge.org/us/academic/subjects/mathematics/numerical-recipes/numerical-recipes-art-scientific-computing-3rd-edition[_Numerical Recipes: The
-  Art of Scientific Computing_, 3rd ed.] (Cambridge, UK: Cambridge University Press), Chapter 8,
-  "Sorting and Selection", pp. 419-441.
+* Press, W.H., Teukolsky, S.A., Vetterling, W.T., and Flannery, B.P. 2007, _Numerical Recipes: The
+  Art of Scientific Computing_, 3rd ed. (Cambridge, UK: Cambridge University Press), Chapter 8,
+  "Sorting and Selection", pp. 419-441. Available at: https://numerical.recipes[numerical.recipes].

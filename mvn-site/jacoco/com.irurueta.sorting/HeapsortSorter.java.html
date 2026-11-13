@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HeapsortSorter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.irurueta:irurueta-sorting</a> &gt; <a href="index.source.html" class="el_package">com.irurueta.sorting</a> &gt; <span class="el_source">HeapsortSorter.java</span></div><h1>HeapsortSorter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2012 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.irurueta.sorting;
+
+import java.util.Comparator;
+
+/**
+ * Sorts instances of type T in provided arrays using Heapsort method.
+ *
+ * @param &lt;T&gt; Type of instances being sorted.
+ *            &lt;p&gt;
+ *            This class is based on algorithm found at
+ *            Numerical Recipes. 3rd Edition. Cambridge Press. Chapter 8. p. 428
+ *            Knuth. D.E. 1997, Sorting and Searching, 3rd ed., vol. 3 of The Art of
+ *            Computer Programming (Reading, MA: Addison-Wesley)
+ *            Sedgewick, R. 1998. Algorithms in C, 3rd ed. (Reading, MA: Addison-
+ *            Wesley), Chapter 11.
+ */
+@SuppressWarnings(&quot;Duplicates&quot;)
+<span class="fc" id="L33">public class HeapsortSorter&lt;T&gt; extends Sorter&lt;T&gt; {</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final T[] array, final int fromIndex, final int toIndex, final Comparator&lt;T&gt; comparator) {
+
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L56">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L58" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L59">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L62">            return;</span>
+        }
+
+        int i;
+<span class="fc" id="L66">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L69">            siftDown(array, i, n - 1, comparator, fromIndex);</span>
+        }
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L72">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L73">            siftDown(array, 0, i - 1, comparator, fromIndex);</span>
+        }
+<span class="fc" id="L75">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array      Array to be sorted. After execution of this method
+     *                   elements in array between fromIndex (inclusive) and toIndex
+     *                   (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex  Index were sorting starts (inclusive).
+     * @param toIndex    Index were sorting stops (exclusive).
+     * @param comparator Determines whether an element is greater or lower
+     *                   than another one.
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final T[] array, final int fromIndex, final int toIndex,
+                                 final Comparator&lt;T&gt; comparator) {
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L106">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L108" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L109">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L112">        final var indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L114">            return indices;</span>
+        }
+
+        int i;
+<span class="fc" id="L118">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L121">            siftDownWithIndices(array, indices, i, n - 1, comparator, fromIndex);</span>
+        }
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L124">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L125">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L126">            siftDownWithIndices(array, indices, 0, i - 1, comparator, fromIndex);</span>
+        }
+
+<span class="fc" id="L129">        return indices;</span>
+    }
+
+    /**
+     * Returns sorting method of this class.
+     *
+     * @return Sorting method.
+     */
+    @Override
+    public SortingMethod getMethod() {
+<span class="fc" id="L139">        return SortingMethod.HEAPSORT_SORTING_METHOD;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final double[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L161">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L163" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L164">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L167">            return;</span>
+        }
+
+        int i;
+<span class="fc" id="L171">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L174">            siftDown(array, i, n - 1, fromIndex);</span>
+        }
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L177">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L178">            siftDown(array, 0, i - 1, fromIndex);</span>
+        }
+<span class="fc" id="L180">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final double[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L207" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L208">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L210" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L211">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L214">        final int[] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L216">            return indices;</span>
+        }
+
+        int i;
+<span class="fc" id="L220">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L223">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
+        }
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L226">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L227">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L228">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
+        }
+
+<span class="fc" id="L231">        return indices;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final float[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L252" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L253">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L255" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L256">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L258" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L259">            return;</span>
+        }
+
+        int i;
+<span class="fc" id="L263">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L266">            siftDown(array, i, n - 1, fromIndex);</span>
+        }
+<span class="fc bfc" id="L268" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L269">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L270">            siftDown(array, 0, i - 1, fromIndex);</span>
+        }
+<span class="fc" id="L272">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final float[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L299" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L300">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L302" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L303">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L306">        final var indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L307" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L308">            return indices;</span>
+        }
+
+        int i;
+<span class="fc" id="L312">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L314" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L315">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
+        }
+<span class="fc bfc" id="L317" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L318">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L319">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L320">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
+        }
+
+<span class="fc" id="L323">        return indices;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final int[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L344" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L345">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L347" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L348">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L350" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L351">            return;</span>
+        }
+
+        int i;
+<span class="fc" id="L355">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L357" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L358">            siftDown(array, i, n - 1, fromIndex);</span>
+        }
+<span class="fc bfc" id="L360" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L361">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L362">            siftDown(array, 0, i - 1, fromIndex);</span>
+        }
+<span class="fc" id="L364">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final int[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L391" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L392">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L394" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L395">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L398">        final int[] indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L399" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L400">            return indices;</span>
+        }
+
+        int i;
+<span class="fc" id="L404">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L406" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L407">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
+        }
+<span class="fc bfc" id="L409" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L410">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L411">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L412">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
+        }
+
+<span class="fc" id="L415">        return indices;</span>
+    }
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public void sort(final long[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L436" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L437">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L439" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L440">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+<span class="pc bpc" id="L442" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L443">            return;</span>
+        }
+
+        int i;
+<span class="fc" id="L447">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L449" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L450">            siftDown(array, i, n - 1, fromIndex);</span>
+        }
+<span class="fc bfc" id="L452" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L453">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L454">            siftDown(array, 0, i - 1, fromIndex);</span>
+        }
+<span class="fc" id="L456">    }</span>
+
+    /**
+     * Sorts provided array in ascending order so that {@code
+     * array[i - 1] &lt; array[i]} for any valid i.
+     * This method modifies provided array so that
+     * after execution of this method array elements are ordered.
+     * An array containing the original indices where elements were
+     * located is returned so that other arrays or collections can be kept
+     * in the same order.
+     *
+     * @param array     Array to be sorted. After execution of this method
+     *                  elements in array between fromIndex (inclusive) and toIndex
+     *                  (exclusive) are modified so that they are on ascending order.
+     * @param fromIndex Index were sorting starts (inclusive).
+     * @param toIndex   Index were sorting stops (exclusive).
+     * @return Array containing original location of elements that have been
+     * sorted. Only elements between fromIndex (inclusive) and toIndex
+     * (exclusive) are modified, the remaining ones are kept in natural
+     * order.
+     * @throws IllegalArgumentException       If {@code fromIndex &gt; toIndex}.
+     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex &lt; 0} or
+     *                                        {@code toIndex &gt; array.length}.
+     */
+    @Override
+    public int[] sortWithIndices(final long[] array, final int fromIndex, final int toIndex) {
+
+<span class="fc bfc" id="L483" title="All 2 branches covered.">        if (fromIndex &gt; toIndex) {</span>
+<span class="fc" id="L484">            throw new IllegalArgumentException();</span>
+        }
+<span class="fc bfc" id="L486" title="All 4 branches covered.">        if (fromIndex &lt; 0 || toIndex &gt; array.length) {</span>
+<span class="fc" id="L487">            throw new ArrayIndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L490">        final var indices = getInitialIndicesVector(array.length);</span>
+<span class="pc bpc" id="L491" title="1 of 2 branches missed.">        if (fromIndex == toIndex) {</span>
+<span class="nc" id="L492">            return indices;</span>
+        }
+
+        int i;
+<span class="fc" id="L496">        final var n = toIndex - fromIndex;</span>
+
+<span class="fc bfc" id="L498" title="All 2 branches covered.">        for (i = n / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L499">            siftDownWithIndices(array, indices, i, n - 1, fromIndex);</span>
+        }
+<span class="fc bfc" id="L501" title="All 2 branches covered.">        for (i = n - 1; i &gt; 0; i--) {</span>
+<span class="fc" id="L502">            swap(array, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L503">            swapIndices(indices, fromIndex, i + fromIndex);</span>
+<span class="fc" id="L504">            siftDownWithIndices(array, indices, 0, i - 1, fromIndex);</span>
+        }
+
+<span class="fc" id="L507">        return indices;</span>
+    }
+
+    /**
+     * Internal method to reorder sub-array ra.
+     *
+     * @param ra         sub-array ra.
+     * @param l          l value.
+     * @param r          r value.
+     * @param comparator a comparator.
+     * @param fromIndex  initial position.
+     */
+    private void siftDown(final T[] ra, final int l, final int r, final Comparator&lt;T&gt; comparator, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L522">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L523">        jold = l;</span>
+<span class="fc" id="L524">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L525" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L526" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; comparator.compare(ra[j + fromIndex], ra[j + 1 + fromIndex]) &lt; 0) {</span>
+<span class="fc" id="L527">                j++;</span>
+            }
+<span class="fc bfc" id="L529" title="All 2 branches covered.">            if (comparator.compare(a, ra[j + fromIndex]) &gt;= 0) {</span>
+<span class="fc" id="L530">                break;</span>
+            }
+<span class="fc" id="L532">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L533">            jold = j;</span>
+<span class="fc" id="L534">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L536">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L537">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra along with its corresponding
+     * indices.
+     *
+     * @param ra         sub-array ra.
+     * @param rb         sub-array rb.
+     * @param l          l value.
+     * @param r          r value.
+     * @param comparator a comparator.
+     * @param fromIndex  initial position.
+     */
+    private void siftDownWithIndices(final T[] ra, final int[] rb, final int l, final int r,
+                                     final Comparator&lt;T&gt; comparator, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L554">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L555">        final var b = rb[l + fromIndex];</span>
+<span class="fc" id="L556">        jold = l;</span>
+<span class="fc" id="L557">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L558" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L559" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; comparator.compare(ra[j + fromIndex], ra[j + 1 + fromIndex]) &lt; 0) {</span>
+<span class="fc" id="L560">                j++;</span>
+            }
+<span class="fc bfc" id="L562" title="All 2 branches covered.">            if (comparator.compare(a, ra[j + fromIndex]) &gt;= 0) {</span>
+<span class="fc" id="L563">                break;</span>
+            }
+<span class="fc" id="L565">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L566">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L567">            jold = j;</span>
+<span class="fc" id="L568">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L570">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L571">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L572">    }</span>
+
+    /**
+     * Swaps values in array of indices at locations posA and posB.
+     *
+     * @param indices array containing indices to be swapped.
+     * @param posA    Location to be swapped.
+     * @param posB    Location to be swapped.
+     */
+    private void swapIndices(final int[] indices, final int posA, final int posB) {
+<span class="fc" id="L582">        final var value = indices[posA];</span>
+<span class="fc" id="L583">        indices[posA] = indices[posB];</span>
+<span class="fc" id="L584">        indices[posB] = value;</span>
+<span class="fc" id="L585">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra.
+     *
+     * @param ra        sub-array ra.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDown(final double[] ra, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L598">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L599">        jold = l;</span>
+<span class="fc" id="L600">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L601" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L602" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L603">                j++;</span>
+            }
+<span class="fc bfc" id="L605" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L606">                break;</span>
+            }
+<span class="fc" id="L608">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L609">            jold = j;</span>
+<span class="fc" id="L610">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L612">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L613">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra along with its corresponding
+     * indices.
+     *
+     * @param ra        sub-array ra.
+     * @param rb        sub-array rb.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDownWithIndices(final double[] ra, final int[] rb, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L628">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L629">        final var b = rb[l + fromIndex];</span>
+<span class="fc" id="L630">        jold = l;</span>
+<span class="fc" id="L631">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L632" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L633" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L634">                j++;</span>
+            }
+<span class="fc bfc" id="L636" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L637">                break;</span>
+            }
+<span class="fc" id="L639">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L640">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L641">            jold = j;</span>
+<span class="fc" id="L642">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L644">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L645">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L646">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra.
+     *
+     * @param ra        sub-array ra.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDown(final float[] ra, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L659">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L660">        jold = l;</span>
+<span class="fc" id="L661">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L662" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L663" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L664">                j++;</span>
+            }
+<span class="fc bfc" id="L666" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L667">                break;</span>
+            }
+<span class="fc" id="L669">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L670">            jold = j;</span>
+<span class="fc" id="L671">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L673">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L674">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra along with its corresponding
+     * indices.
+     *
+     * @param ra        sub-array ra.
+     * @param rb        sub-array rb.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDownWithIndices(final float[] ra, final int[] rb, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L689">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L690">        final var b = rb[l + fromIndex];</span>
+<span class="fc" id="L691">        jold = l;</span>
+<span class="fc" id="L692">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L693" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L694" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L695">                j++;</span>
+            }
+<span class="fc bfc" id="L697" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L698">                break;</span>
+            }
+<span class="fc" id="L700">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L701">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L702">            jold = j;</span>
+<span class="fc" id="L703">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L705">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L706">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L707">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra.
+     *
+     * @param ra        sub-array ra.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDown(final int[] ra, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L720">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L721">        jold = l;</span>
+<span class="fc" id="L722">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L723" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L724" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L725">                j++;</span>
+            }
+<span class="fc bfc" id="L727" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L728">                break;</span>
+            }
+<span class="fc" id="L730">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L731">            jold = j;</span>
+<span class="fc" id="L732">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L734">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L735">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra along with its corresponding
+     * indices.
+     *
+     * @param ra        sub-array ra.
+     * @param rb        sub-array rb.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial position.
+     */
+    private void siftDownWithIndices(final int[] ra, final int[] rb, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L750">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L751">        final var b = rb[l + fromIndex];</span>
+<span class="fc" id="L752">        jold = l;</span>
+<span class="fc" id="L753">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L754" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L755" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L756">                j++;</span>
+            }
+<span class="fc bfc" id="L758" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L759">                break;</span>
+            }
+<span class="fc" id="L761">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L762">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L763">            jold = j;</span>
+<span class="fc" id="L764">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L766">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L767">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L768">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra.
+     *
+     * @param ra        sub-array ra.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial value.
+     */
+    private void siftDown(long[] ra, int l, int r, int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L781">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L782">        jold = l;</span>
+<span class="fc" id="L783">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L784" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L785" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L786">                j++;</span>
+            }
+<span class="fc bfc" id="L788" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L789">                break;</span>
+            }
+<span class="fc" id="L791">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L792">            jold = j;</span>
+<span class="fc" id="L793">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L795">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L796">    }</span>
+
+    /**
+     * Internal method to reorder sub-array ra along with its corresponding
+     * indices.
+     *
+     * @param ra        sub-array ra.
+     * @param rb        sub-array rb.
+     * @param l         l value.
+     * @param r         r value.
+     * @param fromIndex initial value.
+     */
+    private void siftDownWithIndices(final long[] ra, final int[] rb, final int l, final int r, final int fromIndex) {
+        int j;
+        int jold;
+<span class="fc" id="L811">        final var a = ra[l + fromIndex];</span>
+<span class="fc" id="L812">        final var b = rb[l + fromIndex];</span>
+<span class="fc" id="L813">        jold = l;</span>
+<span class="fc" id="L814">        j = 2 * l + 1;</span>
+<span class="fc bfc" id="L815" title="All 2 branches covered.">        while (j &lt;= r) {</span>
+<span class="fc bfc" id="L816" title="All 4 branches covered.">            if (j &lt; r &amp;&amp; ra[j + fromIndex] &lt; ra[j + 1 + fromIndex]) {</span>
+<span class="fc" id="L817">                j++;</span>
+            }
+<span class="fc bfc" id="L819" title="All 2 branches covered.">            if (a &gt;= ra[j + fromIndex]) {</span>
+<span class="fc" id="L820">                break;</span>
+            }
+<span class="fc" id="L822">            ra[jold + fromIndex] = ra[j + fromIndex];</span>
+<span class="fc" id="L823">            rb[jold + fromIndex] = rb[j + fromIndex];</span>
+<span class="fc" id="L824">            jold = j;</span>
+<span class="fc" id="L825">            j = 2 * j + 1;</span>
+        }
+<span class="fc" id="L827">        ra[jold + fromIndex] = a;</span>
+<span class="fc" id="L828">        rb[jold + fromIndex] = b;</span>
+<span class="fc" id="L829">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

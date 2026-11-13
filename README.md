@@ -45,8 +45,8 @@ graph LR
 
 ## 🚦 Project status
 
-- Current release version: `1.4.0`
-- Java target: Java 17
+- Current release version: `1.4.1`
+- Java target: Java 21
 - Build system: Maven
 - License: Apache License 2.0
 - Quality checks: GitHub Actions, JaCoCo, Surefire, and SonarCloud
@@ -72,7 +72,7 @@ For a released dependency, pin the version you want to use. Example:
 <dependency>
     <groupId>com.irurueta</groupId>
     <artifactId>irurueta-sorting</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -92,7 +92,7 @@ For local development against the current repository snapshot:
 
 ```kotlin
 dependencies {
-    implementation("com.irurueta:irurueta-sorting:1.4.0")
+    implementation("com.irurueta:irurueta-sorting:1.4.1")
 }
 ```
 

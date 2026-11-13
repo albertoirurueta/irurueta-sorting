@@ -16,7 +16,7 @@ Latest release:
 <dependency>
     <groupId>com.irurueta</groupId>
     <artifactId>irurueta-sorting</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <scope>compile</scope>
 </dependency>
 ----
@@ -40,7 +40,7 @@ Include this in your `build.gradle.kts`:
 [source,kotlin]
 ----
 dependencies {
-    implementation("com.irurueta:irurueta-sorting:1.4.0")
+    implementation("com.irurueta:irurueta-sorting:1.4.1")
 }
 ----
 

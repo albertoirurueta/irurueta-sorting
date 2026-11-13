@@ -1,0 +1,16 @@
+= What's new
+:description: Release notes for irurueta-sorting.
+:keywords: changelog, release notes, irurueta-sorting
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+== 1.4.1
+
+* 📊 Added diagrams and expanded explanations to each sorting algorithm's documentation page
+  (heapsort, Quicksort, selection, Shell sort, straight insertion sort), plus expanded
+  installation, usage, and reference pages.
+* ♻️ Raised the Java compiler source/target and CI JDK version from 17 to 21.
+* ♻️ Replaced the standalone `sonar-scanner` CLI step in the GitHub workflows with the
+  `sonar-maven-plugin` (`mvn sonar:sonar`), so SonarCloud analysis runs under the same JDK 21
+  toolchain as the rest of the build. Sonar organization/project key/host settings moved from
+  `sonar-project.properties` (removed) into `pom.xml` properties.
